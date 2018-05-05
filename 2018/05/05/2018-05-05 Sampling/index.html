@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="ML,PMR,PGM," />
+  <meta name="keywords" content="MLPR,PMR,PGM,ML," />
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="做学习和推断的时候通常会包含难解积分(intractable integral)，比如： 边缘化(maginalisation): $$\begin{eqnarray}p(\mathbf{x}) = \int_y p(x,y)dy&amp;amp;\end{eqnarray}$$">
-<meta name="keywords" content="ML,PMR,PGM">
+<meta name="description" content="前言做学习和推断的时候通常会包含难解积分(intractable integral)，比如： 边缘化(maginalisation):  $$\begin{eqnarray}p(\mathbf x) = \int_y p(\mathbf x,\mathbf y)dy&amp;amp;\end{eqnarray}$$  对函数给定$g$，求期望(Expectations) :  $$\mathbb{E}[g">
+<meta name="keywords" content="MLPR,PMR,PGM,ML">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Sampling and Monte Carlo Integration">
 <meta property="og:url" content="http://yoursite.com/2018/05/05/2018-05-05 Sampling/index.html">
 <meta property="og:site_name" content="Shinoyuki">
-<meta property="og:description" content="做学习和推断的时候通常会包含难解积分(intractable integral)，比如： 边缘化(maginalisation): $$\begin{eqnarray}p(\mathbf{x}) = \int_y p(x,y)dy&amp;amp;\end{eqnarray}$$">
+<meta property="og:description" content="前言做学习和推断的时候通常会包含难解积分(intractable integral)，比如： 边缘化(maginalisation):  $$\begin{eqnarray}p(\mathbf x) = \int_y p(\mathbf x,\mathbf y)dy&amp;amp;\end{eqnarray}$$  对函数给定$g$，求期望(Expectations) :  $$\mathbb{E}[g">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-05-05T11:06:05.914Z">
+<meta property="og:updated_time" content="2018-05-05T11:28:07.481Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Sampling and Monte Carlo Integration">
-<meta name="twitter:description" content="做学习和推断的时候通常会包含难解积分(intractable integral)，比如： 边缘化(maginalisation): $$\begin{eqnarray}p(\mathbf{x}) = \int_y p(x,y)dy&amp;amp;\end{eqnarray}$$">
+<meta name="twitter:description" content="前言做学习和推断的时候通常会包含难解积分(intractable integral)，比如： 边缘化(maginalisation):  $$\begin{eqnarray}p(\mathbf x) = \int_y p(\mathbf x,\mathbf y)dy&amp;amp;\end{eqnarray}$$  对函数给定$g$，求期望(Expectations) :  $$\mathbb{E}[g">
 
 
 
@@ -285,8 +285,30 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Study-Machine-Learning/" itemprop="url" rel="index">
-                    <span itemprop="name">Study, Machine Learning</span>
+                  <a href="/categories/Machine-Learning/" itemprop="url" rel="index">
+                    <span itemprop="name">Machine Learning</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Machine-Learning/Machine-Learning-and-Pattern-Recognition/" itemprop="url" rel="index">
+                    <span itemprop="name">Machine Learning and Pattern Recognition</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Machine-Learning/Machine-Learning-and-Pattern-Recognition/Probabilistic-Modelling-and-Reasoning/" itemprop="url" rel="index">
+                    <span itemprop="name">Probabilistic Modelling and Reasoning</span>
                   </a>
                 </span>
 
@@ -322,9 +344,14 @@
       
 
       
-        <p>做学习和推断的时候通常会包含难解积分(intractable integral)，比如：</p>
-<p>边缘化(maginalisation):</p>
-<p>$$<br>\begin{eqnarray}<br>p(\mathbf{x}) = \int_y p(x,y)dy<br>&amp;\end{eqnarray}<br>$$</p>
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><h4 id="做学习和推断的时候通常会包含难解积分-intractable-integral-，比如："><a href="#做学习和推断的时候通常会包含难解积分-intractable-integral-，比如：" class="headerlink" title="做学习和推断的时候通常会包含难解积分(intractable integral)，比如："></a>做学习和推断的时候通常会包含难解积分(intractable integral)，比如：</h4><ul>
+<li>边缘化(maginalisation):</li>
+</ul>
+<p>$$<br>\begin{eqnarray}<br>p(\mathbf x) = \int_y p(\mathbf x,\mathbf y)dy<br>&amp;\end{eqnarray}<br>$$</p>
+<ul>
+<li>对函数给定$g$，求期望(Expectations) :</li>
+</ul>
+<p>$$<br>\mathbb{E}[g(\mathbf x \mid \mathbf y_o)] = \int g(\mathbf x)p(\mathbf x \mid \mathbf y_o) d \mathbf x<br>$$</p>
 
       
     </div>
@@ -342,7 +369,13 @@
       
         <div class="post-tags">
           
-            <a href="/tags/ML-PMR-PGM/" rel="tag"># ML,PMR,PGM</a>
+            <a href="/tags/MLPR/" rel="tag"># MLPR</a>
+          
+            <a href="/tags/PMR/" rel="tag"># PMR</a>
+          
+            <a href="/tags/PGM/" rel="tag"># PGM</a>
+          
+            <a href="/tags/ML/" rel="tag"># ML</a>
           
         </div>
       
@@ -415,8 +448,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -442,7 +484,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -453,7 +495,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -476,6 +518,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#做学习和推断的时候通常会包含难解积分-intractable-integral-，比如："><span class="nav-number">1.1.</span> <span class="nav-text">做学习和推断的时候通常会包含难解积分(intractable integral)，比如：</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
