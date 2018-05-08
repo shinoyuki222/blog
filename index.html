@@ -343,13 +343,8 @@
 
       
         
-          
-            <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><h4 id="理解"><a href="#理解" class="headerlink" title="理解"></a>理解</h4><ul>
-<li>closed form solution: 对于所求目标函数给出一个数学表达式 $f(x) = ax+b$</li>
-<li>exact inference: 对给定的$x$，可以给出 $f(x)$的值，相当于知道怎么做这个映射，但并不一定有确切数学表达。比较典型的有 message-passing, sum-product.</li>
-<li>analytical solution: …exact inference 也可以有analytical solution</li>
-<li>approximatation: 一般没有closed form solution，也无法使用exact inference的时候可以用近似方法，比如 Monte Carlo Integral.</li>
-<li>对于intractable的问题，可以转换成推断问题（inference）的形式，或者转换成可以用approximatation解决的形式</li>
+          <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><h4 id="term"><a href="#term" class="headerlink" title="term"></a>term</h4><ul>
+<li>closed form solution, exact inference, analytical solution, approximatation, intractable</li>
 </ul>
 <h4 id="做学习和推断的时候通常会包含难解积分-intractable-integral-，比如："><a href="#做学习和推断的时候通常会包含难解积分-intractable-integral-，比如：" class="headerlink" title="做学习和推断的时候通常会包含难解积分(intractable integral)，比如："></a>做学习和推断的时候通常会包含难解积分(intractable integral)，比如：</h4><ul>
 <li>边缘化(maginalisation):</li>
@@ -358,9 +353,14 @@
 <ul>
 <li>对函数给定$g$，求期望(Expectations) :</li>
 </ul>
-<p>$$<br>\mathbb{E}[g(\mathbf x \mid \mathbf y_o)] = \int g(\mathbf x)p(\mathbf x \mid \mathbf y_o) d \mathbf x<br>$$</p>
-
-          
+<p>$$<br>\mathbb{E}[g(\mathbf x \mid \mathbf y_o)] = \int g(\mathbf x)p(\mathbf x \mid \mathbf y_o) d \mathbf x<br>$$<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/05/05/2018-05-05 Sampling/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
