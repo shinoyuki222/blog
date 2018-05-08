@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="NLP,ML,DL," />
 
 
 
@@ -79,17 +79,18 @@
 
 
 
-<meta name="description" content="本文为测试博客 昨天给自己的博客改了搭建环境，改用Hexo，主要是为了加载 Mathjax写公式 还是 github 提供的 Github Pages 功能!省却不少麻烦～ 主题使用 next，也可以在博客底部找到主题链接 测试新功能$$\begin{eqnarray}&amp;amp;\nabla\cdot\vec{E} = \frac{\rho}{\epsilon_0} \\&amp;amp;\nabla\c">
+<meta name="description" content="Word representations and morphologyDeep learning is not magic and will not solve all of your problems, but representation learning is a very powerful idea. NNs don’t reuse other informations, only use">
+<meta name="keywords" content="NLP,ML,DL">
 <meta property="og:type" content="article">
-<meta property="og:title" content="博客改动终于可以写公式了">
-<meta property="og:url" content="http://yoursite.com/2018/02/08/2018-02-08 Newblog/index.html">
+<meta property="og:title" content="Word Representations">
+<meta property="og:url" content="http://yoursite.com/2018/05/01/2018-05-01 Word Representation/index.html">
 <meta property="og:site_name" content="Shinoyuki">
-<meta property="og:description" content="本文为测试博客 昨天给自己的博客改了搭建环境，改用Hexo，主要是为了加载 Mathjax写公式 还是 github 提供的 Github Pages 功能!省却不少麻烦～ 主题使用 next，也可以在博客底部找到主题链接 测试新功能$$\begin{eqnarray}&amp;amp;\nabla\cdot\vec{E} = \frac{\rho}{\epsilon_0} \\&amp;amp;\nabla\c">
+<meta property="og:description" content="Word representations and morphologyDeep learning is not magic and will not solve all of your problems, but representation learning is a very powerful idea. NNs don’t reuse other informations, only use">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-08T14:13:40.000Z">
+<meta property="og:updated_time" content="2018-05-05T11:33:14.233Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="博客改动终于可以写公式了">
-<meta name="twitter:description" content="本文为测试博客 昨天给自己的博客改了搭建环境，改用Hexo，主要是为了加载 Mathjax写公式 还是 github 提供的 Github Pages 功能!省却不少麻烦～ 主题使用 next，也可以在博客底部找到主题链接 测试新功能$$\begin{eqnarray}&amp;amp;\nabla\cdot\vec{E} = \frac{\rho}{\epsilon_0} \\&amp;amp;\nabla\c">
+<meta name="twitter:title" content="Word Representations">
+<meta name="twitter:description" content="Word representations and morphologyDeep learning is not magic and will not solve all of your problems, but representation learning is a very powerful idea. NNs don’t reuse other informations, only use">
 
 
 
@@ -119,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/02/08/2018-02-08 Newblog/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/05/01/2018-05-01 Word Representation/"/>
 
 
 
 
 
-  <title>博客改动终于可以写公式了 | Shinoyuki</title>
+  <title>Word Representations | Shinoyuki</title>
   
 
 
@@ -232,7 +233,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/08/2018-02-08 Newblog/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/01/2018-05-01 Word Representation/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Xiaoqing Tang">
@@ -249,7 +250,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">博客改动终于可以写公式了</h1>
+          <h1 class="post-title" itemprop="name headline">Word Representations</h1>
         
 
         <div class="post-meta">
@@ -261,8 +262,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-08T00:00:00+00:00">
-                2018-02-08
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-01T00:00:00+01:00">
+                2018-05-01
               </time>
             
 
@@ -284,8 +285,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/test/" itemprop="url" rel="index">
-                    <span itemprop="name">test</span>
+                  <a href="/categories/Natural-Language-Processing/" itemprop="url" rel="index">
+                    <span itemprop="name">Natural Language Processing</span>
                   </a>
                 </span>
 
@@ -321,11 +322,27 @@
       
 
       
-        <p>本文为测试博客</p>
-<p>昨天给自己的博客改了搭建环境，改用<a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a>，主要是为了加载 <a href="https://www.mathjax.org" target="_blank" rel="noopener">Mathjax</a>写公式</p>
-<p>还是 <a href="https://github.com" target="_blank" rel="noopener">github</a> 提供的 Github Pages 功能!省却不少麻烦～</p>
-<p>主题使用 <a href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">next</a>，也可以在博客底部找到主题链接</p>
-<p>测试新功能<br>$$<br>\begin{eqnarray}<br>&amp;\nabla\cdot\vec{E} = \frac{\rho}{\epsilon_0} \\<br>&amp;\nabla\cdot\vec{B} = 0 \\<br>&amp;\nabla\times\vec{E} = -\frac{\partial B}{\partial t} \\<br>&amp;\nabla\times\vec{B} = \mu_0\left(\vec{J}+\epsilon_0\frac{\partial E}{\partial t} \right)<br>&amp;\end{eqnarray}<br>$$</p>
+        <h3 id="Word-representations-and-morphology"><a href="#Word-representations-and-morphology" class="headerlink" title="Word representations and morphology"></a>Word representations and morphology</h3><h4 id="Deep-learning-is-not-magic-and-will-not-solve-all-of-your-problems-but-representation-learning-is-a-very-powerful-idea"><a href="#Deep-learning-is-not-magic-and-will-not-solve-all-of-your-problems-but-representation-learning-is-a-very-powerful-idea" class="headerlink" title="Deep learning is not magic and will not solve all of your problems, but representation learning is a very powerful idea."></a>Deep learning is not magic and will not solve all of your problems, but representation learning is a very powerful idea.</h4><ul>
+<li>NNs don’t reuse other informations, only use the input info.</li>
+<li>Human beings often use other informations, we learn language to solve other problems.</li>
+<li>Word embedding: if we learn a matrix, can keep matrices to initialise some other problem.</li>
+</ul>
+<h4 id="Word-representations-can-be-transferred-between-models"><a href="#Word-representations-can-be-transferred-between-models" class="headerlink" title="Word representations can be transferred between models."></a>Word representations can be transferred between models.</h4><ul>
+<li>word representations pick up all associations: some are useful to applications; some are harmful for people to building a system (e.g., bias problem).</li>
+</ul>
+<p>\subsubsection*{Word2vec trains word representations using an objective based on language modeling–so it can be trained on unlabeled data.}</p>
+<p>\begin{itemize}<br>  \item we could use POS to training the word representations: Feedforward is feasible, could conditioned on entire input sentence.<br>  \item using an objective based on language modeling, therefore, it can be trained on unlabeled data.<br>  \item training a LM is supervised learning problem: it predicts a word conditioned on the context, all you need for supervised learning are examples of context words</p>
+<p>  \item idea of CBOW (continuous bag-of-words)<br>    \begin{itemize}<br>      \item CBOW adds inputs from words within short window to predict the current word<br>        \begin{itemize}<br>          \item predict a word based on context.<br>          \item do not want to predict the prob. of a string (sentence)<br>          \item not a generative model of a text: independent senses?????<br>        \end{itemize}<br>      \item The weights for different positions are \textbf{shared}<br>      \item computationally much more efficient than normal NNLM<br>      \item The hidden layer is just linear<br>    \end{itemize}<br>  \item Skip-gram:<br>    \begin{itemize}<br>      \item reformulate the CBOW model (opposite to CBOW) by predicting surrounding words (context words, a word nearby) using the current word.<br>      \item Find word representations usful for predicting surrounding words in a sentence or document.<br>      \item each word have two vector representations associated with it: \textit{word representation vector} and \textit{output weight vector}<br>      \item Learning skip-gram: \textit{see below}<br>    \end{itemize}</p>
+<p>\begin{figure}[ht]<br>  \centering<br>    \subfigure[CBOW architecture]{\label{fig:cbow}\includegraphics[width=0.3\linewidth]{figures/cbow.png}}<br>    \subfigure[The Skip-gram model architecture]{\label{fig:skip}\includegraphics[width=0.3\linewidth]{figures/skip.png}}<br>  \caption{Model}<br>  \label{fig:wr}<br>\end{figure}</p>
+<p>\end{itemize}</p>
+<p>\subsubsection*{Sometimes called unsupervised, but objective is supervised!}<br>\begin{itemize}<br>  \item the ideal context word is given, we don’t care about supervision<br>\end{itemize}</p>
+<p>% \subsubsection*{Vocabulary is not finite.– problem for word2vec}<br>% \begin{itemize}<br>%   \item fixed number of word, fixed vocab size<br>%   \item subword representation, character-level<br>% \end{itemize}</p>
+<p>\subsubsection*{Compositional representations based on morphemes make our models closer to open vocabulary.}<br>\begin{itemize}<br>  \item more generalizable, predict (represent) unseen words better</p>
+<p>\end{itemize}</p>
+<p>\subsubsection*{Limitations of word2vec}<br>\begin{itemize}<br>  \item fixed number of word, fixed vocab size, but \textbf{Vocabulary is not finite}.<br>  \item cannot exploit \textit{functional relationships} (syntactic relationship): </p>
+<p>  e.g, we could learn <code>cat&#39;&#39;-</code>cats’’ = <code>dog&#39;&#39;-</code>dogs’’, but if we haven’t seen <code>sloths&#39;&#39; before, we can&#39;t capture</code>sloth’’-<code>sloths&#39;&#39; =</code>cat’’-``cats’’. That is, we can’t learn \textit{functional relationships} from context.<br>\end{itemize}</p>
+<p>\subsubsection*{Learning skip-gram}<br>\begin{itemize}<br>  \item SGD and BP<br>  \item sub-sample the frequent words (e.g., <code>the&#39;&#39;,</code>is’’, ``a’’)<br>  \item words are thrown out proportinal to their frequency (make things faster, reuses importance of frequent words)<br>  \item non-linearity does not seem to imporve performance of these models, thus the hidden layer dose \textbf{not} use \textbf{activation function}<br>  \item problem: very large output layer with size = vocab. size, can easily be in order of millions $\rightarrow$ too many outputs to evaluate<br>  \item solution: negative sampling, Hierarchical softmax<br>\end{itemize}</p>
+<p>\subsubsection*{Negative sampling}<br>\begin{itemize}<br>  \item Instead of propagating signal from the hidden layer to the whole output layer, only the output neuron that represents the positive class and few randomly sampled neurons are evaluated<br>  \item e.g., word pair <code>cat sat&#39;, input</code>cat’, context word (output is 1) <code>sat&#39;, output neuron correspond to</code>sat’ is positive, others negative. we sample other, say 5, negative neuron to evaluate. so only calculate 1+5 = 6 neurons. For word representation vector, we \textbf{always only} update the one corresponding to the input word (it’s true whenever we use negative sampling or not).<br>\end{itemize}</p>
 
       
     </div>
@@ -341,6 +358,16 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/NLP/" rel="tag"># NLP</a>
+          
+            <a href="/tags/ML/" rel="tag"># ML</a>
+          
+            <a href="/tags/DL/" rel="tag"># DL</a>
+          
+        </div>
+      
 
       
       
@@ -350,8 +377,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/12/12/2016-12-12-Getting-Started/" rel="next" title="开始">
-                <i class="fa fa-chevron-left"></i> 开始
+              <a href="/2018/02/08/2018-02-08 Newblog/" rel="next" title="博客改动终于可以写公式了">
+                <i class="fa fa-chevron-left"></i> 博客改动终于可以写公式了
               </a>
             
           </div>
@@ -360,8 +387,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/05/01/2018-05-01 Word Representation/" rel="prev" title="Word Representations">
-                Word Representations <i class="fa fa-chevron-right"></i>
+              <a href="/2018/05/05/2018-05-05 Sampling/" rel="prev" title="Sampling and Monte Carlo Integration">
+                Sampling and Monte Carlo Integration <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -414,8 +441,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -475,6 +511,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Word-representations-and-morphology"><span class="nav-number">1.</span> <span class="nav-text">Word representations and morphology</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Deep-learning-is-not-magic-and-will-not-solve-all-of-your-problems-but-representation-learning-is-a-very-powerful-idea"><span class="nav-number">1.1.</span> <span class="nav-text">Deep learning is not magic and will not solve all of your problems, but representation learning is a very powerful idea.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Word-representations-can-be-transferred-between-models"><span class="nav-number">1.2.</span> <span class="nav-text">Word representations can be transferred between models.</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="MLPR,PMR,PGM,ML," />
+  <meta name="keywords" content="ML,MLPR,PMR,PGM," />
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="前言做学习和推断的时候通常会包含难解积分(intractable integral)，比如： 边缘化(maginalisation):  $$\begin{eqnarray}p(\mathbf x) = \int_y p(\mathbf x,\mathbf y)dy&amp;amp;\end{eqnarray}$$  对函数给定$g$，求期望(Expectations) :  $$\mathbb{E}[g">
-<meta name="keywords" content="MLPR,PMR,PGM,ML">
+<meta name="description" content="前言理解 closed form solution: 对于所求目标函数给出一个数学表达式 $f(x) = ax+b$ exact inference: 对给定的$x$，可以给出 $f(x)$的值，相当于知道怎么做这个映射，但并不一定有确切数学表达。比较典型的有 message-passing, sum-product. analytical solution: …exact inference 也">
+<meta name="keywords" content="ML,MLPR,PMR,PGM">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Sampling and Monte Carlo Integration">
 <meta property="og:url" content="http://yoursite.com/2018/05/05/2018-05-05 Sampling/index.html">
 <meta property="og:site_name" content="Shinoyuki">
-<meta property="og:description" content="前言做学习和推断的时候通常会包含难解积分(intractable integral)，比如： 边缘化(maginalisation):  $$\begin{eqnarray}p(\mathbf x) = \int_y p(\mathbf x,\mathbf y)dy&amp;amp;\end{eqnarray}$$  对函数给定$g$，求期望(Expectations) :  $$\mathbb{E}[g">
+<meta property="og:description" content="前言理解 closed form solution: 对于所求目标函数给出一个数学表达式 $f(x) = ax+b$ exact inference: 对给定的$x$，可以给出 $f(x)$的值，相当于知道怎么做这个映射，但并不一定有确切数学表达。比较典型的有 message-passing, sum-product. analytical solution: …exact inference 也">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-05-05T11:28:07.481Z">
+<meta property="og:updated_time" content="2018-05-08T19:09:38.357Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Sampling and Monte Carlo Integration">
-<meta name="twitter:description" content="前言做学习和推断的时候通常会包含难解积分(intractable integral)，比如： 边缘化(maginalisation):  $$\begin{eqnarray}p(\mathbf x) = \int_y p(\mathbf x,\mathbf y)dy&amp;amp;\end{eqnarray}$$  对函数给定$g$，求期望(Expectations) :  $$\mathbb{E}[g">
+<meta name="twitter:description" content="前言理解 closed form solution: 对于所求目标函数给出一个数学表达式 $f(x) = ax+b$ exact inference: 对给定的$x$，可以给出 $f(x)$的值，相当于知道怎么做这个映射，但并不一定有确切数学表达。比较典型的有 message-passing, sum-product. analytical solution: …exact inference 也">
 
 
 
@@ -344,7 +344,14 @@
       
 
       
-        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><h4 id="做学习和推断的时候通常会包含难解积分-intractable-integral-，比如："><a href="#做学习和推断的时候通常会包含难解积分-intractable-integral-，比如：" class="headerlink" title="做学习和推断的时候通常会包含难解积分(intractable integral)，比如："></a>做学习和推断的时候通常会包含难解积分(intractable integral)，比如：</h4><ul>
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><h4 id="理解"><a href="#理解" class="headerlink" title="理解"></a>理解</h4><ul>
+<li>closed form solution: 对于所求目标函数给出一个数学表达式 $f(x) = ax+b$</li>
+<li>exact inference: 对给定的$x$，可以给出 $f(x)$的值，相当于知道怎么做这个映射，但并不一定有确切数学表达。比较典型的有 message-passing, sum-product.</li>
+<li>analytical solution: …exact inference 也可以有analytical solution</li>
+<li>approximatation: 一般没有closed form solution，也无法使用exact inference的时候可以用近似方法，比如 Monte Carlo Integral.</li>
+<li>对于intractable的问题，可以转换成推断问题（inference）的形式，或者转换成可以用approximatation解决的形式</li>
+</ul>
+<h4 id="做学习和推断的时候通常会包含难解积分-intractable-integral-，比如："><a href="#做学习和推断的时候通常会包含难解积分-intractable-integral-，比如：" class="headerlink" title="做学习和推断的时候通常会包含难解积分(intractable integral)，比如："></a>做学习和推断的时候通常会包含难解积分(intractable integral)，比如：</h4><ul>
 <li>边缘化(maginalisation):</li>
 </ul>
 <p>$$<br>\begin{eqnarray}<br>p(\mathbf x) = \int_y p(\mathbf x,\mathbf y)dy<br>&amp;\end{eqnarray}<br>$$</p>
@@ -369,13 +376,13 @@
       
         <div class="post-tags">
           
+            <a href="/tags/ML/" rel="tag"># ML</a>
+          
             <a href="/tags/MLPR/" rel="tag"># MLPR</a>
           
             <a href="/tags/PMR/" rel="tag"># PMR</a>
           
             <a href="/tags/PGM/" rel="tag"># PGM</a>
-          
-            <a href="/tags/ML/" rel="tag"># ML</a>
           
         </div>
       
@@ -388,8 +395,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/02/08/2018-02-08 Newblog/" rel="next" title="博客改动终于可以写公式了">
-                <i class="fa fa-chevron-left"></i> 博客改动终于可以写公式了
+              <a href="/2018/05/01/2018-05-01 Word Representation/" rel="next" title="Word Representations">
+                <i class="fa fa-chevron-left"></i> Word Representations
               </a>
             
           </div>
@@ -473,7 +480,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -484,7 +491,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -495,7 +502,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -528,7 +535,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#做学习和推断的时候通常会包含难解积分-intractable-integral-，比如："><span class="nav-number">1.1.</span> <span class="nav-text">做学习和推断的时候通常会包含难解积分(intractable integral)，比如：</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#理解"><span class="nav-number">1.1.</span> <span class="nav-text">理解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#做学习和推断的时候通常会包含难解积分-intractable-integral-，比如："><span class="nav-number">1.2.</span> <span class="nav-text">做学习和推断的时候通常会包含难解积分(intractable integral)，比如：</span></a></li></ol></li></ol></div>
             
 
           </div>
