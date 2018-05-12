@@ -79,19 +79,19 @@
 
 
 
-<meta name="description" content="前言 做学习和推断的时候通常会包含难解积分(intractable integral)，比如： 边缘化(maginalisation):  $$\begin{eqnarray}p(\mathbf x) = \int_y p(\mathbf x,\mathbf y)dy\end{eqnarray}$$  对函数给定$g$，求期望(Expectations) :  $$\mathbb{E}[g(\ma">
+<meta name="description" content="前言 做学习和推断的时候通常会包含难解积分(intractable integral)，比如： 边缘化(maginalisation):  $$\begin{eqnarray}p(\mathbf x) = \int_y p(\mathbf x,\mathbf y)dy\end{eqnarray}$$  对函数给定$g$，求期望(Expectations) :  $$\mathbb{E}[g(\m">
 <meta name="keywords" content="MLPR,PMR,PGM,ML">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Sampling and Monte Carlo Integration">
 <meta property="og:url" content="http://yoursite.com/2018/05/05/2018-05-05 Sampling/index.html">
 <meta property="og:site_name" content="Shinoyuki">
-<meta property="og:description" content="前言 做学习和推断的时候通常会包含难解积分(intractable integral)，比如： 边缘化(maginalisation):  $$\begin{eqnarray}p(\mathbf x) = \int_y p(\mathbf x,\mathbf y)dy\end{eqnarray}$$  对函数给定$g$，求期望(Expectations) :  $$\mathbb{E}[g(\ma">
+<meta property="og:description" content="前言 做学习和推断的时候通常会包含难解积分(intractable integral)，比如： 边缘化(maginalisation):  $$\begin{eqnarray}p(\mathbf x) = \int_y p(\mathbf x,\mathbf y)dy\end{eqnarray}$$  对函数给定$g$，求期望(Expectations) :  $$\mathbb{E}[g(\m">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/assets/pmr/importance_sampling.jpg">
-<meta property="og:updated_time" content="2018-05-12T16:25:27.565Z">
+<meta property="og:updated_time" content="2018-05-12T16:27:28.710Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Sampling and Monte Carlo Integration">
-<meta name="twitter:description" content="前言 做学习和推断的时候通常会包含难解积分(intractable integral)，比如： 边缘化(maginalisation):  $$\begin{eqnarray}p(\mathbf x) = \int_y p(\mathbf x,\mathbf y)dy\end{eqnarray}$$  对函数给定$g$，求期望(Expectations) :  $$\mathbb{E}[g(\ma">
+<meta name="twitter:description" content="前言 做学习和推断的时候通常会包含难解积分(intractable integral)，比如： 边缘化(maginalisation):  $$\begin{eqnarray}p(\mathbf x) = \int_y p(\mathbf x,\mathbf y)dy\end{eqnarray}$$  对函数给定$g$，求期望(Expectations) :  $$\mathbb{E}[g(\m">
 <meta name="twitter:image" content="http://yoursite.com/assets/pmr/importance_sampling.jpg">
 
 
@@ -335,7 +335,8 @@
       
 
       
-        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><!-- #### term
+        <!-- 做学习和推断的时候通常会包含难解积分(intractable integral)，可以使用samlping去估计这些积分项 -->
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><!-- #### term
 - closed form solution, exact inference, analytical solution, approximatation, intractable
  -->
 <h4 id="做学习和推断的时候通常会包含难解积分-intractable-integral-，比如："><a href="#做学习和推断的时候通常会包含难解积分-intractable-integral-，比如：" class="headerlink" title="做学习和推断的时候通常会包含难解积分(intractable integral)，比如："></a>做学习和推断的时候通常会包含难解积分(intractable integral)，比如：</h4><ul>
