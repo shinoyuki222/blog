@@ -79,19 +79,19 @@
 
 
 
-<meta name="description" content="前言 做学习和推断的时候通常会包含难解积分(intractable integral)，比如： 边缘化(maginalisation):  $$\begin{eqnarray}p(\mathbf x) = \int_y p(\mathbf x,\mathbf y)dy\end{eqnarray}$$  对函数给定$g$，求期望(Expectations) :  $$\mathbb{E}[g(\m">
+<meta name="description" content="学习和推断的时候通常会包含难解积分(intractable integral)，可以使用samlping去估计这些积分项。 主要介绍蒙特卡洛积分，使用均值估计期望的原理及存在问题，如何使用重要采样获得一般化的期望，列举其他的采样方法。">
 <meta name="keywords" content="MLPR,PMR,PGM,ML">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Sampling and Monte Carlo Integration">
 <meta property="og:url" content="http://yoursite.com/2018/05/05/2018-05-05 Sampling/index.html">
 <meta property="og:site_name" content="Shinoyuki">
-<meta property="og:description" content="前言 做学习和推断的时候通常会包含难解积分(intractable integral)，比如： 边缘化(maginalisation):  $$\begin{eqnarray}p(\mathbf x) = \int_y p(\mathbf x,\mathbf y)dy\end{eqnarray}$$  对函数给定$g$，求期望(Expectations) :  $$\mathbb{E}[g(\m">
+<meta property="og:description" content="学习和推断的时候通常会包含难解积分(intractable integral)，可以使用samlping去估计这些积分项。 主要介绍蒙特卡洛积分，使用均值估计期望的原理及存在问题，如何使用重要采样获得一般化的期望，列举其他的采样方法。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/assets/pmr/importance_sampling.jpg">
-<meta property="og:updated_time" content="2018-05-12T16:27:28.710Z">
+<meta property="og:updated_time" content="2018-05-12T16:51:23.107Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Sampling and Monte Carlo Integration">
-<meta name="twitter:description" content="前言 做学习和推断的时候通常会包含难解积分(intractable integral)，比如： 边缘化(maginalisation):  $$\begin{eqnarray}p(\mathbf x) = \int_y p(\mathbf x,\mathbf y)dy\end{eqnarray}$$  对函数给定$g$，求期望(Expectations) :  $$\mathbb{E}[g(\m">
+<meta name="twitter:description" content="学习和推断的时候通常会包含难解积分(intractable integral)，可以使用samlping去估计这些积分项。 主要介绍蒙特卡洛积分，使用均值估计期望的原理及存在问题，如何使用重要采样获得一般化的期望，列举其他的采样方法。">
 <meta name="twitter:image" content="http://yoursite.com/assets/pmr/importance_sampling.jpg">
 
 
@@ -335,11 +335,10 @@
       
 
       
-        <!-- 做学习和推断的时候通常会包含难解积分(intractable integral)，可以使用samlping去估计这些积分项 -->
-<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><!-- #### term
-- closed form solution, exact inference, analytical solution, approximatation, intractable
- -->
-<h4 id="做学习和推断的时候通常会包含难解积分-intractable-integral-，比如："><a href="#做学习和推断的时候通常会包含难解积分-intractable-integral-，比如：" class="headerlink" title="做学习和推断的时候通常会包含难解积分(intractable integral)，比如："></a>做学习和推断的时候通常会包含难解积分(intractable integral)，比如：</h4><ul>
+        <p>学习和推断的时候通常会包含难解积分(intractable integral)，可以使用samlping去估计这些积分项。</p>
+<p>主要介绍蒙特卡洛积分，使用均值估计期望的原理及存在问题，如何使用重要采样获得一般化的期望，列举其他的采样方法。</p>
+<a id="more"></a>
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><h4 id="做学习和推断的时候通常会包含难解积分-intractable-integral-，比如："><a href="#做学习和推断的时候通常会包含难解积分-intractable-integral-，比如：" class="headerlink" title="做学习和推断的时候通常会包含难解积分(intractable integral)，比如："></a>做学习和推断的时候通常会包含难解积分(intractable integral)，比如：</h4><ul>
 <li>边缘化(maginalisation):</li>
 </ul>
 <p>$$<br>\begin{eqnarray}<br>p(\mathbf x) = \int_y p(\mathbf x,\mathbf y)dy<br>\end{eqnarray}<br>$$</p>
@@ -355,7 +354,9 @@
 <li><p>存在同时含有隐变量和未归一化的模型(如 受限玻尔兹曼机 Restricted Boltzmann Machine)</p>
 </li>
 <li>对于难解积分有时可以通过使用其他学习准则避免，例如score matching（不match log likelihood,而是match 导数，用来避免计算归一化项）</li>
-<li><font color="red">这里我们使用samlping去估计这些积分</font><a id="more"></a>
+<li><font color="red">这里我们使用samlping去估计这些积分</font>
+
+
 </li>
 </ul>
 <h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><h4 id="蒙特卡洛积分-Monte-Carlo-integration"><a href="#蒙特卡洛积分-Monte-Carlo-integration" class="headerlink" title="蒙特卡洛积分 Monte Carlo integration"></a>蒙特卡洛积分 Monte Carlo integration</h4><p>蒙特卡洛积分：通过计算样本均值估计积分</p>
@@ -501,6 +502,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2018/05/12/2018-05-12 RNNG/" rel="prev" title="Recurrent neural network grammars (RNNG)">
+                Recurrent neural network grammars (RNNG) <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -576,7 +581,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -587,7 +592,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -598,7 +603,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
