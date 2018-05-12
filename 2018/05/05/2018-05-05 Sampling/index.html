@@ -87,10 +87,12 @@
 <meta property="og:site_name" content="Shinoyuki">
 <meta property="og:description" content="前言 做学习和推断的时候通常会包含难解积分(intractable integral)，比如： 边缘化(maginalisation):  $$\begin{eqnarray}p(\mathbf x) = \int_y p(\mathbf x,\mathbf y)dy\end{eqnarray}$$  对函数给定$g$，求期望(Expectations) :  $$\mathbb{E}[g(\ma">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-05-12T15:00:32.383Z">
+<meta property="og:image" content="http://yoursite.com/assets/pmr/importance_sampling.jpg">
+<meta property="og:updated_time" content="2018-05-12T16:25:27.565Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Sampling and Monte Carlo Integration">
 <meta name="twitter:description" content="前言 做学习和推断的时候通常会包含难解积分(intractable integral)，比如： 边缘化(maginalisation):  $$\begin{eqnarray}p(\mathbf x) = \int_y p(\mathbf x,\mathbf y)dy\end{eqnarray}$$  对函数给定$g$，求期望(Expectations) :  $$\mathbb{E}[g(\ma">
+<meta name="twitter:image" content="http://yoursite.com/assets/pmr/importance_sampling.jpg">
 
 
 
@@ -373,28 +375,79 @@
 <center>(*需要同分布假设，不一定需要独立)</center>
 
 <ul>
-<li>变异性 （Variability）</li>
+<li>变异性 （Variability）<br>$$<br>\mathbb{V}[\bar{x}_n] = \frac{1}{n^2}\mathbb{V}\sum \limits _{i=1}^{n}[x_i] \overset{*}{=} \frac{1}{n^2}\sum \limits _{i=1}^{n}\mathbb{V}[x_i]= \frac{1}{n} \mathbb{V}[x]<br>$$</li>
 </ul>
-<p>$$<br>\mathbb{V}[\bar{x}_n] = \frac{1}{n^2}\mathbb{V}\sum \limits _{i=1}^{n}[x_i] \overset{*}{=} \frac{1}{n^2}\sum \limits _{i=1}^{n}\mathbb{V}[x_i]= \frac{1}{n} \mathbb{V}[x]<br>$$</p>
 <center>(*使用独立假设iid)</center>
 
-
-<h5 id="重要采样-Importance-sampling"><a href="#重要采样-Importance-sampling" class="headerlink" title="重要采样(Importance sampling)"></a>重要采样(Importance sampling)</h5><ul>
+<ul>
 <li>考虑更一般化的积分<br>$$<br>\mathbb{E}[g(\mathbf x)] = \int g(\mathbf x)p(\mathbf x)dx \approx \frac{1}{n}\sum \limits _{i=1}^{n} g(\mathbf x_i)<br>$$<center>其中 $\mathbf x_i \sim p(\mathbf x)$。</center>
 
 
 </li>
 </ul>
 <ul>
-<li>如果$\mathbf x_i$是独立同分布样本，估计方差为$\frac{1}{n} \mathbb{V}[g(\mathbf x_i)]$</li>
+<li><p>如果$\mathbf x_i$是独立同分布样本，估计方差为$\frac{1}{n} \mathbb{V}[g(\mathbf x_i)]$</p>
+</li>
+<li><p>例子</p>
+<center><img src="/assets/pmr/importance_sampling.jpg" width="1000px"></center>
+</li>
+<li><p>分析：</p>
+<ul>
+<li>右图中存在明显的错误：当样本增加的时候，均值依然在抖动</li>
+<li>非常大的不衰减变异</li>
+<li>注意到积分并不是有限的，但是对于给定$n$，样本均值是有限的。所以估计方法需要改进</li>
+<li>使用样本均值估计之前，一定要检查变异值<br>$$<br>\begin{eqnarray}<br>\int\exp(0.6x^2)\mathcal N (x;0,1)dx &amp;=&amp; \frac{1}{\sqrt{2\pi}}\int \exp(0.6x^2)exp(-0.5x^2)dx = \frac{1}{\sqrt{2\pi}}\int \exp(0.1x^2)dx = \infty<br>\end{eqnarray}<br>$$   </li>
 </ul>
-<h4 id="采样-Samlping"><a href="#采样-Samlping" class="headerlink" title="采样 Samlping"></a>采样 Samlping</h4><ul>
-<li>简单单变量采样 (Simple unicariate sampling)</li>
+</li>
+</ul>
+<h5 id="重要采样-Importance-sampling"><a href="#重要采样-Importance-sampling" class="headerlink" title="重要采样(Importance sampling)"></a>重要采样(Importance sampling)</h5><ul>
+<li><p>基本想法：如果需要计算的积分和期望并不成对应关系，我们可以利用概率密度函数(pdf) $q$，将积分写成针对$q$的期望<br>$$<br>\begin{eqnarray}<br>I=\int g(\mathbf x)d\mathbf x = \int g(\mathbf x) \frac{q(\mathbf x)}{q(\mathbf x)}d \mathbf x<br>= \int \frac{g(\mathbf x)}{q(\mathbf x)}q(\mathbf x)d\mathbf x<br>= \mathbb{E}_{q(\mathbf x)}[\frac{g(\mathbf x)}{q(\mathbf x)}]<br>\approx \frac{1}{n} \sum \limits _{i=1}^n \frac{g(\mathbf x_i)}{q(\mathbf x_i)}<br>\end{eqnarray}<br>$$  </p>
+<center>其中 $\mathbf x_i \sim q(\mathbf x)$ (iid)</center>
+</li>
+<li><p>$q$是重要分布(importance distribution or proposal distribution) </p>
+</li>
+<li>由于方差问题（待编辑），优化$q$为</li>
+</ul>
+<p>$$<br>q^*(\mathbf x) = \frac{|g(\mathbf x)|}{\int |g(\mathbf x)| d\mathbf x}<br>$$</p>
+<ul>
+<li><p>这个优化$q$并不能计算出来，但是给予我们选择$q(\mathbf x)$ 的指导：</p>
+<ul>
+<li>当$g(\mathbf x)$较大时，$q(\mathbf x)$也应该较大</li>
+<li>$|g(\mathbf x)|/q(\mathbf x)$的比值约为常数</li>
+</ul>
+</li>
+<li><p>使用重要采样计算期望</p>
+<ul>
+<li><p>目标：使用样本均值估计 $\mathbb E _ {p(\mathbf x)}(g(\mathbf x))$，但从分布$p(\mathbf x)$采样较为困难</p>
+<p>$$<br>\begin{eqnarray}<br>\mathbb E _ {p(\mathbf x)}(g(\mathbf x))<br>=\int g(\mathbf x)p(\mathbf x)d\mathbf x<br>= \int g(\mathbf x) \frac{p(\mathbf x)}{q(\mathbf x)} q(\mathbf x)d \mathbf x<br>= \mathbb{E}_{q(\mathbf x)}[g(\mathbf x)\frac{p(\mathbf x)}{q(\mathbf x)}]<br>\approx \frac{1}{n} \sum \limits _{i=1}^n g(\mathbf x_i) \frac{p(\mathbf x_i)}{q(\mathbf x_i)}<br>\end{eqnarray}<br>$$</p>
+<center>$w_i =\frac{p(\mathbf x_i)}{q(\mathbf x_i)}$称为重要权重(importance weights)</center>
+</li>
+<li><p>对于没有归一化的分布$\tilde p(\mathbf)$<br>$$<br>int g(\mathbf x)p(\mathbf x)d\mathbf x \approx \frac{\sum_{i=1}^n g(\mathbf x_i)w_i}{\sum_{i=1}^n w_i}<br>$$</p>
+<center>归一重要权重(normalised importance weights)为$\frac{w_i}{\sum_{i=1}^n w_i}$</center>
+
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="其他采样方法-Samlping"><a href="#其他采样方法-Samlping" class="headerlink" title="其他采样方法 Samlping"></a>其他采样方法 Samlping</h4><p>比较常见，有大量介绍性文章，不做展开</p>
+<ul>
+<li>简单单变量采样 (Univariate sampling)<ul>
+<li>离散随机变量的采样</li>
+<li>连续随机变量的采样：Inverse Sampling</li>
 <li>拒绝采样 (Rejection sampling)</li>
+</ul>
+</li>
+<li>多重变量采样(Sampling from high-dimensinal multivatiate distribution)<ul>
 <li>祖先采样，原始采样 (Ancestral sampling)</li>
 <li>吉布斯采样 (Gibbs sampling)</li>
 </ul>
-<h5 id="简单单变量采样-Simple-unicariate-sampling"><a href="#简单单变量采样-Simple-unicariate-sampling" class="headerlink" title="简单单变量采样 (Simple unicariate sampling)"></a>简单单变量采样 (Simple unicariate sampling)</h5><h5 id="拒绝采样-Rejection-sampling"><a href="#拒绝采样-Rejection-sampling" class="headerlink" title="拒绝采样 (Rejection sampling)"></a>拒绝采样 (Rejection sampling)</h5><h5 id="祖先采样，原始采样-Ancestral-sampling"><a href="#祖先采样，原始采样-Ancestral-sampling" class="headerlink" title="祖先采样，原始采样 (Ancestral sampling)"></a>祖先采样，原始采样 (Ancestral sampling)</h5><h5 id="吉布斯采样-Gibbs-sampling"><a href="#吉布斯采样-Gibbs-sampling" class="headerlink" title="吉布斯采样 (Gibbs sampling)"></a>吉布斯采样 (Gibbs sampling)</h5><h3 id="小结与理解"><a href="#小结与理解" class="headerlink" title="小结与理解"></a>小结与理解</h3><ul>
+</li>
+</ul>
+<!-- ##### 简单单变量采样 (Simple unicariate sampling) -->
+<!-- ##### 拒绝采样 (Rejection sampling) -->
+<!-- ##### 祖先采样，原始采样 (Ancestral sampling) -->
+<!-- ##### 吉布斯采样 (Gibbs sampling)  -->
+<h3 id="小结与理解"><a href="#小结与理解" class="headerlink" title="小结与理解"></a>小结与理解</h3><ul>
 <li>closed form solution: 对于所求目标函数给出一个数学表达式 $f(x) = ax+b$</li>
 <li>exact inference: 对给定的$x$，可以给出 $f(x)$的值，相当于知道怎么做这个映射，但并不一定有确切数学表达。比较典型的有 message-passing, sum-product.</li>
 <li>analytical solution: …exact inference 也可以有analytical solution</li>
@@ -577,7 +630,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#做学习和推断的时候通常会包含难解积分-intractable-integral-，比如："><span class="nav-number">1.1.</span> <span class="nav-text">做学习和推断的时候通常会包含难解积分(intractable integral)，比如：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#正文"><span class="nav-number">2.</span> <span class="nav-text">正文</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#蒙特卡洛积分-Monte-Carlo-integration"><span class="nav-number">2.1.</span> <span class="nav-text">蒙特卡洛积分 Monte Carlo integration</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#均值估计期望-Approximating-expectations-by-averages"><span class="nav-number">2.1.1.</span> <span class="nav-text">均值估计期望(Approximating expectations by averages)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#重要采样-Importance-sampling"><span class="nav-number">2.1.2.</span> <span class="nav-text">重要采样(Importance sampling)</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#采样-Samlping"><span class="nav-number">2.2.</span> <span class="nav-text">采样 Samlping</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#简单单变量采样-Simple-unicariate-sampling"><span class="nav-number">2.2.1.</span> <span class="nav-text">简单单变量采样 (Simple unicariate sampling)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#拒绝采样-Rejection-sampling"><span class="nav-number">2.2.2.</span> <span class="nav-text">拒绝采样 (Rejection sampling)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#祖先采样，原始采样-Ancestral-sampling"><span class="nav-number">2.2.3.</span> <span class="nav-text">祖先采样，原始采样 (Ancestral sampling)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#吉布斯采样-Gibbs-sampling"><span class="nav-number">2.2.4.</span> <span class="nav-text">吉布斯采样 (Gibbs sampling)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小结与理解"><span class="nav-number">3.</span> <span class="nav-text">小结与理解</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#做学习和推断的时候通常会包含难解积分-intractable-integral-，比如："><span class="nav-number">1.1.</span> <span class="nav-text">做学习和推断的时候通常会包含难解积分(intractable integral)，比如：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#正文"><span class="nav-number">2.</span> <span class="nav-text">正文</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#蒙特卡洛积分-Monte-Carlo-integration"><span class="nav-number">2.1.</span> <span class="nav-text">蒙特卡洛积分 Monte Carlo integration</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#均值估计期望-Approximating-expectations-by-averages"><span class="nav-number">2.1.1.</span> <span class="nav-text">均值估计期望(Approximating expectations by averages)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#重要采样-Importance-sampling"><span class="nav-number">2.1.2.</span> <span class="nav-text">重要采样(Importance sampling)</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#其他采样方法-Samlping"><span class="nav-number">2.2.</span> <span class="nav-text">其他采样方法 Samlping</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小结与理解"><span class="nav-number">3.</span> <span class="nav-text">小结与理解</span></a></li></ol></div>
             
 
           </div>
