@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="前言term closed form solution, exact inference, analytical solution, approximatation, intractable  做学习和推断的时候通常会包含难解积分(intractable integral)，比如： 边缘化(maginalisation):  $$\begin{eqnarray}p(\mathbf x) = \in">
+<meta name="description" content="前言 做学习和推断的时候通常会包含难解积分(intractable integral)，比如： 边缘化(maginalisation):  $$\begin{eqnarray}p(\mathbf x) = \int_y p(\mathbf x,\mathbf y)dy\end{eqnarray}$$  对函数给定$g$，求期望(Expectations) :  $$\mathbb{E}[g(\ma">
 <meta name="keywords" content="MLPR,PMR,PGM,ML">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Sampling and Monte Carlo Integration">
 <meta property="og:url" content="http://yoursite.com/2018/05/05/2018-05-05 Sampling/index.html">
 <meta property="og:site_name" content="Shinoyuki">
-<meta property="og:description" content="前言term closed form solution, exact inference, analytical solution, approximatation, intractable  做学习和推断的时候通常会包含难解积分(intractable integral)，比如： 边缘化(maginalisation):  $$\begin{eqnarray}p(\mathbf x) = \in">
+<meta property="og:description" content="前言 做学习和推断的时候通常会包含难解积分(intractable integral)，比如： 边缘化(maginalisation):  $$\begin{eqnarray}p(\mathbf x) = \int_y p(\mathbf x,\mathbf y)dy\end{eqnarray}$$  对函数给定$g$，求期望(Expectations) :  $$\mathbb{E}[g(\ma">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-05-12T11:43:29.113Z">
+<meta property="og:updated_time" content="2018-05-12T14:14:07.010Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Sampling and Monte Carlo Integration">
-<meta name="twitter:description" content="前言term closed form solution, exact inference, analytical solution, approximatation, intractable  做学习和推断的时候通常会包含难解积分(intractable integral)，比如： 边缘化(maginalisation):  $$\begin{eqnarray}p(\mathbf x) = \in">
+<meta name="twitter:description" content="前言 做学习和推断的时候通常会包含难解积分(intractable integral)，比如： 边缘化(maginalisation):  $$\begin{eqnarray}p(\mathbf x) = \int_y p(\mathbf x,\mathbf y)dy\end{eqnarray}$$  对函数给定$g$，求期望(Expectations) :  $$\mathbb{E}[g(\ma">
 
 
 
@@ -333,9 +333,9 @@
       
 
       
-        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><h4 id="term"><a href="#term" class="headerlink" title="term"></a>term</h4><ul>
-<li>closed form solution, exact inference, analytical solution, approximatation, intractable</li>
-</ul>
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><!-- #### term
+- closed form solution, exact inference, analytical solution, approximatation, intractable
+ -->
 <h4 id="做学习和推断的时候通常会包含难解积分-intractable-integral-，比如："><a href="#做学习和推断的时候通常会包含难解积分-intractable-integral-，比如：" class="headerlink" title="做学习和推断的时候通常会包含难解积分(intractable integral)，比如："></a>做学习和推断的时候通常会包含难解积分(intractable integral)，比如：</h4><ul>
 <li>边缘化(maginalisation):</li>
 </ul>
@@ -351,11 +351,15 @@
 </li>
 <li><p>存在同时含有隐变量和未归一化的模型(如 受限玻尔兹曼机 Restricted Boltzmann Machine)</p>
 </li>
-<li>对于难解积分有时可以通过使用其他学习准则避免，例如score matching（不直直接match log likelihood,而是match倒数，用来避免计算归一化项）</li>
+<li>对于难解积分有时可以通过使用其他学习准则避免，例如score matching（不match log likelihood,而是match 导数，用来避免计算归一化项）</li>
 <li><font color="red">这里我们使用samlping去估计这些积分</font><a id="more"></a>
 </li>
 </ul>
-<h4 id="理解"><a href="#理解" class="headerlink" title="理解"></a>理解</h4><ul>
+<h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><h4 id="蒙特卡洛积分-Monte-Carlo-integration"><a href="#蒙特卡洛积分-Monte-Carlo-integration" class="headerlink" title="蒙特卡洛积分 Monte Carlo integration"></a>蒙特卡洛积分 Monte Carlo integration</h4><ul>
+<li>均值估计期望(Approximating expectations by averages)</li>
+<li>重要采样(Importance sampling)</li>
+</ul>
+<h5 id="均值估计期望-Approximating-expectations-by-averages"><a href="#均值估计期望-Approximating-expectations-by-averages" class="headerlink" title="均值估计期望(Approximating expectations by averages)"></a>均值估计期望(Approximating expectations by averages)</h5><h5 id="重要采样-Importance-sampling"><a href="#重要采样-Importance-sampling" class="headerlink" title="重要采样(Importance sampling)"></a>重要采样(Importance sampling)</h5><h4 id="采样-Samlping"><a href="#采样-Samlping" class="headerlink" title="采样 Samlping"></a>采样 Samlping</h4><h3 id="小结与理解"><a href="#小结与理解" class="headerlink" title="小结与理解"></a>小结与理解</h3><ul>
 <li>closed form solution: 对于所求目标函数给出一个数学表达式 $f(x) = ax+b$</li>
 <li>exact inference: 对给定的$x$，可以给出 $f(x)$的值，相当于知道怎么做这个映射，但并不一定有确切数学表达。比较典型的有 message-passing, sum-product.</li>
 <li>analytical solution: …exact inference 也可以有analytical solution</li>
@@ -538,7 +542,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#term"><span class="nav-number">1.1.</span> <span class="nav-text">term</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#做学习和推断的时候通常会包含难解积分-intractable-integral-，比如："><span class="nav-number">1.2.</span> <span class="nav-text">做学习和推断的时候通常会包含难解积分(intractable integral)，比如：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#理解"><span class="nav-number">1.3.</span> <span class="nav-text">理解</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#做学习和推断的时候通常会包含难解积分-intractable-integral-，比如："><span class="nav-number">1.1.</span> <span class="nav-text">做学习和推断的时候通常会包含难解积分(intractable integral)，比如：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#正文"><span class="nav-number">2.</span> <span class="nav-text">正文</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#蒙特卡洛积分-Monte-Carlo-integration"><span class="nav-number">2.1.</span> <span class="nav-text">蒙特卡洛积分 Monte Carlo integration</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#均值估计期望-Approximating-expectations-by-averages"><span class="nav-number">2.1.1.</span> <span class="nav-text">均值估计期望(Approximating expectations by averages)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#重要采样-Importance-sampling"><span class="nav-number">2.1.2.</span> <span class="nav-text">重要采样(Importance sampling)</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#采样-Samlping"><span class="nav-number">2.2.</span> <span class="nav-text">采样 Samlping</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小结与理解"><span class="nav-number">3.</span> <span class="nav-text">小结与理解</span></a></li></ol></div>
             
 
           </div>
