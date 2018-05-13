@@ -92,7 +92,7 @@
 <meta property="og:image" content="http://yoursite.com/assets/NLU/stackrnn.png">
 <meta property="og:image" content="http://yoursite.com/assets/NLU/RNNGtable.png">
 <meta property="og:image" content="http://yoursite.com/assets/NLU/rnng.png">
-<meta property="og:updated_time" content="2018-05-13T19:49:12.014Z">
+<meta property="og:updated_time" content="2018-05-13T19:51:51.715Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Recurrent neural network grammars (RNNG)">
 <meta name="twitter:description" content="Recurrent neural network grammars 实现语言的分层形式表达，RNNG中存在的bias为top bias，较符合语言逻辑。 本文介绍了Recurrent neural network grammars (RNNG)的原理，优点和实验结果。 原文参考 Recurrent Neural Network Grammars (Chris Dyer, et al., 2016)">
@@ -345,7 +345,7 @@
 <p>写中文的notes好累啊，所以这篇暂时是英文的 ( ´▽｀)</p>
 <a id="more"></a>
 <h3 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h3><h4 id="Top-down-Parsing-and-Generation"><a href="#Top-down-Parsing-and-Generation" class="headerlink" title="Top-down Parsing and Generation"></a>Top-down Parsing and Generation</h4><ul>
-<li>Parser Transition<br>  – bottom-up shift-reduce recognition algorithms<br>  – the parsing algorithm: mapping from sequences of words to parse trees.<br>  – <em>Stack</em>($S$): contains terminal symbols, open nonterminal symbols and completed constituents. Begin with empty.<br>  – Input Buffer(B): contains unprocesses terminal symbols. Begin with complete sequence of words.<br>  – Info. to train a classifier: current contents on <em>Stack</em> (some part of $y_t$) and <em>Buffer </em>(part of $x_t$)<br>  – Top-down parsing example Figure 6(a)</li>
+<li>Parser Transition<br>  – bottom-up shift-reduce recognition algorithms<br>  – the parsing algorithm: mapping from sequences of words to parse trees.<br>  – <em>Stack</em>($S$): contains terminal symbols, open nonterminal symbols and completed constituents. Begin with empty.<br>  – Input Buffer(B): contains unprocesses terminal symbols. Begin with complete sequence of words.<br>  – Info. to train a classifier: current contents on <em>Stack</em> (some part of $y_t$) and <em>Buffer </em>(part of $x_t$)<br>  – Top-down parsing example Figure 1(a)</li>
 <li>Generator Transitions<br>  – Algorithm that stochastically generates trees and terminal symbols.<br>  – Need two changes of parsing algorithm: no input buffer of unprocesses words, rather there is an <em>Output Buffer</em> ($T$)<br>  – Instead of a SHIFT operation, there are GEN($x$) operations which generate terminal symbol $x \in \Sigma$ and add it to the top of the Stack (S) and the <em>Output Buffer</em> ($T$)<br>  – Predict action according to a conditional distibution that depends on the current content of $S$ and $T$. when using RNN model, we also use information of past actions. <em>see</em> <a href="#jump" target="_self">RNNG</a></li>
 </ul>
 <center><img src="/assets/NLU/RNNG.jpg" width="1200px" alt="Figure 1"> </center><br><center><strong>Figure 1</strong></center>
@@ -451,7 +451,7 @@
 </li>
 </ul>
 <h4 id="References"><a href="#References" class="headerlink" title="References"></a>References</h4><p>Dyer, C., Kuncoro, A., Ballesteros, M., &amp; Smith, N. A. (2016). Recurrent neural network grammars. arXiv preprint arXiv:1602.07776.</p>
-<p>Modified 13rd-May-2018 20:47</p>
+<p>Modified 13rd-May-2018 21:00</p>
 
       
     </div>
