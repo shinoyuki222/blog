@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="ML,NLP," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="本文主要介绍无监督贝叶斯pos tagging方法，实验结果和分析。简单概括最大似然估计(MLE)，隐藏马尔可夫模型(HMM)。 原文参考 A Fully Bayesian Approach to Unsupervised Part-of-Speech Tagging (Sharon Goldwater, Thomas L. Griffiths, 2016) 还是懒癌，暂时是英文的">
+<meta name="keywords" content="ML,NLP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Unsupervised PoS Tagging">
+<meta property="og:url" content="http://yoursite.com/2018/05/15/2018-05-15 POS/index.html">
+<meta property="og:site_name" content="Shinoyuki">
+<meta property="og:description" content="本文主要介绍无监督贝叶斯pos tagging方法，实验结果和分析。简单概括最大似然估计(MLE)，隐藏马尔可夫模型(HMM)。 原文参考 A Fully Bayesian Approach to Unsupervised Part-of-Speech Tagging (Sharon Goldwater, Thomas L. Griffiths, 2016) 还是懒癌，暂时是英文的">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-05-18T09:33:01.130Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Unsupervised PoS Tagging">
+<meta name="twitter:description" content="本文主要介绍无监督贝叶斯pos tagging方法，实验结果和分析。简单概括最大似然估计(MLE)，隐藏马尔可夫模型(HMM)。 原文参考 A Fully Bayesian Approach to Unsupervised Part-of-Speech Tagging (Sharon Goldwater, Thomas L. Griffiths, 2016) 还是懒癌，暂时是英文的">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/15/2018-05-15 POS/"/>
+
+
+
+
+
+  <title>Unsupervised PoS Tagging | Shinoyuki</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Shinoyuki</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/15/2018-05-15 POS/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Xiaoqing Tang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Shinoyuki">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Unsupervised PoS Tagging</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-15T00:00:00+01:00">
+                2018-05-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Machine-Learning/" itemprop="url" rel="index">
+                    <span itemprop="name">Machine Learning</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Machine-Learning/Natural-Language-Processing/" itemprop="url" rel="index">
+                    <span itemprop="name">Natural Language Processing</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文主要介绍无监督贝叶斯pos tagging方法，实验结果和分析。简单概括最大似然估计(MLE)，隐藏马尔可夫模型(HMM)。</p>
+<p>原文参考 <a href="http://www.aclweb.org/anthology/P07-1094" target="_blank" rel="noopener">A Fully Bayesian Approach to Unsupervised Part-of-Speech Tagging (Sharon Goldwater, Thomas L. Griffiths, 2016)</a></p>
+<p>还是懒癌，暂时是英文的</p>
+<!-- 写中文的notes好累啊，所以这篇暂时是英文的 ( ´▽｀) -->
+<a id="more"></a>
+<h3 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h3><h4 id="Inference-for-HMMs"><a href="#Inference-for-HMMs" class="headerlink" title="Inference for HMMs"></a>Inference for HMMs</h4><ul>
+<li>Notation: Given that $t_{i-1} = t$, the value of $t_i$ is drawn from a multinominal dstribution with parameters $\tau^{(t)}$<br>  $$<br>  \begin{eqnarray}<br>  t_i \mid t_{i-1}=t,\quad \tau^{(t)} \sim Multinominal (\tau^{(t)})\\<br>  w_i \mid t_{i}=t, \quad \omega^{(t)} \sim Multinominal (\omega^{(t)})<br>  \end{eqnarray}<br>  $$</li>
+<li>Inference: decoding, applying the model at the test time, we need to know $\mathbf \theta$ and we can compute $P(\mathbf t, \mathbf w)$<br>  $$P(\mathbf t, \mathbf w) = \prod \limits_{i=1}^n P(t_i \mid t_{i-1})= \prod \limits_{i=1}^n \tau^ {(t_{i-1})} \omega_{w_i}^{t_i}$$</li>
+<li>Compute $P(\mathbf w)$, such as language model<br>  $$P(\mathbf w) = \sum \limits _ {\mathbf t} P(\mathbf w, \mathbf t)$$</li>
+<li>Also $P(\mathbf t \mid \mathbf w) $, such as PoS tagger<br>  $$P(\mathbf t \mid \mathbf w) = \frac{P(\mathbf t, \mathbf w)}{P(\mathbf w)}$$</li>
+</ul>
+<h4 id="Parameter-Estimation-for-HMMs"><a href="#Parameter-Estimation-for-HMMs" class="headerlink" title="Parameter Estimation for HMMs"></a>Parameter Estimation for HMMs</h4><ul>
+<li>Estimation: training the model, determing its params. A procedure to set $\mathbf \theta$ based on data.</li>
+<li>Bayes Rule<br>  $$P(\theta \mid w) = \frac{P(w \mid \theta)P(\theta)}{P(w)} \propto P(w \mid \theta)P(\theta)$$</li>
+<li>Could use MLE, Bayesian estimation (actually no parameter estimation)</li>
+</ul>
+<h4 id="Maximum-Likelihood-Estimation"><a href="#Maximum-Likelihood-Estimation" class="headerlink" title="Maximum Likelihood Estimation"></a>Maximum Likelihood Estimation</h4><ul>
+<li>Choose the $\mathbf \theta$ that makes the data most probable, ignore the prior term. Equivalent to assuming a uniform prior.<br>  $$\hat \theta = argmax _ \theta P(\mathbf w \mid \theta)$$</li>
+<li>supervised systems, \textit{relative frequency estimate} is equivalent to the MLE.<br>  $$\tau_{t’}^{(t)} = \frac{n(t,t’)}{n(t)} \quad \quad \omega_{w}^{(t)} = \frac{n(t,w)}{n(t)} $$</li>
+<li>unsupervised systems, expectation maximization (EM) algorithm to estimate $\theta$</li>
+<li>Process:<ul>
+<li>E-step: use current estimate of $\theta$ to compute expected counts of hidden events $n$.</li>
+<li>M-step: recompute $\theta$ using expected counts.s</li>
+</ul>
+</li>
+<li>Examples: forward-backward algorithm for HMMs, inside-outside algorithm for PCFGs, k-meaning clustering.</li>
+<li>EM Works well on : word alignment for machine translation; speech recognition….</li>
+<li>Often <strong>fails</strong>:<ul>
+<li>probabilistic context-free grammars (PCFG): highly sensitive to initialisation; F-score reported are generally low.</li>
+<li>For HMMs, even very small amounts of training data have been show to work better than EM.</li>
+<li>similar picture for many other tasks</li>
+</ul>
+</li>
+</ul>
+<h3 id="Main-Model"><a href="#Main-Model" class="headerlink" title="Main Model"></a>Main Model</h3><h4 id="Bayesian-HMM"><a href="#Bayesian-HMM" class="headerlink" title="Bayesian HMM"></a>Bayesian HMM</h4><ul>
+<li>Parameter Estimation: we are not interested in the value of $\theta$<br>  $$<br>  \begin{eqnarray}<br>  P(w_i \mid \mathbf w_{1:i-1}) &amp;=&amp; \int P(w_i \mid \theta) P(\theta \mid \mathbf w_{1:i-1}) d \theta\\<br>  P(\mathbf t \mid w) &amp;=&amp; \int P(\mathbf t \mid \mathbf w,\theta) P(\theta \mid \mathbf w) d \theta<br>  \end{eqnarray}<br>  $$</li>
+<li><p>Bayesian integration: Integrating over $\theta$ gives us an <em>average</em> over all possible parameters values.</p>
+<ul>
+<li>accounts for uncertainty as to the exact value of $\theta$</li>
+<li>models the shape of the distribution over $\theta$</li>
+<li>increase robustness: there may be a range of good values of $\theta$</li>
+<li>we can use priors favouring sparse solutions.</li>
+</ul>
+</li>
+<li><p>Model:<br>$$<br>\begin{eqnarray}<br>t_i \mid t_{i-1}=t,\quad \tau^{(t)} &amp;\sim&amp; Multinominal (\tau^{(t)})\\<br>w_i \mid t_{i}=t,\quad \omega^{(t)} &amp;\sim&amp; Multinominal (\omega^{(t)})\\<br>\tau^{(t)} \mid \alpha &amp;\sim&amp; Dirichlet(\alpha)\\<br>\omega^{(t)} \mid \beta &amp;\sim&amp; Dirichlet(\beta)<br>\end{eqnarray}<br>$$</p>
+</li>
+<li><p>intergrate out the parameters $\mathbf \theta = (\mathbf \tau, \mathbf \omega)$, we calculate probablity for each of $T$ possible tags<br>$$<br>\begin{eqnarray}<br>P(t_i \mid \mathbf t_{1:i-1}; \alpha) &amp;=&amp; \frac{n(t_{i-1},t_i) + \alpha}{n(t_{i-1})+ T\alpha}\\<br>P(w_i \mid t_i, \mathbf t_{1:i-1}, \mathbf w; \beta) &amp;=&amp; \frac{n(t_{i},w_i) + \beta}{n(t_{i})+ W_{t_i}\beta}<br>\end{eqnarray}<br>$$</p>
+</li>
+<li><p>For inference, $P(\mathbf t \mid \mathbf w)$ using an estimation method called \textit{Gibbs sampling}.</p>
+</li>
+</ul>
+<h4 id="Dirichlet-Distribution"><a href="#Dirichlet-Distribution" class="headerlink" title="Dirichlet Distribution"></a>Dirichlet Distribution</h4><ul>
+<li>a distribution over distribution, a prior.</li>
+<li>Definition<br>$$P(\theta) = \frac{1}{Z}\prod \limits _ {j=1}^ K \theta_j ^{\alpha_j -1}$$</li>
+<li>$\alpha$ is params. of Dirichlet Distribution, we usually use symmetric Dirichlets, where $\alpha_1 … \alpha_K$ is equal to $\beta$. Denote Dirichlet($\beta$) to mean Dirichlet($\beta,…,\beta)$</li>
+<li>property:<ul>
+<li>With $\beta &gt;1$, we would \textbf{prefer} uniform distributions over $\theta$</li>
+<li>With $\beta = 1$, we have no preference on $\theta$, <strong>does not </strong>mean we choose uniform.</li>
+<li>With $\beta &lt; 1$, we prefer sparse (skewed) distributions</li>
+</ul>
+</li>
+</ul>
+<h4 id="Evaluation-of-BHMM"><a href="#Evaluation-of-BHMM" class="headerlink" title="Evaluation of BHMM"></a>Evaluation of BHMM</h4><ul>
+<li><p>Compare with MLHMM and CRF/CE</p>
+<ul>
+<li><p>Results</p>
+<ul>
+<li>Intergrating over parameters is useful in itself, even with uninformative prior ($\alpha = \beta =1$):</li>
+<li>Better prior can help even more, though do not reach the state of the art.</li>
+</ul>
+</li>
+<li><p>The BHMM indentifies a sequence of tages that have high prob. over a range of parameter values, rather than choosing tags based on the single best set of paprameters (MLHMM).</p>
+</li>
+<li><p>The smaller effect of $\beta$: </p>
+<p>although the true output distribution tend to be sparse as well, the level of sparseness depends on the tag (consider function words vs. content words in particular). Therefore, the value of $\beta$ that accurately reflects the most probable output distributions for some tags may be a poor choice for other tags.</p>
+</li>
+<li>The trasition probabilities matrix is sparse: the optimal value of $\alpha$ is 0.003.</li>
+</ul>
+</li>
+<li>Sytactic clustering<ul>
+<li>With MLHMM: different tokens of the same word type are usually assigned to the same cluster, but types are assigned to clusters more or less at random, and all clusters have approximately the same number of types.</li>
+<li>BHMM: the clusters found by BHMM tend to be more coherent and more variable in size</li>
+<li>BHMM transition matrix is sparse, MLHMM is not.</li>
+</ul>
+</li>
+</ul>
+<h3 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h3><ul>
+<li>Unsupervised PoS tagging is useful to build lexica and taggers for new language or domains; </li>
+<li>maximum likelihood HMM with EM performs poorly; (see MLE)</li>
+<li>Bayesian HMM with Gibbs sampling can be used instead;<ul>
+<li>no intereted in params, instead of parameter estimation, we do integration.</li>
+<li>Gibbs Sampling (for inference, see below)</li>
+</ul>
+</li>
+<li>the Bayesian HMM improves performance by averaging out uncertainty;<ul>
+<li>MLE assume uniform values over $\mathbf \theta$, with $100\%$ certainty, and then pick one set of $\theta$ which maximum the liklihood.</li>
+<li>Bayesian HMM does not make that assumption, and if we choose a certain hyperparameter $\alpha$ and $\beta$, we have different certainty of the set of $\theta$. <ul>
+<li>With $\alpha,~ \beta &gt;1$, we would \textbf{prefer} uniform values over $\mathbf \theta$</li>
+<li>With $\beta = 1$, we have no preference on $\mathbf \theta$, does not mean we choose uniform.</li>
+<li>With $\beta &lt; 1$, we prefer sparse value of $\mathbf \theta$.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>it also allows us to use priors that favour sparse solutions as they occur in language data.</li>
+<li>Other types of discrete latent variable models (e.g. for syntax or semantics) use similar methods.</li>
+</ul>
+<h3 id="References"><a href="#References" class="headerlink" title="References"></a>References</h3><p>Goldwater, S., &amp; Griffiths, T. (2007). A fully Bayesian approach to unsupervised part-of-speech tagging. In Proceedings of the 45th annual meeting of the association of computational linguistics (pp. 744-751).</p>
+<p>Modified 18th-May-2018 12:00</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ML/" rel="tag"># ML</a>
+          
+            <a href="/tags/NLP/" rel="tag"># NLP</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/12/2018-05-12 RNNG/" rel="next" title="Recurrent neural network grammars (RNNG)">
+                <i class="fa fa-chevron-left"></i> Recurrent neural network grammars (RNNG)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Xiaoqing Tang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Intro"><span class="nav-number">1.</span> <span class="nav-text">Intro</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Inference-for-HMMs"><span class="nav-number">1.1.</span> <span class="nav-text">Inference for HMMs</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Parameter-Estimation-for-HMMs"><span class="nav-number">1.2.</span> <span class="nav-text">Parameter Estimation for HMMs</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Maximum-Likelihood-Estimation"><span class="nav-number">1.3.</span> <span class="nav-text">Maximum Likelihood Estimation</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Main-Model"><span class="nav-number">2.</span> <span class="nav-text">Main Model</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Bayesian-HMM"><span class="nav-number">2.1.</span> <span class="nav-text">Bayesian HMM</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Dirichlet-Distribution"><span class="nav-number">2.2.</span> <span class="nav-text">Dirichlet Distribution</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Evaluation-of-BHMM"><span class="nav-number">2.3.</span> <span class="nav-text">Evaluation of BHMM</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Summary"><span class="nav-number">3.</span> <span class="nav-text">Summary</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#References"><span class="nav-number">4.</span> <span class="nav-text">References</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Xiaoqing Tang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
