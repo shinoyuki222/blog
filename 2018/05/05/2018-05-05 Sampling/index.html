@@ -88,7 +88,7 @@
 <meta property="og:description" content="学习和推断的时候通常会包含难解积分(intractable integral)，可以使用samlping去估计这些积分项。 主要介绍蒙特卡洛积分，使用均值估计期望的原理及存在问题，如何使用重要采样获得一般化的期望，列举其他的采样方法。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/assets/pmr/importance_sampling.jpg">
-<meta property="og:updated_time" content="2018-05-18T10:02:11.126Z">
+<meta property="og:updated_time" content="2018-05-18T15:48:30.786Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Sampling and Monte Carlo Integration">
 <meta name="twitter:description" content="学习和推断的时候通常会包含难解积分(intractable integral)，可以使用samlping去估计这些积分项。 主要介绍蒙特卡洛积分，使用均值估计期望的原理及存在问题，如何使用重要采样获得一般化的期望，列举其他的采样方法。">
@@ -424,7 +424,7 @@
 <p>$$<br>\begin{eqnarray}<br>\mathbb E _ {p(\mathbf x)}(g(\mathbf x))<br>=\int g(\mathbf x)p(\mathbf x)d\mathbf x<br>= \int g(\mathbf x) \frac{p(\mathbf x)}{q(\mathbf x)} q(\mathbf x)d \mathbf x<br>= \mathbb{E}_{q(\mathbf x)}[g(\mathbf x)\frac{p(\mathbf x)}{q(\mathbf x)}]<br>\approx \frac{1}{n} \sum \limits _{i=1}^n g(\mathbf x_i) \frac{p(\mathbf x_i)}{q(\mathbf x_i)}<br>\end{eqnarray}<br>$$</p>
 <center>$w_i =\frac{p(\mathbf x_i)}{q(\mathbf x_i)}$称为重要权重(importance weights)</center>
 </li>
-<li><p>对于没有归一化的分布$\tilde p(\mathbf)$<br>$$<br>int g(\mathbf x)p(\mathbf x)d\mathbf x \approx \frac{\sum_{i=1}^n g(\mathbf x_i)w_i}{\sum_{i=1}^n w_i}<br>$$</p>
+<li><p>对于没有归一化的分布$\tilde p(\mathbf x)$<br>$$<br>\int g(\mathbf x)p(\mathbf x)d\mathbf x \approx \frac{\sum_{i=1}^n g(\mathbf x_i)w_i}{\sum_{i=1}^n w_i}<br>$$</p>
 <center>归一重要权重(normalised importance weights)为$\frac{w_i}{\sum_{i=1}^n w_i}$</center>
 
 </li>
