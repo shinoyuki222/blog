@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="MLPR,PMR,PGM,ML," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="本文主要内容：如何从观测样本学习模型（参数）/分布  理解观测数据，样本，未知分布之间的关系。 三种模型(Model)概念和实例：概率模型(Probabilistic model)，统计模型(Statistical Model)和贝叶斯模型(Bayesian Model)。 两种学习方法的概念，区别和实例：最大似然估计(MLE, Maximum Likelihood estimation)和贝叶斯">
+<meta name="keywords" content="MLPR,PMR,PGM,ML">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于模型学习的基本概念 Basics of Model-based Learning">
+<meta property="og:url" content="http://yoursite.com/2018/05/09/2018-05-19 Basics of model-based learning/index.html">
+<meta property="og:site_name" content="Shinoyuki">
+<meta property="og:description" content="本文主要内容：如何从观测样本学习模型（参数）/分布  理解观测数据，样本，未知分布之间的关系。 三种模型(Model)概念和实例：概率模型(Probabilistic model)，统计模型(Statistical Model)和贝叶斯模型(Bayesian Model)。 两种学习方法的概念，区别和实例：最大似然估计(MLE, Maximum Likelihood estimation)和贝叶斯">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/assets/pmr/basics_data.png">
+<meta property="og:image" content="http://yoursite.com/assets/pmr/basics_hmm.png">
+<meta property="og:image" content="http://yoursite.com/assets/pmr/basic_dgm.png">
+<meta property="og:image" content="http://yoursite.com/assets/pmr/basics_model_data.png">
+<meta property="og:image" content="http://yoursite.com/assets/pmr/basics_invert_generate.png">
+<meta property="og:image" content="http://yoursite.com/assets/pmr/basics_predictive%20_distribution.png">
+<meta property="og:updated_time" content="2018-05-20T18:40:07.715Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于模型学习的基本概念 Basics of Model-based Learning">
+<meta name="twitter:description" content="本文主要内容：如何从观测样本学习模型（参数）/分布  理解观测数据，样本，未知分布之间的关系。 三种模型(Model)概念和实例：概率模型(Probabilistic model)，统计模型(Statistical Model)和贝叶斯模型(Bayesian Model)。 两种学习方法的概念，区别和实例：最大似然估计(MLE, Maximum Likelihood estimation)和贝叶斯">
+<meta name="twitter:image" content="http://yoursite.com/assets/pmr/basics_data.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/09/2018-05-19 Basics of model-based learning/"/>
+
+
+
+
+
+  <title>基于模型学习的基本概念 Basics of Model-based Learning | Shinoyuki</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Shinoyuki</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/09/2018-05-19 Basics of model-based learning/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Xiaoqing Tang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Shinoyuki">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">基于模型学习的基本概念 Basics of Model-based Learning</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-09T00:00:00+01:00">
+                2018-05-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Machine-Learning/" itemprop="url" rel="index">
+                    <span itemprop="name">Machine Learning</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Machine-Learning/Probabilistic-Modelling-and-Reasoning/" itemprop="url" rel="index">
+                    <span itemprop="name">Probabilistic Modelling and Reasoning</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文主要内容：如何从观测样本学习模型（参数）/分布</p>
+<ul>
+<li>理解观测数据，样本，未知分布之间的关系。</li>
+<li>三种模型(Model)概念和实例：概率模型(Probabilistic model)，统计模型(Statistical Model)和贝叶斯模型(Bayesian Model)。</li>
+<li>两种学习方法的概念，区别和实例：最大似然估计(MLE, Maximum Likelihood estimation)和贝叶斯推断(Bayesian inference)</li>
+</ul>
+<!-- 写中文的notes好累啊，所以这篇暂时是英文的 ( ´▽｀) -->
+<a id="more"></a>
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>对于分布 $p(\mathbf x \mid \mathbf y_0) = \frac{\sum_{\mathbf z} p(\mathbf x,\mathbf y,\mathbf z)}{\sum_{\mathbf x,\mathbf z} p(\mathbf x,\mathbf y,\mathbf z}$</p>
+<p>假设所有变量$\mathbf x, \mathbf y, \mathbf z$ 维度是$d = 500$， 向量中的每一个元素有$K=10$种取值。</p>
+<h4 id="情况1"><a href="#情况1" class="headerlink" title="情况1"></a>情况1</h4><ul>
+<li>问题：确定分布 $p(\mathbf x, \mathbf y, \mathbf z)$，需要$K^{3d}-1 = 10^{15000}-1$非负数值（参数）。这几乎是不可能的</li>
+<li>论题： <font color="red">Representaion</font> 利用<em>弱假设</em>更有效得表达分布$p(\mathbf x, \mathbf y, \mathbf z)$</li>
+<li><a href="">有向图模型(DGM, directed graphical models)</a>,<a href="">无向图模型(UGM, undirected graphical models)</a>,<a href="">因子图(FG, factor graphs)</a></li>
+<li>因子分解和（变量间的）独立(Factorisation and indenpendencies)</li>
+</ul>
+<h4 id="情况2"><a href="#情况2" class="headerlink" title="情况2"></a>情况2</h4><ul>
+<li>问题：为了计算分子求和表达式，需要顺序遍历$K^d = 10^{500}$非负数；计算分母求和表达式，需要顺序遍历$K^{2d}=10^{10000}$非负数。计算不可能。</li>
+<li>论题：<font color="red">Exact inference</font> 继续利用以上<em>弱假设</em>，高效计算后验概率 Posterior probability（针对归一化模型）或者求取数值（未归一化模型）。</li>
+<li>再次利用因子分解（factorisation），分配律（distributive law）和缓存计算（caching computations）：<ul>
+<li>缓存计算（caching computations：由于因子分解使分子和分母的求和表达式计算时，出现了大量相同的计算量，因此减少了重复计算</li>
+</ul>
+</li>
+<li>例如：消元法 (Variable elimination)，Sum/Max-product message passing</li>
+<li>实例：隐藏马尔可夫模型的推断（inference for hidden Markov models）</li>
+</ul>
+<h4 id="情况3（本文涉及）"><a href="#情况3（本文涉及）" class="headerlink" title="情况3（本文涉及）"></a>情况3（本文涉及）</h4><ul>
+<li>问题：如何得到 $p(\mathbf x, \mathbf y, \mathbf z)$ 中的这些非负数？</li>
+<li>论题：<font color="red">Learning</font> 如何从（观测）数据中学习这些数值（参数）？</li>
+</ul>
+<h3 id="基本概念：数据与分布"><a href="#基本概念：数据与分布" class="headerlink" title="基本概念：数据与分布"></a>基本概念：数据与分布</h3><h4 id="观测数据，样本，未知数据的分布"><a href="#观测数据，样本，未知数据的分布" class="headerlink" title="观测数据，样本，未知数据的分布"></a>观测数据，样本，未知数据的分布</h4><center><img src="/assets/pmr/basics_data.png" width="500px"></center>
+
+<ul>
+<li>任务：利用观测数据$\mathcal D$学习数据源特征（分布），由此可以进一步做 <em>概率推断</em>，<em>决策</em></li>
+<li>一般来说，假设观测数据$\mathcal D$是从一个未知分布$p_*(\mathcal D)$随机采样的数据。换句话说，我们考虑数据$\mathcal D$是分布$p_*$的随机变量的观测值。<br>$$\mathcal D \sim p_*(\mathcal D)$$</li>
+<li>例子： 用隐藏马尔可夫模型（HMM）中的trasition 和 emission 分布，利用祖先采样/原始采样(ancestral sampling)生成数据。因此，我们得到了可见量(visibles) $(v_1,v_2,v_3,\cdots,v_T) \sim p(v_q,\cdots,v_t)$<br><center><img src="/assets/pmr/basics_hmm.png" width="300px"></center><br>然后呢，你把这些可见量给你的朋友，他/她并<strong>不知道</strong>你用来产生数据的分布，<font color="#8F8F8F">在这个例子中就是trasition 和 emission 分布</font>，也<strong>可能不知道</strong>你用的是隐藏马尔可夫模型(HMM)，所以对于你朋友来说:<br>$$\mathcal D = (v_1,v_2,v_3,\cdots,v_T) \quad \quad \mathcal{D} \sim p_*(\mathcal D)$$</li>
+</ul>
+<h4 id="独立同分布数据-Independent-and-indentically-distributed-iid-data"><a href="#独立同分布数据-Independent-and-indentically-distributed-iid-data" class="headerlink" title="独立同分布数据(Independent and indentically distributed (iid) data)"></a>独立同分布数据(Independent and indentically distributed (iid) data)</h4><ul>
+<li>假设数据$\mathcal D = \{\mathbf x_1,\cdots, \mathbf x_n\}$ 有<br>$$p_*(\mathcal D) = \prod \limits _{i=1}^n p_*(\mathbf{x}_i)$$<br>那么这组数据（或者说数据对应的随机变量）是独立同分布的（iid）。$\mathcal D$ 也被称作是分布$p_*$的一个随机采样。换句话说，每一个数据点$\mathbf x_i$是从同一个分布$p_*$中独立得到的。</li>
+<li>例子1：还是刚才HMM的例子，$n$个数据点，每一个数据点都包括$(v_1,v_2,v_3,\cdots,v_T)$，这$n$个数据都是独立从相同的trasition 和 emission 分布产生的。</li>
+<li><p>例子2：对于分布<br>  $$p(x_1,x_2,x_3,x_4,x_5) = p(x_1)p(x_2)p(x_3 \mid x_1.x_2)p(x_4 \mid x_3)p(x_5\mid x_2)$$</p>
+<p>  我们知道这些条件概率，可以进行祖先/原始采样（ancestral sampling），并且采样$n$次。</p>
+  <center><img src="/assets/pmr/basic_dgm.png" width="200px"></center>
+
+<p>  记录$n$次观测值$x_4$：$x_4^{(1)},x_4^{(2)},\cdots,x_4^{(n)}$，并把这些观测值给你的朋友，她/他并不知道你是如何产生这些数据的，但知道这些数据是独立同分布的(iid)。</p>
+<p>  因此对于你的朋友，每一个$x_4^{(i)}$ 都是$x_i \sim p_*$ 的数据点。</p>
+</li>
+</ul>
+<h3 id="基本概念：模型"><a href="#基本概念：模型" class="headerlink" title="基本概念：模型"></a>基本概念：模型</h3><h4 id="利用模型（Model）学习数据"><a href="#利用模型（Model）学习数据" class="headerlink" title="利用模型（Model）学习数据"></a>利用模型（Model）学习数据</h4><ul>
+<li>建立含有隐藏特征$\mathbf {\theta}$的模型，这里的$\mathbf {\theta}$也称为参数</li>
+<li><p>寻找符合观测数据$\mathcal D$的$\mathbf {\theta}$</p>
+<center><img src="/assets/pmr/basics_model_data.png" width="500px"></center>
+</li>
+<li><p>注意这里模型（Model）有多种指向，本文考虑三种模型</p>
+<ul>
+<li>概率模型(Probabilistic model)</li>
+<li>统计模型(Statistical model)</li>
+<li>贝叶斯模型(Bayesian model)</li>
+</ul>
+</li>
+<li>名称在文章中可能有<strong>混用</strong>，比如直接称概率模型或者统计模型为模型。</li>
+</ul>
+<h4 id="概率模型"><a href="#概率模型" class="headerlink" title="概率模型"></a>概率模型</h4><ul>
+<li>运用概率理论，将不确定事件的可能性数据化(quantify)，是一种对现实的抽象表达。技术上说,概率模型恒等于概率分布（概率质量函数/概率密度函数：Probabilistic model $\equiv$ probability distribution (pmf/pdf)</li>
+<li>概率模型由概率$Pr$表达。使用概率质量函数（pmf）表达，则<br>$$<br>\begin{eqnarray}<br>p_x(1)&amp;=&amp;0.11 \quad &amp;or&amp; \quad p(x=1)&amp;=&amp;0.11\\<br>p_{y|x}(1\mid1)&amp;=&amp;0.8 \quad &amp;or&amp; \quad  p(y=1 \mid x=1)&amp;=&amp;0.8\\<br>p_{y|x}(0\mid0)&amp;=&amp;0.95 \quad &amp;or&amp; \quad  p(y=0 \mid x=0)&amp;=&amp;0.95<br>\end{eqnarray}<br>$$<br>*这里描述概率的记号$Pr$和$p$有混用</li>
+</ul>
+<h4 id="统计模型"><a href="#统计模型" class="headerlink" title="统计模型"></a>统计模型</h4><ul>
+<li><p>用参数替换上述概率模型的具体数字，我们就能得到（参数化）的统计模型<br>$$<br>\begin{eqnarray}<br>p_x(1)&amp;=&amp;\theta_1\\<br>p_{y|x}(1\mid1)&amp;=&amp;\theta_2\\<br>p_{y|x}(0\mid0)&amp;=&amp;\theta_3<br>\end{eqnarray}<br>$$</p>
+</li>
+<li><p>对于每一个$\theta_i$的值，符合不同的概率质量函数（pmf），概率质量函数(pmf)和参数之间的依存关系如下表示：<br>$$<br>\begin{eqnarray}<br>p(x=1; \theta_1)&amp;=&amp;\theta_1\\<br>p(y=1 \mid x=1; \theta_2)&amp;=&amp;\theta_2\\<br>p(y=0 \mid x=0; \theta_3)&amp;=&amp;\theta_3<br>\end{eqnarray}<br>$$<br>或者可以表达为$p(x,y;\mathbf {\theta})$，其中 $\mathbf {\theta} = (\theta_1, \theta_2, \theta_3)$ 是参数向量</p>
+</li>
+<li><p>统计模型对应一系列通过参数索引的概率模型（indexed by the parameters): $\{p(\mathbf{x};\mathbf{\theta})\}_{\mathbf{\theta}}$</p>
+</li>
+</ul>
+<h4 id="贝叶斯模型"><a href="#贝叶斯模型" class="headerlink" title="贝叶斯模型"></a>贝叶斯模型</h4><ul>
+<li>贝叶斯模型，可以理解为给统计模型的参数$\mathbf {\theta})$设置先验概率分布(prior probability distribution)。</li>
+<li>每一个 $\{p(\mathbf{x};\mathbf{\theta})\}_{\mathbf{\theta}}$ 中的成员，是在参数$\mathbf {\theta})$下，变量$\mathbf x$的pmf/pdf。使用$p(\mathbf x \mid \mathbf \theta)$ 表示这个条件概率分布pmf/pdf。</li>
+<li>条件分布$p(\mathbf x \mid \mathbf \theta)$ 和 先验分布 $p(\theta)$可以定义联合分布：$p(\mathbf x, \mathbf \theta)=p(\mathbf x \mid \mathbf \theta)p(\mathbf \theta)$</li>
+<li>含有变量 $\mathbf x$ 的贝叶斯模型 $=$ 含有变量$(\mathbf x, \mathbf \theta)$的概率模型 </li>
+<li>先验可以被参数化，比如$p(\mathbf \theta;\mathbf \alpha)$。参数$\mathbf \alpha$是<em>超参数</em>。</li>
+</ul>
+<h4 id="将图模型表达为统计模型"><a href="#将图模型表达为统计模型" class="headerlink" title="将图模型表达为统计模型"></a>将图模型表达为统计模型</h4><ul>
+<li>有向图模型和无向图模型都是一系列概率分布。例如所有的概率分布$p$都可以因子分解为<br>$$p(\mathbf x) = \prod \limits_i p(x_i|pa_i) \quad or \quad p(\mathbf x) \propto \prod \limits_i \phi_i(\mathcal X_i)$$<br>  因此他们都是统计模型</li>
+<li><p>$p(x_i|pa_i)$和$\phi_i(\mathcal X_i)$的参数族，就对应参数化统计模型<br>$$p(\mathbf x;\mathbf \theta) = \prod \limits_i p(x_i|pa_i;\mathbf \theta) \quad or \quad p(\mathbf x;\mathbf \theta) \propto \prod \limits_i \phi_i(\mathcal X_i;\mathbf \theta)$$</p>
+<p>  其中 $\mathbf \theta = (\mathbf \theta_1,\mathbf \theta_1,\cdots)$。</p>
+</li>
+</ul>
+<h4 id="例子：癌症-石棉-吸烟-cancer-asbestos-smoking"><a href="#例子：癌症-石棉-吸烟-cancer-asbestos-smoking" class="headerlink" title="例子：癌症-石棉-吸烟 (cancer-asbestos-smoking)"></a>例子：癌症-石棉-吸烟 (cancer-asbestos-smoking)</h4><p>待补充</p>
+<h3 id="基本概念：分割函数与未归一化统计模型"><a href="#基本概念：分割函数与未归一化统计模型" class="headerlink" title="基本概念：分割函数与未归一化统计模型"></a>基本概念：分割函数与未归一化统计模型</h3><h4 id="分割函数-partition-function"><a href="#分割函数-partition-function" class="headerlink" title="分割函数(partition function)"></a>分割函数(partition function)</h4><ul>
+<li>概率密度函数和概率质量函数的和为 $1$（定义）</li>
+<li>但是对于参数化吉布斯分布(parametrised Gibbs distributions)<br>$$p(\mathbf x;\mathbf \theta) \propto \prod \limits_i \phi_i(\mathcal X_i;\mathbf \theta)$$<br>  并无法保证积分/总和为 $1$。</li>
+<li>为了概率归一化，使用分割函数$Z(\mathbf \theta)$把未归一化模型$\tilde p(\mathbf x;\mathbf \theta) \propto \prod _i \phi_i(\mathcal X_i;\mathbf \theta)$分割为<br>$$Z(\mathbf \theta) = \int \tilde p(\mathbf x;\mathbf \theta) d \mathbf x \quad or \quad Z(\mathbf \theta) = \sum \limits_{\mathbf x} \tilde p(\mathbf x;\mathbf \theta)$$</li>
+<li>通过设置<br>$$p(\mathbf x;\mathbf \theta) = \frac{\tilde p(\mathbf x;\mathbf \theta)}{Z(\mathbf \theta) }$$<br>  对于所有参数$\mathbf \theta$，概率总和/积分为$1$</li>
+</ul>
+<h4 id="未归一化统计模型"><a href="#未归一化统计模型" class="headerlink" title="未归一化统计模型"></a>未归一化统计模型</h4><ul>
+<li>对于每一个$\{p(\mathbf{x};\mathbf{\theta})\}_{\mathbf{\theta}}$中的元素，都能保证总和/积分为$1$。也就是说，对于所有$\mathbf \theta$<br>$$\int p(\mathbf x;\mathbf \theta) d \mathbf x = 1 \quad or \quad \sum \limits_{\mathbf x} p(\mathbf x;\mathbf \theta) = 1$$<br>  则称这个统计模型是归一化的。否则，这个统计模型是未归一化的。</li>
+<li>一般来说无向图模型是未归一化的，但是可以通过设置<em>分割函数</em>进行归一化处理。</li>
+<li>注意，分割函数可能很难计算，这会导致使用likelihood-based学习时碰到问题。</li>
+</ul>
+<h4 id="从归一化模型中读取分割函数"><a href="#从归一化模型中读取分割函数" class="headerlink" title="从归一化模型中读取分割函数"></a>从归一化模型中读取分割函数</h4><ul>
+<li>考虑未归一化高斯模型$\tilde p(\mathbf x;\mathbf \theta) = \exp(-\frac{1}{2} \mathbf {x}^T\mathbf \Sigma ^{-1} \mathbf {x})$，其中$\mathbf x \in \mathbb R^m$并且$\mathbf \Sigma$ 是对称矩阵。</li>
+<li>参数$\mathbf \theta$是包括对角线在内的$\mathbf \Sigma$的下三角矩阵（或上三角矩阵）。</li>
+<li>分割函数有闭式解(cloed form)<br>$$Z(\mathbf \theta) = |\det 2 \pi \mathbf \Sigma|^{1/2} \quad \quad p(\mathbf x;\mathbf \theta) = \frac{1}{|\det 2 \pi \mathbf \Sigma|^{1/2}} \exp(-\frac{1}{2} \mathbf {x}^T\mathbf \Sigma ^{-1} \mathbf {x})$$</li>
+<li>这同时也说明，我们可以通过反向该过程，从归一化模型$p(\mathbf x;\mathbf \theta)$中读取分割函数，只要分割函数中不存在变量 $\mathbf x$。例如<br>$$p(\mathbf x;\mathbf \theta) \rightarrow p(\mathbf x;\mathbf \theta) = \frac{\tilde p(\mathbf x;\mathbf \theta)}{Z(\mathbf \theta) }$$<br>将分割归一化模型$p(\mathbf x;\mathbf \theta)$ 未归一化模型。</li>
+</ul>
+<h4 id="应用范围限制-The-domain-matters"><a href="#应用范围限制-The-domain-matters" class="headerlink" title="应用范围限制(The domain matters)"></a>应用范围限制(The domain matters)</h4><ul>
+<li>孤岛模型，玻耳兹曼机：$\tilde p(\mathbf x;\mathbf \theta) = \exp(-\frac{1}{2} \mathbf {x}^T\mathbf A \mathbf {x})$，其中$\mathbf x \in \mathbb \{0,1\}^m$，并且$\mathbf A$ 是对称矩阵。参数$\mathbf \theta$是包括对角线在内的$\mathbf \Sigma$的下三角矩阵（或上三角矩阵）。</li>
+<li>和上一小节的区别<ul>
+<li>标记和参数： $\mathbf A$ 和 $\mathbf \Sigma ^{-1}$没有影响</li>
+<li>但是，$\mathbf x \in \mathbb \{0,1\}^m$和$\mathbf x \in \mathbb R^m$对求解有影响</li>
+</ul>
+</li>
+<li>通过求和（而不是积分）定义分割函数<br>$$Z(\mathbf \theta) =  \sum \limits_ {\mathbf x \in \mathbb \{0,1\}^m} \exp(-\frac{1}{2} \mathbf {x}^T\mathbf A \mathbf {x})$$</li>
+<li>不存在$Z(\mathbf \theta)$的解析解。当$m$很大时，计算量非常大。</li>
+</ul>
+<h3 id="基本概念：什么是学习？"><a href="#基本概念：什么是学习？" class="headerlink" title="基本概念：什么是学习？"></a>基本概念：什么是学习？</h3><h4 id="统计模型的学习-——-参数估计"><a href="#统计模型的学习-——-参数估计" class="headerlink" title="统计模型的学习 —— 参数估计"></a>统计模型的学习 —— 参数估计</h4><ul>
+<li>利用数据从一些列概率模型 $\{p(\mathbf{x};\mathbf{\theta})\}_{\mathbf{\theta}}$ 中选一个$p(\mathbf{x};\mathbf{\hat \theta})$:<br>$$ \{p(\mathbf{x};\mathbf{\theta})\}_{\mathbf{\theta}} \overset{data \mathcal D}{\rightarrow} p(\mathbf{x};\mathbf{\hat \theta})$$</li>
+<li>换句话说就是，利用数据，从一堆可能的参数$\mathbf{\theta}$中，选择估计值$\mathbf{\hat \theta}$。</li>
+</ul>
+<h4 id="贝叶斯模型的学习-——-贝叶斯推断"><a href="#贝叶斯模型的学习-——-贝叶斯推断" class="headerlink" title="贝叶斯模型的学习 —— 贝叶斯推断"></a>贝叶斯模型的学习 —— 贝叶斯推断</h4><p>利用数据，确定所每一个可能的参数$\mathbf{\theta}$的合理性，这个合理性通过后验 pdf/pmf 表达。贝叶斯推断并不是从一堆可能的参数$\mathbf{\theta}$中选择一个，而是评估每一个可能的参数$\mathbf{\theta}$。因此，学习贝叶斯模型是一个推断问题，是生成数据的逆向过程，有向图模型如下：</p>
+<center><img src="/assets/pmr/basics_invert_generate.png" width="400px"></center>
+
+<p>给予数据$\mathcal D$，我们需要预测下一个数据$\mathbf x$的值。如果我们通过参数估计的方法，预测分布为$p(\mathbf{x};\mathbf{\hat \theta})$。在贝叶斯推断中，我们进行以下计算<br>$$p(\mathbf x \mid \mathcal D) = \int p(\mathbf x, \mathbf \theta \mid \mathcal D)d \mathbf{\theta} = \int p(\mathbf x \mid \mathbf \theta,  \mathcal D)p(\mathbf \theta,  \mathcal D) \overset{if \quad \mathbf x \perp\mspace{-10mu}\perp \mathcal D \mid \mathbf \theta}{=} \int p(\mathbf x \mid \mathbf \theta)p(\mathbf \theta,  \mathcal D)$$</p>
+<p>这个过程可以理解为使用权重 $p(\mathbf \theta,  \mathcal D)$平均预测$p(\mathbf x \mid \mathbf \theta)$。<br><!-- 如果$\mathbf x \perp\mspace{-10mu}\perp \mathcal D \mid \mathbf \theta$。 --></p>
+<center>有向图模型表达预测分布</center><br><center><img src="/assets/pmr/basics_predictive _distribution.png" width="150px"></center>
+
+
+<h4 id="参数估计的方法"><a href="#参数估计的方法" class="headerlink" title="参数估计的方法"></a>参数估计的方法</h4><p>参数估计的方法有很多，大多数都对应解决一个优化问题。比如，对于目标函数$J$，解决$\mathbf {\hat \theta} = \mathrm{argmax}_{\mathbf \theta} J(\mathbf \theta, \mathcal D)$。这个过程叫M-estimation。这其中</p>
+<ul>
+<li>最大似然估计（maximum likelihood estimation, MLE）有着广泛的运用。</li>
+<li>Moment matching：寻找一个参数设置，使得我们估计的模型给予的moment和从数据重计算得到的moment一致。观测数据的moment也称为empirical moments。</li>
+<li>最大后验估计：寻找$\mathbf \theta$最大化后验值$\mathbf {\hat \theta} = \mathrm{argmax}_{\mathbf \theta}(\mathbf \theta|\mathcal D)$，得到的参数设置就是估计参数$\mathbf \theta$。</li>
+<li>Score maching 也是一种参数估计方法，尤其对于未归一化模型（吉布斯分布, Gibbs distribution）有着很好的特性。</li>
+</ul>
+<h3 id="学习：最大似然估计"><a href="#学习：最大似然估计" class="headerlink" title="学习：最大似然估计"></a>学习：最大似然估计</h3><h4 id="似然函数和最大似然估计"><a href="#似然函数和最大似然估计" class="headerlink" title="似然函数和最大似然估计"></a>似然函数和最大似然估计</h4><h4 id="最大似然估计例子：高斯，伯努利-和-所有随机变量可见并为离散值的有向图模型"><a href="#最大似然估计例子：高斯，伯努利-和-所有随机变量可见并为离散值的有向图模型" class="headerlink" title="最大似然估计例子：高斯，伯努利 和 所有随机变量可见并为离散值的有向图模型"></a>最大似然估计例子：高斯，伯努利 和 所有随机变量可见并为离散值的有向图模型</h4><h4 id="最大似然估计是moment-maching的一种形式"><a href="#最大似然估计是moment-maching的一种形式" class="headerlink" title="最大似然估计是moment maching的一种形式"></a>最大似然估计是moment maching的一种形式</h4><h4 id="似然函数拥有大量信息，不仅仅是可以用于优化的对象。"><a href="#似然函数拥有大量信息，不仅仅是可以用于优化的对象。" class="headerlink" title="似然函数拥有大量信息，不仅仅是可以用于优化的对象。"></a>似然函数拥有大量信息，不仅仅是可以用于优化的对象。</h4><h3 id="学习：贝叶斯推断"><a href="#学习：贝叶斯推断" class="headerlink" title="学习：贝叶斯推断"></a>学习：贝叶斯推断</h3><h4 id="贝叶斯方法把学习简化为概率推断"><a href="#贝叶斯方法把学习简化为概率推断" class="headerlink" title="贝叶斯方法把学习简化为概率推断"></a>贝叶斯方法把学习简化为概率推断</h4><h4 id="后验分布的不同理解"><a href="#后验分布的不同理解" class="headerlink" title="后验分布的不同理解"></a>后验分布的不同理解</h4><h4 id="Conjugate-Prior"><a href="#Conjugate-Prior" class="headerlink" title="Conjugate Prior"></a>Conjugate Prior</h4><h4 id="后验分布例子：高斯，伯努利-和-所有随机变量可见并为离散值的有向图模型"><a href="#后验分布例子：高斯，伯努利-和-所有随机变量可见并为离散值的有向图模型" class="headerlink" title="后验分布例子：高斯，伯努利 和 所有随机变量可见并为离散值的有向图模型"></a>后验分布例子：高斯，伯努利 和 所有随机变量可见并为离散值的有向图模型</h4><center><font size="2" face="Aial" color="#8F8F8F">Modified 20th-May-2018 20:20</font></center>
+
+
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/MLPR/" rel="tag"># MLPR</a>
+          
+            <a href="/tags/PMR/" rel="tag"># PMR</a>
+          
+            <a href="/tags/PGM/" rel="tag"># PGM</a>
+          
+            <a href="/tags/ML/" rel="tag"># ML</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/02/22/2018-02-22 Motivation/" rel="next" title="写在前面">
+                <i class="fa fa-chevron-left"></i> 写在前面
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/12/2018-05-12 RNNG/" rel="prev" title="Recurrent neural network grammars (RNNG)">
+                Recurrent neural network grammars (RNNG) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Xiaoqing Tang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#情况1"><span class="nav-number">1.1.</span> <span class="nav-text">情况1</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#情况2"><span class="nav-number">1.2.</span> <span class="nav-text">情况2</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#情况3（本文涉及）"><span class="nav-number">1.3.</span> <span class="nav-text">情况3（本文涉及）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本概念：数据与分布"><span class="nav-number">2.</span> <span class="nav-text">基本概念：数据与分布</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#观测数据，样本，未知数据的分布"><span class="nav-number">2.1.</span> <span class="nav-text">观测数据，样本，未知数据的分布</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#独立同分布数据-Independent-and-indentically-distributed-iid-data"><span class="nav-number">2.2.</span> <span class="nav-text">独立同分布数据(Independent and indentically distributed (iid) data)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本概念：模型"><span class="nav-number">3.</span> <span class="nav-text">基本概念：模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#利用模型（Model）学习数据"><span class="nav-number">3.1.</span> <span class="nav-text">利用模型（Model）学习数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#概率模型"><span class="nav-number">3.2.</span> <span class="nav-text">概率模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#统计模型"><span class="nav-number">3.3.</span> <span class="nav-text">统计模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#贝叶斯模型"><span class="nav-number">3.4.</span> <span class="nav-text">贝叶斯模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#将图模型表达为统计模型"><span class="nav-number">3.5.</span> <span class="nav-text">将图模型表达为统计模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#例子：癌症-石棉-吸烟-cancer-asbestos-smoking"><span class="nav-number">3.6.</span> <span class="nav-text">例子：癌症-石棉-吸烟 (cancer-asbestos-smoking)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本概念：分割函数与未归一化统计模型"><span class="nav-number">4.</span> <span class="nav-text">基本概念：分割函数与未归一化统计模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#分割函数-partition-function"><span class="nav-number">4.1.</span> <span class="nav-text">分割函数(partition function)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#未归一化统计模型"><span class="nav-number">4.2.</span> <span class="nav-text">未归一化统计模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#从归一化模型中读取分割函数"><span class="nav-number">4.3.</span> <span class="nav-text">从归一化模型中读取分割函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#应用范围限制-The-domain-matters"><span class="nav-number">4.4.</span> <span class="nav-text">应用范围限制(The domain matters)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本概念：什么是学习？"><span class="nav-number">5.</span> <span class="nav-text">基本概念：什么是学习？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#统计模型的学习-——-参数估计"><span class="nav-number">5.1.</span> <span class="nav-text">统计模型的学习 —— 参数估计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#贝叶斯模型的学习-——-贝叶斯推断"><span class="nav-number">5.2.</span> <span class="nav-text">贝叶斯模型的学习 —— 贝叶斯推断</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参数估计的方法"><span class="nav-number">5.3.</span> <span class="nav-text">参数估计的方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#学习：最大似然估计"><span class="nav-number">6.</span> <span class="nav-text">学习：最大似然估计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#似然函数和最大似然估计"><span class="nav-number">6.1.</span> <span class="nav-text">似然函数和最大似然估计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#最大似然估计例子：高斯，伯努利-和-所有随机变量可见并为离散值的有向图模型"><span class="nav-number">6.2.</span> <span class="nav-text">最大似然估计例子：高斯，伯努利 和 所有随机变量可见并为离散值的有向图模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#最大似然估计是moment-maching的一种形式"><span class="nav-number">6.3.</span> <span class="nav-text">最大似然估计是moment maching的一种形式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#似然函数拥有大量信息，不仅仅是可以用于优化的对象。"><span class="nav-number">6.4.</span> <span class="nav-text">似然函数拥有大量信息，不仅仅是可以用于优化的对象。</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#学习：贝叶斯推断"><span class="nav-number">7.</span> <span class="nav-text">学习：贝叶斯推断</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#贝叶斯方法把学习简化为概率推断"><span class="nav-number">7.1.</span> <span class="nav-text">贝叶斯方法把学习简化为概率推断</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#后验分布的不同理解"><span class="nav-number">7.2.</span> <span class="nav-text">后验分布的不同理解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Conjugate-Prior"><span class="nav-number">7.3.</span> <span class="nav-text">Conjugate Prior</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#后验分布例子：高斯，伯努利-和-所有随机变量可见并为离散值的有向图模型"><span class="nav-number">7.4.</span> <span class="nav-text">后验分布例子：高斯，伯努利 和 所有随机变量可见并为离散值的有向图模型</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Xiaoqing Tang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
