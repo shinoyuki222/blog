@@ -94,7 +94,7 @@
 <meta property="og:image" content="http://yoursite.com/assets/pmr/basics_invert_generate.png">
 <meta property="og:image" content="http://yoursite.com/assets/pmr/basics_predictive%20_distribution.png">
 <meta property="og:image" content="http://yoursite.com/assets/pmr/basics_MLE_eg.png">
-<meta property="og:updated_time" content="2018-06-02T12:37:04.770Z">
+<meta property="og:updated_time" content="2018-06-02T12:42:36.723Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="基于模型学习的基本概念 Basics of Model-based Learning">
 <meta name="twitter:description" content="本文主要内容：如何从观测样本学习模型（参数）/分布  理解观测数据，样本，未知分布之间的关系。 三种模型(Model)概念和实例：概率模型(Probabilistic model)，统计模型(Statistical Model)和贝叶斯模型(Bayesian Model)。 两种学习方法的概念，区别和实例：最大似然估计(MLE, Maximum Likelihood estimation)和贝叶斯">
@@ -410,7 +410,7 @@
 <h4 id="统计模型"><a href="#统计模型" class="headerlink" title="统计模型"></a>统计模型</h4><ul>
 <li><p>用参数替换上述概率模型的具体数字，我们就能得到（参数化）的统计模型<br>$$<br>\begin{eqnarray}<br>p_x(1)&amp;=&amp;\theta_1\\<br>p_{y|x}(1\mid1)&amp;=&amp;\theta_2\\<br>p_{y|x}(0\mid0)&amp;=&amp;\theta_3<br>\end{eqnarray}<br>$$</p>
 </li>
-<li><p>对于每一个$\theta_i$的值，符合不同的概率质量函数（pmf），概率质量函数(pmf)和参数之间的依存关系如下表示：<br>$$<br>c<br>p(x=1; \theta_1)&amp;=&amp;\theta_1\\<br>p(y=1 \mid x=1; \theta_2)&amp;=&amp;\theta_2\\<br>p(y=0 \mid x=0; \theta_3)&amp;=&amp;\theta_3<br>\end{eqnarray}<br>$$<br>或者可以表达为$p(x,y;\mathbf {\theta})$，其中 $\mathbf {\theta} = (\theta_1, \theta_2, \theta_3)$ 是参数向量</p>
+<li><p>对于每一个$\theta_i$的值，符合不同的概率质量函数（pmf），概率质量函数(pmf)和参数之间的依存关系如下表示：<br>$$<br>\begin{eqnarray}<br>p(x=1; \theta_1)&amp;=&amp;\theta_1\\<br>p(y=1 \mid x=1; \theta_2)&amp;=&amp;\theta_2\\<br>p(y=0 \mid x=0; \theta_3)&amp;=&amp;\theta_3<br>\end{eqnarray}<br>$$<br>或者可以表达为$p(x,y;\mathbf {\theta})$，其中 $\mathbf {\theta} = (\theta_1, \theta_2, \theta_3)$ 是参数向量</p>
 </li>
 <li><p>统计模型对应一系列通过参数索引的概率模型（indexed by the parameters): $\{p(\mathbf{x};\mathbf{\theta})\}_{\mathbf{\theta}}$</p>
 </li>
