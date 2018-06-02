@@ -83,7 +83,7 @@
 <meta name="keywords" content="MLPR,PMR,PGM,ML">
 <meta property="og:type" content="article">
 <meta property="og:title" content="基于模型学习的基本概念 Basics of Model-based Learning">
-<meta property="og:url" content="http://yoursite.com/2018/05/09/2018-05-19 Basics of model-based learning/index.html">
+<meta property="og:url" content="http://yoursite.com/2018/06/09/2018-05-19 Basics of model-based learning/index.html">
 <meta property="og:site_name" content="Shinoyuki">
 <meta property="og:description" content="本文主要内容：如何从观测样本学习模型（参数）/分布  理解观测数据，样本，未知分布之间的关系。 三种模型(Model)概念和实例：概率模型(Probabilistic model)，统计模型(Statistical Model)和贝叶斯模型(Bayesian Model)。 两种学习方法的概念，区别和实例：最大似然估计(MLE, Maximum Likelihood estimation)和贝叶斯">
 <meta property="og:locale" content="zh-Hans">
@@ -93,7 +93,8 @@
 <meta property="og:image" content="http://yoursite.com/assets/pmr/basics_model_data.png">
 <meta property="og:image" content="http://yoursite.com/assets/pmr/basics_invert_generate.png">
 <meta property="og:image" content="http://yoursite.com/assets/pmr/basics_predictive%20_distribution.png">
-<meta property="og:updated_time" content="2018-05-20T18:40:07.715Z">
+<meta property="og:image" content="http://yoursite.com/assets/pmr/basics_MLE_eg.png">
+<meta property="og:updated_time" content="2018-06-02T12:37:04.770Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="基于模型学习的基本概念 Basics of Model-based Learning">
 <meta name="twitter:description" content="本文主要内容：如何从观测样本学习模型（参数）/分布  理解观测数据，样本，未知分布之间的关系。 三种模型(Model)概念和实例：概率模型(Probabilistic model)，统计模型(Statistical Model)和贝叶斯模型(Bayesian Model)。 两种学习方法的概念，区别和实例：最大似然估计(MLE, Maximum Likelihood estimation)和贝叶斯">
@@ -127,7 +128,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/05/09/2018-05-19 Basics of model-based learning/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/06/09/2018-05-19 Basics of model-based learning/"/>
 
 
 
@@ -240,7 +241,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/09/2018-05-19 Basics of model-based learning/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/09/2018-05-19 Basics of model-based learning/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Xiaoqing Tang">
@@ -269,8 +270,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-09T00:00:00+01:00">
-                2018-05-09
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-09T00:00:00+01:00">
+                2018-06-09
               </time>
             
 
@@ -409,7 +410,7 @@
 <h4 id="统计模型"><a href="#统计模型" class="headerlink" title="统计模型"></a>统计模型</h4><ul>
 <li><p>用参数替换上述概率模型的具体数字，我们就能得到（参数化）的统计模型<br>$$<br>\begin{eqnarray}<br>p_x(1)&amp;=&amp;\theta_1\\<br>p_{y|x}(1\mid1)&amp;=&amp;\theta_2\\<br>p_{y|x}(0\mid0)&amp;=&amp;\theta_3<br>\end{eqnarray}<br>$$</p>
 </li>
-<li><p>对于每一个$\theta_i$的值，符合不同的概率质量函数（pmf），概率质量函数(pmf)和参数之间的依存关系如下表示：<br>$$<br>\begin{eqnarray}<br>p(x=1; \theta_1)&amp;=&amp;\theta_1\\<br>p(y=1 \mid x=1; \theta_2)&amp;=&amp;\theta_2\\<br>p(y=0 \mid x=0; \theta_3)&amp;=&amp;\theta_3<br>\end{eqnarray}<br>$$<br>或者可以表达为$p(x,y;\mathbf {\theta})$，其中 $\mathbf {\theta} = (\theta_1, \theta_2, \theta_3)$ 是参数向量</p>
+<li><p>对于每一个$\theta_i$的值，符合不同的概率质量函数（pmf），概率质量函数(pmf)和参数之间的依存关系如下表示：<br>$$<br>c<br>p(x=1; \theta_1)&amp;=&amp;\theta_1\\<br>p(y=1 \mid x=1; \theta_2)&amp;=&amp;\theta_2\\<br>p(y=0 \mid x=0; \theta_3)&amp;=&amp;\theta_3<br>\end{eqnarray}<br>$$<br>或者可以表达为$p(x,y;\mathbf {\theta})$，其中 $\mathbf {\theta} = (\theta_1, \theta_2, \theta_3)$ 是参数向量</p>
 </li>
 <li><p>统计模型对应一系列通过参数索引的概率模型（indexed by the parameters): $\{p(\mathbf{x};\mathbf{\theta})\}_{\mathbf{\theta}}$</p>
 </li>
@@ -427,7 +428,7 @@
 <p>  其中 $\mathbf \theta = (\mathbf \theta_1,\mathbf \theta_1,\cdots)$。</p>
 </li>
 </ul>
-<h4 id="例子：癌症-石棉-吸烟-cancer-asbestos-smoking"><a href="#例子：癌症-石棉-吸烟-cancer-asbestos-smoking" class="headerlink" title="例子：癌症-石棉-吸烟 (cancer-asbestos-smoking)"></a>例子：癌症-石棉-吸烟 (cancer-asbestos-smoking)</h4><p>待补充</p>
+<h4 id="例子：癌症-石棉-吸烟-cancer-asbestos-smoking"><a href="#例子：癌症-石棉-吸烟-cancer-asbestos-smoking" class="headerlink" title="例子：癌症-石棉-吸烟 (cancer-asbestos-smoking)"></a><span id="back_eg_cas">例子：癌症-石棉-吸烟 (cancer-asbestos-smoking)</span></h4><p><a href="#eg_cas" target="_self">见附件</a></p>
 <h3 id="基本概念：分割函数与未归一化统计模型"><a href="#基本概念：分割函数与未归一化统计模型" class="headerlink" title="基本概念：分割函数与未归一化统计模型"></a>基本概念：分割函数与未归一化统计模型</h3><h4 id="分割函数-partition-function"><a href="#分割函数-partition-function" class="headerlink" title="分割函数(partition function)"></a>分割函数(partition function)</h4><ul>
 <li>概率密度函数和概率质量函数的和为 $1$（定义）</li>
 <li>但是对于参数化吉布斯分布(parametrised Gibbs distributions)<br>$$p(\mathbf x;\mathbf \theta) \propto \prod \limits_i \phi_i(\mathcal X_i;\mathbf \theta)$$<br>  并无法保证积分/总和为 $1$。</li>
@@ -462,7 +463,7 @@
 <h4 id="贝叶斯模型的学习-——-贝叶斯推断"><a href="#贝叶斯模型的学习-——-贝叶斯推断" class="headerlink" title="贝叶斯模型的学习 —— 贝叶斯推断"></a>贝叶斯模型的学习 —— 贝叶斯推断</h4><p>利用数据，确定所每一个可能的参数$\mathbf{\theta}$的合理性，这个合理性通过后验 pdf/pmf 表达。贝叶斯推断并不是从一堆可能的参数$\mathbf{\theta}$中选择一个，而是评估每一个可能的参数$\mathbf{\theta}$。因此，学习贝叶斯模型是一个推断问题，是生成数据的逆向过程，有向图模型如下：</p>
 <center><img src="/assets/pmr/basics_invert_generate.png" width="400px"></center>
 
-<p>给予数据$\mathcal D$，我们需要预测下一个数据$\mathbf x$的值。如果我们通过参数估计的方法，预测分布为$p(\mathbf{x};\mathbf{\hat \theta})$。在贝叶斯推断中，我们进行以下计算<br>$$p(\mathbf x \mid \mathcal D) = \int p(\mathbf x, \mathbf \theta \mid \mathcal D)d \mathbf{\theta} = \int p(\mathbf x \mid \mathbf \theta,  \mathcal D)p(\mathbf \theta,  \mathcal D) \overset{if \quad \mathbf x \perp\mspace{-10mu}\perp \mathcal D \mid \mathbf \theta}{=} \int p(\mathbf x \mid \mathbf \theta)p(\mathbf \theta,  \mathcal D)$$</p>
+<p>给予数据$\mathcal D$，我们需要预测下一个数据$\mathbf x$的值。如果我们通过参数估计的方法，预测分布为$p(\mathbf{x};\mathbf{\hat \theta})$。在贝叶斯推断中，我们进行以下计算<br>$$p(\mathbf x \mid \mathcal D) = \int p(\mathbf x, \mathbf \theta \mid \mathcal D)d \mathbf{\theta} = \int p(\mathbf x \mid \mathbf \theta,  \mathcal D)p(\mathbf \theta \mid \mathcal D) \quad \overset{\mathrm{if}  \mathbf x \perp\mspace{-10mu}\perp \mathcal D \mid \mathbf \theta}{=} \quad \int p(\mathbf x \mid \mathbf \theta)p(\mathbf \theta,  \mathcal D)$$</p>
 <p>这个过程可以理解为使用权重 $p(\mathbf \theta,  \mathcal D)$平均预测$p(\mathbf x \mid \mathbf \theta)$。<br><!-- 如果$\mathbf x \perp\mspace{-10mu}\perp \mathcal D \mid \mathbf \theta$。 --></p>
 <center>有向图模型表达预测分布</center><br><center><img src="/assets/pmr/basics_predictive _distribution.png" width="150px"></center>
 
@@ -474,7 +475,69 @@
 <li>最大后验估计：寻找$\mathbf \theta$最大化后验值$\mathbf {\hat \theta} = \mathrm{argmax}_{\mathbf \theta}(\mathbf \theta|\mathcal D)$，得到的参数设置就是估计参数$\mathbf \theta$。</li>
 <li>Score maching 也是一种参数估计方法，尤其对于未归一化模型（吉布斯分布, Gibbs distribution）有着很好的特性。</li>
 </ul>
-<h3 id="学习：最大似然估计"><a href="#学习：最大似然估计" class="headerlink" title="学习：最大似然估计"></a>学习：最大似然估计</h3><h4 id="似然函数和最大似然估计"><a href="#似然函数和最大似然估计" class="headerlink" title="似然函数和最大似然估计"></a>似然函数和最大似然估计</h4><h4 id="最大似然估计例子：高斯，伯努利-和-所有随机变量可见并为离散值的有向图模型"><a href="#最大似然估计例子：高斯，伯努利-和-所有随机变量可见并为离散值的有向图模型" class="headerlink" title="最大似然估计例子：高斯，伯努利 和 所有随机变量可见并为离散值的有向图模型"></a>最大似然估计例子：高斯，伯努利 和 所有随机变量可见并为离散值的有向图模型</h4><h4 id="最大似然估计是moment-maching的一种形式"><a href="#最大似然估计是moment-maching的一种形式" class="headerlink" title="最大似然估计是moment maching的一种形式"></a>最大似然估计是moment maching的一种形式</h4><h4 id="似然函数拥有大量信息，不仅仅是可以用于优化的对象。"><a href="#似然函数拥有大量信息，不仅仅是可以用于优化的对象。" class="headerlink" title="似然函数拥有大量信息，不仅仅是可以用于优化的对象。"></a>似然函数拥有大量信息，不仅仅是可以用于优化的对象。</h4><h3 id="学习：贝叶斯推断"><a href="#学习：贝叶斯推断" class="headerlink" title="学习：贝叶斯推断"></a>学习：贝叶斯推断</h3><h4 id="贝叶斯方法把学习简化为概率推断"><a href="#贝叶斯方法把学习简化为概率推断" class="headerlink" title="贝叶斯方法把学习简化为概率推断"></a>贝叶斯方法把学习简化为概率推断</h4><h4 id="后验分布的不同理解"><a href="#后验分布的不同理解" class="headerlink" title="后验分布的不同理解"></a>后验分布的不同理解</h4><h4 id="Conjugate-Prior"><a href="#Conjugate-Prior" class="headerlink" title="Conjugate Prior"></a>Conjugate Prior</h4><h4 id="后验分布例子：高斯，伯努利-和-所有随机变量可见并为离散值的有向图模型"><a href="#后验分布例子：高斯，伯努利-和-所有随机变量可见并为离散值的有向图模型" class="headerlink" title="后验分布例子：高斯，伯努利 和 所有随机变量可见并为离散值的有向图模型"></a>后验分布例子：高斯，伯努利 和 所有随机变量可见并为离散值的有向图模型</h4><center><font size="2" face="Aial" color="#8F8F8F">Modified 20th-May-2018 20:20</font></center>
+<h3 id="学习：最大似然估计"><a href="#学习：最大似然估计" class="headerlink" title="学习：最大似然估计"></a>学习：最大似然估计</h3><h4 id="似然函数-L-mathbf-theta"><a href="#似然函数-L-mathbf-theta" class="headerlink" title="似然函数 $L(\mathbf \theta)$"></a>似然函数 $L(\mathbf \theta)$</h4><p>似然函数测量参数$\mathbf \theta$和观测数据$\mathcal D$一致性。换句话说，似然函数给出采样$\mathbf \theta$所确定的模型得到的数据和观测数据$\mathcal D$一致的可能性。离散随机变量，计算数据匹配(exace match)；对于连续随机变量，计算小邻域。数学上，对于似然函数的定义为<br>$$L(\mathbf \theta) = p(\mathcal D; \mathbf \theta)$$<br>其中 $p(\mathcal D; \mathbf \theta)$ 是参数化模型的概率密度函数/概率质量函数(pdf/pmf)。</p>
+<ul>
+<li>似然函数暗示了参数值的似然（可能性），未不是数据的可能性。</li>
+<li>对于iid 数据(独立同分布数据) $\mathbf x_i, \cdots, \mathbf x_n$<br>$$L(\mathbf \theta) = \prod \limits _{i=1}^n p(\mathbf x_i;\mathbf \theta)$$</li>
+<li>对数似然函数$\ell (\mathbf \theta) = \log L(\mathbf \theta)$, 对于iid 数据。<br>$$\ell(\mathbf \theta) = \sum \limits_ {i=1}^n \log p(\mathbf x_i;\mathbf \theta)$$</li>
+</ul>
+<h4 id="最大似然估计"><a href="#最大似然估计" class="headerlink" title="最大似然估计"></a>最大似然估计</h4><p>最大似然估计的数学表达为<br>$$\mathbf{\hat \theta} = \mathrm{argmax}_{\mathbf \theta} \ell (\mathbf \theta) = \mathrm{argmax}_{\mathbf \theta} L (\mathbf \theta)$$<br>解决这个优化问题需要数值法计算，并且我们只能找到局部最优解（即便是次优解也相当有用）。在一些比较简单的情况下，闭式解是可能的。</p>
+<h4 id="最大似然估计例子：高斯，伯努利-和-所有随机变量可见并为离散值的有向图模型"><a href="#最大似然估计例子：高斯，伯努利-和-所有随机变量可见并为离散值的有向图模型" class="headerlink" title="最大似然估计例子：高斯，伯努利 和 所有随机变量可见并为离散值的有向图模型"></a><span id="back_eg_mle">最大似然估计例子：高斯，伯努利 和 所有随机变量可见并为离散值的有向图模型</span></h4><p>正文中只列举结论，具体步骤见<a href="#eg_mle" target="_self">附件</a></p>
+<ul>
+<li>高斯分布的极最大似然估计为<br>$$\hat \mu = \frac{1}{n}\sum \limits _{i=1}^n x_i \quad \quad \hat \sigma ^2 = \frac{1}{n} \sum \limits _{i=1}^n(x_i-\hat \mu)^2$$<br>其中$\hat \mu$和$\hat \sigma ^2$分别为高斯分布的参数——均值和方差的估计值，$n$为样本空间，$x_i$为某一个样本。</li>
+<li><p>伯努利分布的最大似然估计为<br>$$\hat \theta = \frac{n_{x=1}}{n}$$<br>其中$\hat \theta$是伯努利分布参数($Pr(x = 1)= \theta$)的估计值,$n_{x=1}$是样本中$x=1$的样本数，$n$为样本空间。</p>
+<p>因此，伯努利分布参数的最大似然估计值就是，观测样本中为1的样本的比例。</p>
+</li>
+<li><p>所有随机变量可见并为离散值的有向图模型——癌症-石棉-吸烟 (cancer-asbestos-smoking)</p>
+<p>随机变量 $a$, $s$是伯努利分布，同上计算，对于条件概率$p(c|a,s)$的参数<br>$$\hat p (c =1 \mid a=0, s = 0) = \hat \theta_c^1 = \frac{\sum_{i=1}^n \mathbb{I} (c_i = 1, a_i = 0, s_i = 0)}{\sum_{i=1}^n \mathbb {I} (a_i = 0, s_i = 0)}$$</p>
+<p>$\mathbb{I}(\cdot)$是指示函数。</p>
+</li>
+</ul>
+<h4 id="最大似然估计是moment-maching的一种形式"><a href="#最大似然估计是moment-maching的一种形式" class="headerlink" title="最大似然估计是moment maching的一种形式"></a>最大似然估计是moment maching的一种形式</h4><ul>
+<li>$\mathbf \theta$ 的似然:指从$\mathbf \theta$决定的模型采样获得的数据与观测数据$\mathcal D$之间的的相似的概率</li>
+<li>最大似然估计(MLE)：得到的参数设置，使得模型生成$\mathcal D$的概率值最大。</li>
+<li>从另外一个角度看： 在某一个模型下的参数设置计算的moments和观测数据的empirical moments一致</li>
+<li><p>数学解释：<br>$$p(\mathbf x;\mathbf \theta)=\frac{\tilde p (\mathbf x;\mathbf \theta)}{Z(\mathbf \theta)}$$</p>
+<p>  MLE的$\hat{\mathbf \theta}$满足:<br>$$\int \mathbf m (\mathbf x;\hat{\mathbf \theta}) p (\mathbf x;\hat{\mathbf \theta}) d \mathbf x = \frac{1}{n}\sum \limits _{i=1}^n \mathbf m (\mathbf x_i;\hat{\mathbf \theta})$$</p>
+<p>  其中 “moments” $\mathbf m (\mathbf x;{\mathbf \theta})$是<br>$$\mathbf m (\mathbf x;{\mathbf \theta}) = \nabla_{\mathbf \theta} \log \tilde p (\mathbf x;\mathbf \theta)$$</p>
+</li>
+<li><p>证明<br>MLE的必要条件是满足：$\nabla_{\mathbf \theta}\ell(\mathbf \theta)|_{\hat {\mathbf \theta}}$<br>将对数似然函数的梯度写作：<br>$$<br>\begin{eqnarray}<br>\nabla_{\mathbf \theta}\ell(\mathbf \theta) &amp;=&amp; \nabla_{\mathbf \theta} \sum \limits _{i=1}^n\log p(\mathbf x_i;\mathbf \theta)<br>= \nabla_{\mathbf \theta} \sum \limits _{i=1}^n\log \frac{\tilde p (\mathbf x_i;\mathbf \theta)}{Z(\mathbf \theta)}\\<br>&amp;=&amp; \nabla_{\mathbf \theta} \sum \limits _{i=1}^n\log \tilde p (\mathbf x_i;\mathbf \theta) - \nabla_{\mathbf \theta}\log n Z(\mathbf \theta)\\<br>&amp;=&amp; \sum \limits _{i=1}^n \nabla_{\mathbf \theta} \log \tilde p (\mathbf x_i;\mathbf \theta) - n \nabla_{\mathbf \theta} \log  Z(\mathbf \theta)\\<br>&amp;=&amp; \sum \limits _{i=1}^n \mathbf m(\mathbf x_i;\mathbf \theta) - n \nabla_{\mathbf \theta} \log  Z(\mathbf \theta)<br>\end{eqnarray}<br>$$<br>其中梯度$\nabla_{\mathbf \theta} \log  Z(\mathbf \theta)$为:<br>$$<br>\begin{eqnarray}<br>\nabla_{\mathbf \theta} \log  Z(\mathbf \theta) = \frac{1}{Z(\mathbf \theta)}\nabla_{\mathbf \theta}Z(\mathbf \theta)<br>= \frac{1}{Z(\mathbf \theta)} \nabla_{\mathbf \theta} \int \tilde p (\mathbf x;\mathbf \theta) d \mathbf x<br>= \frac{  \int \nabla_{\mathbf \theta} \tilde p (\mathbf x;\mathbf \theta) d \mathbf x}{Z(\mathbf \theta) }<br>\end{eqnarray}<br>$$<br>由于$(\log f (x))’ = \frac{f’(x)}{f(x)}$，得出$f’(x) = (\log f (x))’ f(x)$, 可以将上式写作：</p>
+</li>
+</ul>
+<p>$$<br>\begin{eqnarray}<br>\nabla_{\mathbf \theta} \log  Z(\mathbf \theta) &amp;=&amp; \frac{  \int \nabla_{\mathbf \theta} [\log \tilde p (\mathbf x;\mathbf \theta)] \tilde p (\mathbf x;\mathbf \theta) d \mathbf x}{Z(\mathbf \theta) } \\<br>&amp;=&amp; \int \nabla_{\mathbf \theta} [\log \tilde p (\mathbf x;\mathbf \theta)] p (\mathbf x;\mathbf \theta) d \mathbf x\\<br>&amp;=&amp; \int \mathbf m (\mathbf x;{\mathbf \theta}) p (\mathbf x;{\mathbf \theta}) d \mathbf x<br>\end{eqnarray}<br>$$</p>
+<p>因此对数似然函数$\ell(\mathbf \theta)$的梯度:<br>$$<br>\begin{eqnarray}<br>\nabla_{\mathbf \theta}\ell(\mathbf \theta) = \sum \limits _{i=1}^n \mathbf m(\mathbf x_i;\mathbf \theta) - n \int \mathbf m (\mathbf x;{\mathbf \theta}) p (\mathbf x;{\mathbf \theta}) d \mathbf x<br>\end{eqnarray}<br>$$</p>
+<p>根据必要条件: MLE的参数$\hat{\mathbf \theta}$使得梯度为0，得到结果<br>$$<br>\begin{eqnarray}<br>\sum \limits _{i=1}^n \mathbf m(\mathbf x_i; \hat{\mathbf \theta}) - n \int \mathbf m (\mathbf x;\hat {\mathbf \theta}) p (\mathbf x;\hat {\mathbf \theta}) d \mathbf x = 0<br>\end{eqnarray}<br>$$<br>推出<br>$$<br>\int \mathbf m (\mathbf x;\hat{\mathbf \theta}) p (\mathbf x;\hat{\mathbf \theta}) d \mathbf x = \frac{1}{n}\sum \limits _{i=1}^n \mathbf m (\mathbf x_i;\hat{\mathbf \theta})<br>$$</p>
+<h4 id="如何评价和理解最大似然估计？"><a href="#如何评价和理解最大似然估计？" class="headerlink" title="如何评价和理解最大似然估计？"></a>如何评价和理解最大似然估计？</h4><ul>
+<li><p>最大似然估计忽略了数据中存在的信息</p>
+<p>例如：伯努利模型的观测数据$\mathcal D = （0，0，0，0，0，0，0，1，1，1，\cdots）$的参数值为$\frac{1}{3}$似然函数为<br>图(a),(b),(c)分别为2，5，10个观测数据时的似然函数</p>
+<center><img src="/assets/pmr/basics_MLE_eg.png" width="1000px"></center>
+</li>
+<li><p>似然函数拥有大量信息，不仅仅是可以用于优化的对象。</p>
+<p>我们在求解最大似然函数估计时，仅仅考虑了一个最大值，并未考虑整个（对数）似然函数的形态，事实上</p>
+<ul>
+<li>如果似然函数有非常强的曲度，最大似然估计是合理的</li>
+<li>如果似然函数趋近于平滑，取函数上的其他值（其他相近参数），也可以得到相似结果 （与观测值的匹配度相近）</li>
+</ul>
+</li>
+</ul>
+<h3 id="学习：贝叶斯推断"><a href="#学习：贝叶斯推断" class="headerlink" title="学习：贝叶斯推断"></a>学习：贝叶斯推断</h3><p>$$ p(\mathbf{x}|\mathbf{\theta}) \overset{data \mathcal D}{\rightarrow} p(\mathbf{\theta};\mathcal{D})$$</p>
+<h4 id="贝叶斯方法把学习简化为概率推断"><a href="#贝叶斯方法把学习简化为概率推断" class="headerlink" title="贝叶斯方法把学习简化为概率推断"></a>贝叶斯方法把学习简化为概率推断</h4><ul>
+<li>利用观测数据决定确定所每一个可能的参数$\mathbf \theta$的合理性，这个合理性通过后验 pdf/pmf 表达，学习和推断在这样的表达下是一致的。</li>
+<li>在某些情况下有闭式解(例如Conjugate Prior)；某些情况下，可以使用准确推断(exact inference)方法。</li>
+<li>如果没有闭式解，准确推断的计算量庞大，我们可以使用估计推断(approximate inference)，比如 采样（sampling）和 变分（variational methods）。</li>
+</ul>
+<h4 id="后验分布的不同理解"><a href="#后验分布的不同理解" class="headerlink" title="后验分布的不同理解"></a>后验分布的不同理解</h4><ul>
+<li><p>后验分布结合了似然函数和先验<br>贝叶斯推断考虑了整个似然函数<br>$$<br>\begin{eqnarray}<br>p(\mathbf{\theta}|\mathcal{D}) = \frac{p(\mathbf{\theta},\mathcal{D}) }{p(\mathcal{D})}<br>= \frac{p(\mathcal{D}|\mathbf{\theta}) p(\mathbf{\theta})}{p(\mathcal{D})}<br>\propto p(\mathcal{D}|\mathbf{\theta}) p(\mathbf{\theta})<br>\propto L(\mathbf{\theta})p(\mathbf{\theta})<br>\end{eqnarray}<br>$$<br>  对于iid数据$\mathcal D = (\mathbf x_1,\cdots, \mathbf x_n)$<br>$$<br>p(\mathbf{\theta}|\mathcal{D}) \propto \Big{[} \prod \limits _{i=1}^n p(\mathbf x_i|\mathbf{\theta}) \Big{]}p(\mathbf{\theta})<br>$$<br>  $n$很大的时候，似然函数占据主导位置：$\mathrm{argmax}_{\mathbf \theta}p(\mathbf \theta| \mathcal D) \approx \mathrm{MLE}$ (假设先验分布非零)</p>
+</li>
+<li><p>后验分布是一个条件分布<br>考虑离散值数据</p>
+</li>
+</ul>
+<p>$$p(\mathbf \theta | \mathcal D) = p(\mathbf \theta | \mathbf x = \mathcal D) = \frac{p(\mathbf \theta , \mathbf x = \mathcal D)}{p(\mathcal D)}$$</p>
+<h4 id="Conjugate-Prior"><a href="#Conjugate-Prior" class="headerlink" title="Conjugate Prior"></a>Conjugate Prior</h4><h4 id="后验分布例子：高斯，伯努利-和-所有随机变量可见并为离散值的有向图模型"><a href="#后验分布例子：高斯，伯努利-和-所有随机变量可见并为离散值的有向图模型" class="headerlink" title="后验分布例子：高斯，伯努利 和 所有随机变量可见并为离散值的有向图模型"></a><span id="back_eg_pst">后验分布例子：高斯，伯努利 和 所有随机变量可见并为离散值的有向图模型</span></h4><p><a href="#eg_pst" target="_self">见附件</a></p>
+<h3 id="附件"><a href="#附件" class="headerlink" title="附件"></a>附件</h3><h4 id="例子：癌症-石棉-吸烟-cancer-asbestos-smoking-1"><a href="#例子：癌症-石棉-吸烟-cancer-asbestos-smoking-1" class="headerlink" title="例子：癌症-石棉-吸烟 (cancer-asbestos-smoking)"></a><span id="eg_cas">例子：癌症-石棉-吸烟 (cancer-asbestos-smoking)</span></h4><p><a href="#back_eg_cas" target="_self">返回原文</a></p>
+<h4 id="例子：最大似然估计"><a href="#例子：最大似然估计" class="headerlink" title="例子：最大似然估计"></a><span id="eg_mle">例子：最大似然估计</span></h4><p><a href="#back_eg_mle" target="_self">返回原文</a></p>
+<h4 id="例子：贝叶斯推断，后验分布"><a href="#例子：贝叶斯推断，后验分布" class="headerlink" title="例子：贝叶斯推断，后验分布"></a><span id="eg_pst">例子：贝叶斯推断，后验分布</span></h4><p><a href="#back_eg_pst" target="_self">返回原文</a></p>
+<center><font size="2" face="Aial" color="#8F8F8F">Modified 02th-Jun-2018 20:20</font></center>
 
 
 
@@ -513,8 +576,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/02/22/2018-02-22 Motivation/" rel="next" title="写在前面">
-                <i class="fa fa-chevron-left"></i> 写在前面
+              <a href="/2018/05/18/2018-05-18 Dependency Parsing/" rel="next" title="Dependency Parsing">
+                <i class="fa fa-chevron-left"></i> Dependency Parsing
               </a>
             
           </div>
@@ -523,8 +586,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/05/12/2018-05-12 RNNG/" rel="prev" title="Recurrent neural network grammars (RNNG)">
-                Recurrent neural network grammars (RNNG) <i class="fa fa-chevron-right"></i>
+              <a href="/2018/06/13/2018-05-05 Sampling/" rel="prev" title="Sampling and Monte Carlo Integration">
+                Sampling and Monte Carlo Integration <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -657,7 +720,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#情况1"><span class="nav-number">1.1.</span> <span class="nav-text">情况1</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#情况2"><span class="nav-number">1.2.</span> <span class="nav-text">情况2</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#情况3（本文涉及）"><span class="nav-number">1.3.</span> <span class="nav-text">情况3（本文涉及）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本概念：数据与分布"><span class="nav-number">2.</span> <span class="nav-text">基本概念：数据与分布</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#观测数据，样本，未知数据的分布"><span class="nav-number">2.1.</span> <span class="nav-text">观测数据，样本，未知数据的分布</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#独立同分布数据-Independent-and-indentically-distributed-iid-data"><span class="nav-number">2.2.</span> <span class="nav-text">独立同分布数据(Independent and indentically distributed (iid) data)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本概念：模型"><span class="nav-number">3.</span> <span class="nav-text">基本概念：模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#利用模型（Model）学习数据"><span class="nav-number">3.1.</span> <span class="nav-text">利用模型（Model）学习数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#概率模型"><span class="nav-number">3.2.</span> <span class="nav-text">概率模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#统计模型"><span class="nav-number">3.3.</span> <span class="nav-text">统计模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#贝叶斯模型"><span class="nav-number">3.4.</span> <span class="nav-text">贝叶斯模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#将图模型表达为统计模型"><span class="nav-number">3.5.</span> <span class="nav-text">将图模型表达为统计模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#例子：癌症-石棉-吸烟-cancer-asbestos-smoking"><span class="nav-number">3.6.</span> <span class="nav-text">例子：癌症-石棉-吸烟 (cancer-asbestos-smoking)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本概念：分割函数与未归一化统计模型"><span class="nav-number">4.</span> <span class="nav-text">基本概念：分割函数与未归一化统计模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#分割函数-partition-function"><span class="nav-number">4.1.</span> <span class="nav-text">分割函数(partition function)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#未归一化统计模型"><span class="nav-number">4.2.</span> <span class="nav-text">未归一化统计模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#从归一化模型中读取分割函数"><span class="nav-number">4.3.</span> <span class="nav-text">从归一化模型中读取分割函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#应用范围限制-The-domain-matters"><span class="nav-number">4.4.</span> <span class="nav-text">应用范围限制(The domain matters)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本概念：什么是学习？"><span class="nav-number">5.</span> <span class="nav-text">基本概念：什么是学习？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#统计模型的学习-——-参数估计"><span class="nav-number">5.1.</span> <span class="nav-text">统计模型的学习 —— 参数估计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#贝叶斯模型的学习-——-贝叶斯推断"><span class="nav-number">5.2.</span> <span class="nav-text">贝叶斯模型的学习 —— 贝叶斯推断</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参数估计的方法"><span class="nav-number">5.3.</span> <span class="nav-text">参数估计的方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#学习：最大似然估计"><span class="nav-number">6.</span> <span class="nav-text">学习：最大似然估计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#似然函数和最大似然估计"><span class="nav-number">6.1.</span> <span class="nav-text">似然函数和最大似然估计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#最大似然估计例子：高斯，伯努利-和-所有随机变量可见并为离散值的有向图模型"><span class="nav-number">6.2.</span> <span class="nav-text">最大似然估计例子：高斯，伯努利 和 所有随机变量可见并为离散值的有向图模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#最大似然估计是moment-maching的一种形式"><span class="nav-number">6.3.</span> <span class="nav-text">最大似然估计是moment maching的一种形式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#似然函数拥有大量信息，不仅仅是可以用于优化的对象。"><span class="nav-number">6.4.</span> <span class="nav-text">似然函数拥有大量信息，不仅仅是可以用于优化的对象。</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#学习：贝叶斯推断"><span class="nav-number">7.</span> <span class="nav-text">学习：贝叶斯推断</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#贝叶斯方法把学习简化为概率推断"><span class="nav-number">7.1.</span> <span class="nav-text">贝叶斯方法把学习简化为概率推断</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#后验分布的不同理解"><span class="nav-number">7.2.</span> <span class="nav-text">后验分布的不同理解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Conjugate-Prior"><span class="nav-number">7.3.</span> <span class="nav-text">Conjugate Prior</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#后验分布例子：高斯，伯努利-和-所有随机变量可见并为离散值的有向图模型"><span class="nav-number">7.4.</span> <span class="nav-text">后验分布例子：高斯，伯努利 和 所有随机变量可见并为离散值的有向图模型</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#情况1"><span class="nav-number">1.1.</span> <span class="nav-text">情况1</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#情况2"><span class="nav-number">1.2.</span> <span class="nav-text">情况2</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#情况3（本文涉及）"><span class="nav-number">1.3.</span> <span class="nav-text">情况3（本文涉及）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本概念：数据与分布"><span class="nav-number">2.</span> <span class="nav-text">基本概念：数据与分布</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#观测数据，样本，未知数据的分布"><span class="nav-number">2.1.</span> <span class="nav-text">观测数据，样本，未知数据的分布</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#独立同分布数据-Independent-and-indentically-distributed-iid-data"><span class="nav-number">2.2.</span> <span class="nav-text">独立同分布数据(Independent and indentically distributed (iid) data)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本概念：模型"><span class="nav-number">3.</span> <span class="nav-text">基本概念：模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#利用模型（Model）学习数据"><span class="nav-number">3.1.</span> <span class="nav-text">利用模型（Model）学习数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#概率模型"><span class="nav-number">3.2.</span> <span class="nav-text">概率模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#统计模型"><span class="nav-number">3.3.</span> <span class="nav-text">统计模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#贝叶斯模型"><span class="nav-number">3.4.</span> <span class="nav-text">贝叶斯模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#将图模型表达为统计模型"><span class="nav-number">3.5.</span> <span class="nav-text">将图模型表达为统计模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#例子：癌症-石棉-吸烟-cancer-asbestos-smoking"><span class="nav-number">3.6.</span> <span class="nav-text">例子：癌症-石棉-吸烟 (cancer-asbestos-smoking)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本概念：分割函数与未归一化统计模型"><span class="nav-number">4.</span> <span class="nav-text">基本概念：分割函数与未归一化统计模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#分割函数-partition-function"><span class="nav-number">4.1.</span> <span class="nav-text">分割函数(partition function)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#未归一化统计模型"><span class="nav-number">4.2.</span> <span class="nav-text">未归一化统计模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#从归一化模型中读取分割函数"><span class="nav-number">4.3.</span> <span class="nav-text">从归一化模型中读取分割函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#应用范围限制-The-domain-matters"><span class="nav-number">4.4.</span> <span class="nav-text">应用范围限制(The domain matters)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本概念：什么是学习？"><span class="nav-number">5.</span> <span class="nav-text">基本概念：什么是学习？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#统计模型的学习-——-参数估计"><span class="nav-number">5.1.</span> <span class="nav-text">统计模型的学习 —— 参数估计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#贝叶斯模型的学习-——-贝叶斯推断"><span class="nav-number">5.2.</span> <span class="nav-text">贝叶斯模型的学习 —— 贝叶斯推断</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参数估计的方法"><span class="nav-number">5.3.</span> <span class="nav-text">参数估计的方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#学习：最大似然估计"><span class="nav-number">6.</span> <span class="nav-text">学习：最大似然估计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#似然函数-L-mathbf-theta"><span class="nav-number">6.1.</span> <span class="nav-text">似然函数 $L(\mathbf \theta)$</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#最大似然估计"><span class="nav-number">6.2.</span> <span class="nav-text">最大似然估计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#最大似然估计例子：高斯，伯努利-和-所有随机变量可见并为离散值的有向图模型"><span class="nav-number">6.3.</span> <span class="nav-text">最大似然估计例子：高斯，伯努利 和 所有随机变量可见并为离散值的有向图模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#最大似然估计是moment-maching的一种形式"><span class="nav-number">6.4.</span> <span class="nav-text">最大似然估计是moment maching的一种形式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#如何评价和理解最大似然估计？"><span class="nav-number">6.5.</span> <span class="nav-text">如何评价和理解最大似然估计？</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#学习：贝叶斯推断"><span class="nav-number">7.</span> <span class="nav-text">学习：贝叶斯推断</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#贝叶斯方法把学习简化为概率推断"><span class="nav-number">7.1.</span> <span class="nav-text">贝叶斯方法把学习简化为概率推断</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#后验分布的不同理解"><span class="nav-number">7.2.</span> <span class="nav-text">后验分布的不同理解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Conjugate-Prior"><span class="nav-number">7.3.</span> <span class="nav-text">Conjugate Prior</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#后验分布例子：高斯，伯努利-和-所有随机变量可见并为离散值的有向图模型"><span class="nav-number">7.4.</span> <span class="nav-text">后验分布例子：高斯，伯努利 和 所有随机变量可见并为离散值的有向图模型</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#附件"><span class="nav-number">8.</span> <span class="nav-text">附件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#例子：癌症-石棉-吸烟-cancer-asbestos-smoking-1"><span class="nav-number">8.1.</span> <span class="nav-text">例子：癌症-石棉-吸烟 (cancer-asbestos-smoking)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#例子：最大似然估计"><span class="nav-number">8.2.</span> <span class="nav-text">例子：最大似然估计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#例子：贝叶斯推断，后验分布"><span class="nav-number">8.3.</span> <span class="nav-text">例子：贝叶斯推断，后验分布</span></a></li></ol></li></ol></div>
             
 
           </div>
