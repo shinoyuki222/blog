@@ -7,7 +7,7 @@
 
 <html class="theme-next muse use-motion" lang="zh-Hans">
 <head><meta name="generator" content="Hexo 3.9.0">
-  <meta charset="UTF-8">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="theme-color" content="#222">
@@ -87,12 +87,12 @@
 <meta property="og:site_name" content="Shinoyuki">
 <meta property="og:description" content="学习和推断的时候通常会包含难解积分(intractable integral)，可以使用samlping去估计这些积分项。 主要介绍蒙特卡洛积分，使用均值估计期望的原理及存在问题，如何使用重要采样获得一般化的期望，列举其他的采样方法。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://shinoyuki222.github.io/assets/pmr/importance_sampling.jpg">
-<meta property="og:updated_time" content="2018-06-02T12:36:52.855Z">
+<meta property="og:image" content="https://shinoyuki222.github.io/personal_blog/assets/pmr/importance_sampling.jpg">
+<meta property="og:updated_time" content="2020-02-16T08:56:25.808Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Sampling and Monte Carlo Integration">
 <meta name="twitter:description" content="学习和推断的时候通常会包含难解积分(intractable integral)，可以使用samlping去估计这些积分项。 主要介绍蒙特卡洛积分，使用均值估计期望的原理及存在问题，如何使用重要采样获得一般化的期望，列举其他的采样方法。">
-<meta name="twitter:image" content="https://shinoyuki222.github.io/assets/pmr/importance_sampling.jpg">
+<meta name="twitter:image" content="https://shinoyuki222.github.io/personal_blog/assets/pmr/importance_sampling.jpg">
 
 
 
@@ -128,7 +128,7 @@
 
 
 
-  <title>Sampling and Monte Carlo Integration | Shinoyuki</title>
+  <title>Sampling and Monte Carlo Integration | Shinoyuki</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -147,7 +147,7 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -391,7 +391,7 @@
 <li><p>如果$\mathbf x_i$是独立同分布样本，估计方差为$\frac{1}{n} \mathbb{V}[g(\mathbf x_i)]$</p>
 </li>
 <li><p>例子</p>
-<center><img src="/assets/pmr/importance_sampling.jpg" width="1000px"></center>
+<center><img src="/personal_blog/assets/pmr/importance_sampling.jpg" width="1000px"></center>
 </li>
 <li><p>分析：</p>
 <ul>
@@ -849,7 +849,24 @@
         }
       });
     </script>
-    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
   
 
 

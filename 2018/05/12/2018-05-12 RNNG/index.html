@@ -7,7 +7,7 @@
 
 <html class="theme-next muse use-motion" lang="zh-Hans">
 <head><meta name="generator" content="Hexo 3.9.0">
-  <meta charset="UTF-8">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="theme-color" content="#222">
@@ -87,16 +87,16 @@
 <meta property="og:site_name" content="Shinoyuki">
 <meta property="og:description" content="Recurrent neural network grammars 实现语言的分层形式表达，RNNG中存在的bias为top bias，较符合语言逻辑。 本文介绍了Recurrent neural network grammars (RNNG)的原理，优点和实验结果。 原文参考 Recurrent Neural Network Grammars (Chris Dyer, et al., 2016)">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://shinoyuki222.github.io/assets/NLU/RNNG.jpg">
-<meta property="og:image" content="https://shinoyuki222.github.io/assets/NLU/compfunc.png">
-<meta property="og:image" content="https://shinoyuki222.github.io/assets/NLU/stackrnn.png">
-<meta property="og:image" content="https://shinoyuki222.github.io/assets/NLU/RNNGtable.png">
-<meta property="og:image" content="https://shinoyuki222.github.io/assets/NLU/rnng.png">
-<meta property="og:updated_time" content="2018-05-18T10:02:14.615Z">
+<meta property="og:image" content="https://shinoyuki222.github.io/personal_blog/assets/NLU/RNNG.jpg">
+<meta property="og:image" content="https://shinoyuki222.github.io/personal_blog/assets/NLU/compfunc.png">
+<meta property="og:image" content="https://shinoyuki222.github.io/personal_blog/assets/NLU/stackrnn.png">
+<meta property="og:image" content="https://shinoyuki222.github.io/personal_blog/assets/NLU/RNNGtable.png">
+<meta property="og:image" content="https://shinoyuki222.github.io/personal_blog/assets/NLU/rnng.png">
+<meta property="og:updated_time" content="2020-02-16T08:56:25.812Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Recurrent neural network grammars (RNNG)">
 <meta name="twitter:description" content="Recurrent neural network grammars 实现语言的分层形式表达，RNNG中存在的bias为top bias，较符合语言逻辑。 本文介绍了Recurrent neural network grammars (RNNG)的原理，优点和实验结果。 原文参考 Recurrent Neural Network Grammars (Chris Dyer, et al., 2016)">
-<meta name="twitter:image" content="https://shinoyuki222.github.io/assets/NLU/RNNG.jpg">
+<meta name="twitter:image" content="https://shinoyuki222.github.io/personal_blog/assets/NLU/RNNG.jpg">
 
 
 
@@ -132,7 +132,7 @@
 
 
 
-  <title>Recurrent neural network grammars (RNNG) | Shinoyuki</title>
+  <title>Recurrent neural network grammars (RNNG) | Shinoyuki</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -151,7 +151,7 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -348,7 +348,7 @@
 <li>Parser Transition<br>  – bottom-up shift-reduce recognition algorithms<br>  – the parsing algorithm: mapping from sequences of words to parse trees.<br>  – <em>Stack</em>($S$): contains terminal symbols, open nonterminal symbols and completed constituents. Begin with empty.<br>  – Input Buffer(B): contains unprocesses terminal symbols. Begin with complete sequence of words.<br>  – Info. to train a classifier: current contents on <em>Stack</em> (some part of $y_t$) and <em>Buffer </em>(part of $x_t$)<br>  – Top-down parsing example Figure 1(a)</li>
 <li>Generator Transitions<br>  – Algorithm that stochastically generates trees and terminal symbols.<br>  – Need two changes of parsing algorithm: no input buffer of unprocesses words, rather there is an <em>Output Buffer</em> ($T$)<br>  – Instead of a SHIFT operation, there are GEN($x$) operations which generate terminal symbol $x \in \Sigma$ and add it to the top of the Stack (S) and the <em>Output Buffer</em> ($T$)<br>  – Predict action according to a conditional distibution that depends on the current content of $S$ and $T$. when using RNN model, we also use information of past actions. <em>see</em> <a href="#jump" target="_self">RNNG</a></li>
 </ul>
-<center><img src="/assets/NLU/RNNG.jpg" width="1200px" alt="Figure 1"> </center><br><center><strong>Figure 1</strong></center>
+<center><img src="/personal_blog/assets/NLU/RNNG.jpg" width="1200px" alt="Figure 1"> </center><br><center><strong>Figure 1</strong></center>
 
 <h3 id="RNNG-Sturcture"><a href="#RNNG-Sturcture" class="headerlink" title="RNNG Sturcture"></a>RNNG Sturcture</h3><h4 id="RNNG"><a href="#RNNG" class="headerlink" title="RNNG"></a><span id="jump">RNNG</span></h4><ul>
 <li>Generate a set of actions</li>
@@ -375,7 +375,7 @@
 </li>
 <li>A bidirectional LSTMs based composition function to compute an embedding of this new subtree.</li>
 </ul>
-<center><img src="/assets/NLU/compfunc.png" width="600px" alt="Figure 2"> </center><br><center><strong>Figure 2</strong>: the network on the right models the structure on the left.</center>
+<center><img src="/personal_blog/assets/NLU/compfunc.png" width="600px" alt="Figure 2"> </center><br><center><strong>Figure 2</strong>: the network on the right models the structure on the left.</center>
 
 <h4 id="Stack-LSTMs-or-RNNs"><a href="#Stack-LSTMs-or-RNNs" class="headerlink" title="Stack LSTMs or RNNs"></a>Stack LSTMs or RNNs</h4><ul>
 <li>See Figure 3</li>
@@ -393,18 +393,18 @@
 </li>
 <li>Arrows represent function applications (usually affine transformations followed by a nonlinearity).</li>
 </ul>
-<center><img src="/assets/NLU/stackrnn.png" width="1000px" alt="Figure 3"> </center><br><center><strong>Figure 3</strong>: A stack LSTM</center>
+<center><img src="/personal_blog/assets/NLU/stackrnn.png" width="1000px" alt="Figure 3"> </center><br><center><strong>Figure 3</strong>: A stack LSTM</center>
 
 <h4 id="Complete-RNNG-model"><a href="#Complete-RNNG-model" class="headerlink" title="Complete RNNG model"></a>Complete RNNG model</h4><ul>
 <li>Structure see Figure 4 and Table 1</li>
 <li>！待编辑，需要比较简洁的演示<!-- | |Stack|Terminal|Action| -->
 <!-- | :- | :- | :- | :-  |  -->
 <!-- |7 |(S(NP The hungry cat)(VP |  The hungry  cat  | GEN(meows)| -->
-<center><img src="/assets/NLU/RNNGtable.png" width="800px" alt="Table 1"> </center><br><center><strong>Table 1</strong>: Line 7</center>
+<center><img src="/personal_blog/assets/NLU/RNNGtable.png" width="800px" alt="Table 1"> </center><br><center><strong>Table 1</strong>: Line 7</center>
 
 </li>
 </ul>
-<center><img src="/assets/NLU/rnng.png" width="1000px" alt="Figure 4"> </center><br><center><strong>Figure 4</strong>: Neural architecture for defining a distribution over at given representations of the stack ($S_t$), output buffer ($T_t$ and history of actions($a_{&lt;t}$). This architecture corresponds to the generator state at line 7 of Figure 1(b)</center>
+<center><img src="/personal_blog/assets/NLU/rnng.png" width="1000px" alt="Figure 4"> </center><br><center><strong>Figure 4</strong>: Neural architecture for defining a distribution over at given representations of the stack ($S_t$), output buffer ($T_t$ and history of actions($a_{&lt;t}$). This architecture corresponds to the generator state at line 7 of Figure 1(b)</center>
 
 <h3 id="Implementation-and-task"><a href="#Implementation-and-task" class="headerlink" title="Implementation and task"></a>Implementation and task</h3><h4 id="Parameter-Estimation"><a href="#Parameter-Estimation" class="headerlink" title="Parameter Estimation"></a>Parameter Estimation</h4><ul>
 <li>RNNGs jointly model sequences of words together with a “tree structure’s $p_{\theta}(\mathbf x,\mathbf y)$</li>
@@ -840,7 +840,24 @@
         }
       });
     </script>
-    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
   
 
 
