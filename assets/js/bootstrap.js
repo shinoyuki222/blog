@@ -2246,7 +2246,7 @@ if (typeof jQuery === 'undefined') {
     if (offsetTop != null && this.affixed == 'top') return scrollTop < offsetTop ? 'top' : false
 
     if (this.affixed == 'bottom') {
-      if (offsetTop != null) return (scrollTop + this.unpin <= position.top)="" ?="" false="" :="" 'bottom'="" return="" (scrolltop="" +="" targetheight="" <="scrollHeight" -="" offsetbottom)="" }="" var="" initializing="this.affixed" =="null" collidertop="initializing" scrolltop="" position.top="" colliderheight="initializing" height="" if="" (offsettop="" !="null" &&="" 'top'="" (offsetbottom="" (collidertop="">= scrollHeight - offsetBottom)) return 'bottom'
+      if (offsetTop != null) return (scrollTop + this.unpin <= position.top) ? false : 'bottom' return (scrolltop + targetheight <="scrollHeight" - offsetbottom) } var initializing="this.affixed" =="null" collidertop="initializing" scrolltop position.top colliderheight="initializing" height if (offsettop !="null" && 'top' (offsetbottom (collidertop>= scrollHeight - offsetBottom)) return 'bottom'
 
     return false
   }
