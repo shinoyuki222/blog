@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="本文主要介绍dependency parsing，包括：dependency parsing和constituency parsing的区别与优点；实现dependency parsing的两种主要方法（trasition based 和 MST）；用RNNs实现dependency parsing。 原文参考  [1] Jurafsky and Martin Ch. 14 (3rd editio">
+<meta name="description" content="本文主要介绍dependency parsing，包括：dependency parsing和constituency parsing的区别与优点；实现dependency parsing的两种主要方法（trasition based 和 MST）；用RNNs实现dependency parsing。 原文参考  \[1\] [Jurafsky and Martin Ch. 14 (3rd edi">
 <meta name="keywords" content="ML,NLP">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Dependency Parsing">
 <meta property="og:url" content="https://shinoyuki222.github.io/personal_blog/2018/05/18/2018-05-18 Dependency Parsing/index.html">
 <meta property="og:site_name" content="Shinoyuki">
-<meta property="og:description" content="本文主要介绍dependency parsing，包括：dependency parsing和constituency parsing的区别与优点；实现dependency parsing的两种主要方法（trasition based 和 MST）；用RNNs实现dependency parsing。 原文参考  [1] Jurafsky and Martin Ch. 14 (3rd editio">
+<meta property="og:description" content="本文主要介绍dependency parsing，包括：dependency parsing和constituency parsing的区别与优点；实现dependency parsing的两种主要方法（trasition based 和 MST）；用RNNs实现dependency parsing。 原文参考  \[1\] [Jurafsky and Martin Ch. 14 (3rd edi">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2018-05-18T10:02:20.731Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Dependency Parsing">
-<meta name="twitter:description" content="本文主要介绍dependency parsing，包括：dependency parsing和constituency parsing的区别与优点；实现dependency parsing的两种主要方法（trasition based 和 MST）；用RNNs实现dependency parsing。 原文参考  [1] Jurafsky and Martin Ch. 14 (3rd editio">
+<meta name="twitter:description" content="本文主要介绍dependency parsing，包括：dependency parsing和constituency parsing的区别与优点；实现dependency parsing的两种主要方法（trasition based 和 MST）；用RNNs实现dependency parsing。 原文参考  \[1\] [Jurafsky and Martin Ch. 14 (3rd edi">
 
 
 
@@ -335,14 +335,14 @@
       
         <p>本文主要介绍dependency parsing，包括：dependency parsing和constituency parsing的区别与优点；实现dependency parsing的两种主要方法（trasition based 和 MST）；用RNNs实现dependency parsing。</p>
 <p>原文参考 </p>
-<p>[1] <a href="https://web.stanford.edu/~jurafsky/slp3/14.pdf" target="_blank" rel="noopener">Jurafsky and Martin Ch. 14 (3rd edition)</a></p>
-<p>[2] <a href="https://aclweb.org/anthology/Q16-1023" target="_blank" rel="noopener">Simple and Accurate Dependency Parsing Using Bidirectional LSTM Feature Representations（Eliyahu Kiperwasser, Yoav Goldberg, 2016）</a></p>
+<p>\[1\] [Jurafsky and Martin Ch. 14 (3rd edition)](<a href="https://web.stanford.edu/~jurafsky/slp3/14.pdf" target="_blank" rel="noopener">https://web.stanford.edu/~jurafsky/slp3/14.pdf</a>)</p>
+<p>\[2\] [Simple and Accurate Dependency Parsing Using Bidirectional LSTM Feature Representations（Eliyahu Kiperwasser, Yoav Goldberg, 2016）](<a href="https://aclweb.org/anthology/Q16-1023" target="_blank" rel="noopener">https://aclweb.org/anthology/Q16-1023</a>)</p>
 <p>正文为英文</p>
 <!-- 写中文的notes好累啊，所以这篇暂时是英文的 ( ´▽｀) -->
 <a id="more"></a>
 <h3 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h3><h4 id="Constituents-vs-Dependencies"><a href="#Constituents-vs-Dependencies" class="headerlink" title="Constituents vs. Dependencies"></a>Constituents vs. Dependencies</h4><ul>
 <li>Syntax is often described in terms of constituency</li>
-<li>Traditional grammars model <em>constituent structure</em>: </li>
+<li>Traditional grammars model *constituent structure*: </li>
 </ul>
 <ul>
 <li>they capture the configurational patterns of sentences.</li>
@@ -350,25 +350,25 @@
 <li>leave out much semantic information</li>
 </ul>
 <ul>
-<li>A dependency structure consists of <em>dependency relations</em>, which are <strong>binary</strong> and <strong>asymmetric</strong>.</li>
+<li>A dependency structure consists of *dependency relations*, which are **binary** and **asymmetric**.</li>
 </ul>
 <ul>
 <li>Dependency syntax is closer to semantics</li>
-<li>Dependency syntax is still (usually) tree-like: <strong>connected</strong>, <strong>single headed</strong>, <strong>acyclic</strong>.</li>
+<li>Dependency syntax is still (usually) tree-like: **connected**, **single headed**, **acyclic**.</li>
 <li>Dependency Trees can be non-projective; A non-projective dependency grammar is not context-free.</li>
 </ul>
 <h3 id="Parsers"><a href="#Parsers" class="headerlink" title="Parsers"></a>Parsers</h3><h4 id="Dependency-Parsing"><a href="#Dependency-Parsing" class="headerlink" title="Dependency Parsing"></a>Dependency Parsing</h4><ul>
 <li><p>Different from constituency, why consider dependency parsing as a distinct topic:</p>
 <ul>
 <li>context-free parsing algorithms base their decisions on adjacency;</li>
-<li>Long-distance dependency (<em>non-adjacency</em>): in a dependency structure, a dependent need not be adjacent to its head (even if the structure is projective);</li>
-<li>we need new parsing algorithms to deal with <em>non-adjacency</em> (and with non-projectivity if present).</li>
+<li>Long-distance dependency (*non-adjacency*): in a dependency structure, a dependent need not be adjacent to its head (even if the structure is projective);</li>
+<li>we need new parsing algorithms to deal with *non-adjacency* (and with non-projectivity if present).</li>
 </ul>
 </li>
 <li><p>Two types of dependency parsers</p>
 <ul>
-<li>graph-based dependency parsing, based on <em>maximum spanning trees</em> (MST parser)</li>
-<li><em>transition-based</em> dependency parsing, an extension of shift-reduce parsing (MALT parser)</li>
+<li>graph-based dependency parsing, based on *maximum spanning trees* (MST parser)</li>
+<li>*transition-based* dependency parsing, an extension of shift-reduce parsing (MALT parser)</li>
 </ul>
 </li>
 </ul>
@@ -377,7 +377,7 @@
 <li><p>Formulize:</p>
 <ul>
 <li>The score of a dependency edge $(i,j)$ is a function $s(i,j)$.</li>
-<li>Then the score of dependency tree $\mathbf{y}$ for sentence $\mathbf{x}$ is:<br>$$s(\mathbf{x},\mathbf{y})= \sum \limits_{(i,j) \in \mathbf{y}}s(i,j)$$</li>
+<li>Then the score of dependency tree $\mathbf{y}$ for sentence $\mathbf{x}$ is: <br>$$s(\mathbf{x},\mathbf{y})= \sum \limits_{(i,j) \in \mathbf{y}}s(i,j)$$</li>
 </ul>
 </li>
 <li><p>process:</p>
@@ -385,10 +385,10 @@
 <li>start with a totally connected graph $G$, i.e., assume a directed edge between every pair of words;</li>
 <li>assume you have a scoring function that assigns a score $s(i,j)$ to every edge $(i,j)$;</li>
 <li>find the maximum spanning tree (MST) of $G$, i.e., the directed tree with the highest overall score that includes all nodes of $G$;</li>
-<li>this is possible in $O(n^2)$ time using the <em>Chu-Liu-Edmonds algorithm</em>: </li>
+<li>this is possible in $O(n^2)$ time using the *Chu-Liu-Edmonds algorithm*: </li>
 </ul>
 </li>
-<li><p>it finds a MST which is <strong>not guaranteed</strong> to be projective; </p>
+<li><p>it finds a MST which is **not guaranteed** to be projective; </p>
 </li>
 <li><p>actually $O(mn)$ where $m$ is number of edges, $n$ is number of nodes .</p>
 <ul>
@@ -401,8 +401,8 @@
 <ul>
 <li>An effective formulation:<br>$$s(i,j) = P_{head}(w_j \mid w_i, \mathbf{x}) = \frac{\exp(g(\mathbf{a}_j,\mathbf{a}_i))}{\sum_{k=0}^{|x|}\exp(g({\mathbf {a}_k,\mathbf{a}_i}))}$$</li>
 <li>we get $\mathbf{a}_i$ by concatenating the hidden states of a forward and backward RNN at position $i$.</li>
-<li>the function $g({\mathbf {a}_j,\mathbf{a}_i})$ computes an <strong>association score</strong> telling us how much word $w_i$ prefers word $w_j$ as its head. </li>
-<li><strong>Association scores</strong> is a useful way to select from a dynamic group of candidates, and underly the idea of <strong>attention</strong>.</li>
+<li>the function $g({\mathbf {a}_j,\mathbf{a}_i})$ computes an **association score** telling us how much word $w_i$ prefers word $w_j$ as its head. </li>
+<li>**Association scores** is a useful way to select from a dynamic group of candidates, and underly the idea of **attention**.</li>
 </ul>
 </li>
 </ul>
@@ -420,8 +420,8 @@
 <li>accuracies are similar, but transition-based is faster;</li>
 <li>both require dynamic classifiers, and these can be implemented using neural networks, conditioned on bidirectional RNN encodings of the sentence.</li>
 </ul>
-<h3 id="References"><a href="#References" class="headerlink" title="References"></a>References</h3><p>[1] <a href="https://web.stanford.edu/~jurafsky/slp3/14.pdf" target="_blank" rel="noopener">Jurafsky, D., &amp; Martin, J. H. (2014). Speech and language processing (Vol. 3). London:: Pearson.</a></p>
-<p>[2] <a href="https://aclweb.org/anthology/Q16-1023" target="_blank" rel="noopener">Kiperwasser, E., &amp; Goldberg, Y. (2016). Simple and accurate dependency parsing using bidirectional LSTM feature representations. arXiv preprint arXiv:1603.04351.</a></p>
+<h3 id="References"><a href="#References" class="headerlink" title="References"></a>References</h3><p>\[1\] [Jurafsky, D., &amp; Martin, J. H. (2014). Speech and language processing (Vol. 3). London:: Pearson.](<a href="https://web.stanford.edu/~jurafsky/slp3/14.pdf" target="_blank" rel="noopener">https://web.stanford.edu/~jurafsky/slp3/14.pdf</a>)</p>
+<p>\[2\] [Kiperwasser, E., &amp; Goldberg, Y. (2016). Simple and accurate dependency parsing using bidirectional LSTM feature representations. arXiv preprint arXiv:1603.04351.](<a href="https://aclweb.org/anthology/Q16-1023" target="_blank" rel="noopener">https://aclweb.org/anthology/Q16-1023</a>)</p>
 <center><font size="2" face="Aial" color="#8F8F8F">Modified 18th-May-2018 12:00</font></center>
 
 

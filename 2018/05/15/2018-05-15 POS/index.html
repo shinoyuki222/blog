@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="本文主要介绍无监督贝叶斯pos tagging方法，实验结果和分析。简单概括最大似然估计(MLE)，隐藏马尔可夫模型(HMM)。 原文参考 A Fully Bayesian Approach to Unsupervised Part-of-Speech Tagging (Sharon Goldwater, Thomas L. Griffiths, 2016) 还是懒癌，暂时是英文的">
+<meta name="description" content="本文主要介绍无监督贝叶斯pos tagging方法，实验结果和分析。简单概括最大似然估计(MLE)，隐藏马尔可夫模型(HMM)。 原文参考 [A Fully Bayesian Approach to Unsupervised Part-of-Speech Tagging (Sharon Goldwater, Thomas L. Griffiths, 2016)](http://www.aclweb">
 <meta name="keywords" content="ML,NLP">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Unsupervised PoS Tagging">
 <meta property="og:url" content="https://shinoyuki222.github.io/personal_blog/2018/05/15/2018-05-15 POS/index.html">
 <meta property="og:site_name" content="Shinoyuki">
-<meta property="og:description" content="本文主要介绍无监督贝叶斯pos tagging方法，实验结果和分析。简单概括最大似然估计(MLE)，隐藏马尔可夫模型(HMM)。 原文参考 A Fully Bayesian Approach to Unsupervised Part-of-Speech Tagging (Sharon Goldwater, Thomas L. Griffiths, 2016) 还是懒癌，暂时是英文的">
+<meta property="og:description" content="本文主要介绍无监督贝叶斯pos tagging方法，实验结果和分析。简单概括最大似然估计(MLE)，隐藏马尔可夫模型(HMM)。 原文参考 [A Fully Bayesian Approach to Unsupervised Part-of-Speech Tagging (Sharon Goldwater, Thomas L. Griffiths, 2016)](http://www.aclweb">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2018-05-18T10:02:18.254Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Unsupervised PoS Tagging">
-<meta name="twitter:description" content="本文主要介绍无监督贝叶斯pos tagging方法，实验结果和分析。简单概括最大似然估计(MLE)，隐藏马尔可夫模型(HMM)。 原文参考 A Fully Bayesian Approach to Unsupervised Part-of-Speech Tagging (Sharon Goldwater, Thomas L. Griffiths, 2016) 还是懒癌，暂时是英文的">
+<meta name="twitter:description" content="本文主要介绍无监督贝叶斯pos tagging方法，实验结果和分析。简单概括最大似然估计(MLE)，隐藏马尔可夫模型(HMM)。 原文参考 [A Fully Bayesian Approach to Unsupervised Part-of-Speech Tagging (Sharon Goldwater, Thomas L. Griffiths, 2016)](http://www.aclweb">
 
 
 
@@ -334,7 +334,7 @@
 
       
         <p>本文主要介绍无监督贝叶斯pos tagging方法，实验结果和分析。简单概括最大似然估计(MLE)，隐藏马尔可夫模型(HMM)。</p>
-<p>原文参考 <a href="http://www.aclweb.org/anthology/P07-1094" target="_blank" rel="noopener">A Fully Bayesian Approach to Unsupervised Part-of-Speech Tagging (Sharon Goldwater, Thomas L. Griffiths, 2016)</a></p>
+<p>原文参考 [A Fully Bayesian Approach to Unsupervised Part-of-Speech Tagging (Sharon Goldwater, Thomas L. Griffiths, 2016)](<a href="http://www.aclweb.org/anthology/P07-1094" target="_blank" rel="noopener">http://www.aclweb.org/anthology/P07-1094</a>)</p>
 <p>还是懒癌，暂时是英文的</p>
 <!-- 写中文的notes好累啊，所以这篇暂时是英文的 ( ´▽｀) -->
 <a id="more"></a>
@@ -360,7 +360,7 @@
 </li>
 <li>Examples: forward-backward algorithm for HMMs, inside-outside algorithm for PCFGs, k-meaning clustering.</li>
 <li>EM Works well on : word alignment for machine translation; speech recognition….</li>
-<li>Often <strong>fails</strong>:<ul>
+<li>Often **fails**:<ul>
 <li>probabilistic context-free grammars (PCFG): highly sensitive to initialisation; F-score reported are generally low.</li>
 <li>For HMMs, even very small amounts of training data have been show to work better than EM.</li>
 <li>similar picture for many other tasks</li>
@@ -369,7 +369,7 @@
 </ul>
 <h3 id="Main-Model"><a href="#Main-Model" class="headerlink" title="Main Model"></a>Main Model</h3><h4 id="Bayesian-HMM"><a href="#Bayesian-HMM" class="headerlink" title="Bayesian HMM"></a>Bayesian HMM</h4><ul>
 <li>Parameter Estimation: we are not interested in the value of $\theta$<br>  $$<br>  \begin{eqnarray}<br>  P(w_i \mid \mathbf w_{1:i-1}) &amp;=&amp; \int P(w_i \mid \theta) P(\theta \mid \mathbf w_{1:i-1}) d \theta\\<br>  P(\mathbf t \mid w) &amp;=&amp; \int P(\mathbf t \mid \mathbf w,\theta) P(\theta \mid \mathbf w) d \theta<br>  \end{eqnarray}<br>  $$</li>
-<li><p>Bayesian integration: Integrating over $\theta$ gives us an <em>average</em> over all possible parameters values.</p>
+<li><p>Bayesian integration: Integrating over $\theta$ gives us an *average* over all possible parameters values.</p>
 <ul>
 <li>accounts for uncertainty as to the exact value of $\theta$</li>
 <li>models the shape of the distribution over $\theta$</li>
@@ -390,7 +390,7 @@
 <li>$\alpha$ is params. of Dirichlet Distribution, we usually use symmetric Dirichlets, where $\alpha_1 … \alpha_K$ is equal to $\beta$. Denote Dirichlet($\beta$) to mean Dirichlet($\beta,…,\beta)$</li>
 <li>property:<ul>
 <li>With $\beta &gt;1$, we would \textbf{prefer} uniform distributions over $\theta$</li>
-<li>With $\beta = 1$, we have no preference on $\theta$, <strong>does not </strong>mean we choose uniform.</li>
+<li>With $\beta = 1$, we have no preference on $\theta$, **does not **mean we choose uniform.</li>
 <li>With $\beta &lt; 1$, we prefer sparse (skewed) distributions</li>
 </ul>
 </li>

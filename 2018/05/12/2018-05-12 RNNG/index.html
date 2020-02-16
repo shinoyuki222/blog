@@ -79,13 +79,13 @@
 
 
 
-<meta name="description" content="Recurrent neural network grammars 实现语言的分层形式表达，RNNG中存在的bias为top bias，较符合语言逻辑。 本文介绍了Recurrent neural network grammars (RNNG)的原理，优点和实验结果。 原文参考 Recurrent Neural Network Grammars (Chris Dyer, et al., 2016)">
+<meta name="description" content="Recurrent neural network grammars 实现语言的分层形式表达，RNNG中存在的bias为top bias，较符合语言逻辑。 本文介绍了Recurrent neural network grammars (RNNG)的原理，优点和实验结果。 原文参考 [Recurrent Neural Network Grammars (Chris Dyer, et al., 2016">
 <meta name="keywords" content="ML,NLP">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Recurrent neural network grammars (RNNG)">
 <meta property="og:url" content="https://shinoyuki222.github.io/personal_blog/2018/05/12/2018-05-12 RNNG/index.html">
 <meta property="og:site_name" content="Shinoyuki">
-<meta property="og:description" content="Recurrent neural network grammars 实现语言的分层形式表达，RNNG中存在的bias为top bias，较符合语言逻辑。 本文介绍了Recurrent neural network grammars (RNNG)的原理，优点和实验结果。 原文参考 Recurrent Neural Network Grammars (Chris Dyer, et al., 2016)">
+<meta property="og:description" content="Recurrent neural network grammars 实现语言的分层形式表达，RNNG中存在的bias为top bias，较符合语言逻辑。 本文介绍了Recurrent neural network grammars (RNNG)的原理，优点和实验结果。 原文参考 [Recurrent Neural Network Grammars (Chris Dyer, et al., 2016">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://shinoyuki222.github.io/assets/NLU/RNNG.jpg">
 <meta property="og:image" content="https://shinoyuki222.github.io/assets/NLU/compfunc.png">
@@ -95,7 +95,7 @@
 <meta property="og:updated_time" content="2018-05-18T10:02:14.615Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Recurrent neural network grammars (RNNG)">
-<meta name="twitter:description" content="Recurrent neural network grammars 实现语言的分层形式表达，RNNG中存在的bias为top bias，较符合语言逻辑。 本文介绍了Recurrent neural network grammars (RNNG)的原理，优点和实验结果。 原文参考 Recurrent Neural Network Grammars (Chris Dyer, et al., 2016)">
+<meta name="twitter:description" content="Recurrent neural network grammars 实现语言的分层形式表达，RNNG中存在的bias为top bias，较符合语言逻辑。 本文介绍了Recurrent neural network grammars (RNNG)的原理，优点和实验结果。 原文参考 [Recurrent Neural Network Grammars (Chris Dyer, et al., 2016">
 <meta name="twitter:image" content="https://shinoyuki222.github.io/assets/NLU/RNNG.jpg">
 
 
@@ -341,25 +341,25 @@
       
         <p>Recurrent neural network grammars 实现语言的分层形式表达，RNNG中存在的bias为top bias，较符合语言逻辑。</p>
 <p>本文介绍了Recurrent neural network grammars (RNNG)的原理，优点和实验结果。</p>
-<p>原文参考 <a href="https://arxiv.org/pdf/1602.07776.pdf" target="_blank" rel="noopener">Recurrent Neural Network Grammars (Chris Dyer, et al., 2016)</a></p>
+<p>原文参考 [Recurrent Neural Network Grammars (Chris Dyer, et al., 2016)](<a href="https://arxiv.org/pdf/1602.07776.pdf" target="_blank" rel="noopener">https://arxiv.org/pdf/1602.07776.pdf</a>)</p>
 <p>写中文的notes好累啊，所以这篇暂时是英文的 ( ´▽｀)</p>
 <a id="more"></a>
 <h3 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h3><h4 id="Top-down-Parsing-and-Generation"><a href="#Top-down-Parsing-and-Generation" class="headerlink" title="Top-down Parsing and Generation"></a>Top-down Parsing and Generation</h4><ul>
-<li>Parser Transition<br>  – bottom-up shift-reduce recognition algorithms<br>  – the parsing algorithm: mapping from sequences of words to parse trees.<br>  – <em>Stack</em>($S$): contains terminal symbols, open nonterminal symbols and completed constituents. Begin with empty.<br>  – Input Buffer(B): contains unprocesses terminal symbols. Begin with complete sequence of words.<br>  – Info. to train a classifier: current contents on <em>Stack</em> (some part of $y_t$) and <em>Buffer </em>(part of $x_t$)<br>  – Top-down parsing example Figure 1(a)</li>
-<li>Generator Transitions<br>  – Algorithm that stochastically generates trees and terminal symbols.<br>  – Need two changes of parsing algorithm: no input buffer of unprocesses words, rather there is an <em>Output Buffer</em> ($T$)<br>  – Instead of a SHIFT operation, there are GEN($x$) operations which generate terminal symbol $x \in \Sigma$ and add it to the top of the Stack (S) and the <em>Output Buffer</em> ($T$)<br>  – Predict action according to a conditional distibution that depends on the current content of $S$ and $T$. when using RNN model, we also use information of past actions. <em>see</em> <a href="#jump" target="_self">RNNG</a></li>
+<li>Parser Transition<br>  – bottom-up shift-reduce recognition algorithms<br>  – the parsing algorithm: mapping from sequences of words to parse trees.<br>  – *Stack*($S$): contains terminal symbols, open nonterminal symbols and completed constituents. Begin with empty.<br>  – Input Buffer(B): contains unprocesses terminal symbols. Begin with complete sequence of words.<br>  – Info. to train a classifier: current contents on *Stack* (some part of $y_t$) and *Buffer *(part of $x_t$)<br>  – Top-down parsing example Figure 1(a)</li>
+<li>Generator Transitions<br>  – Algorithm that stochastically generates trees and terminal symbols.<br>  – Need two changes of parsing algorithm: no input buffer of unprocesses words, rather there is an *Output Buffer* ($T$)<br>  – Instead of a SHIFT operation, there are GEN($x$) operations which generate terminal symbol $x \in \Sigma$ and add it to the top of the Stack (S) and the *Output Buffer* ($T$)<br>  – Predict action according to a conditional distibution that depends on the current content of $S$ and $T$. when using RNN model, we also use information of past actions. *see* <a href="#jump" target="_self">RNNG</a></li>
 </ul>
-<center><img src="/assets/NLU/RNNG.jpg" width="1200px" alt="Figure 1"> </center><br><center><strong>Figure 1</strong></center>
+<center><img src="/assets/NLU/RNNG.jpg" width="1200px" alt="Figure 1"> </center><br><center>**Figure 1**</center>
 
 <h3 id="RNNG-Sturcture"><a href="#RNNG-Sturcture" class="headerlink" title="RNNG Sturcture"></a>RNNG Sturcture</h3><h4 id="RNNG"><a href="#RNNG" class="headerlink" title="RNNG"></a><span id="jump">RNNG</span></h4><ul>
 <li>Generate a set of actions</li>
 <li>at each timestep, we use information: Previous terminal symbols (Tt); Previous actions (a&lt;1); Current<br>stack contents (St).</li>
-<li>$T_t, a&lt;t$ could use normal RNNs or any RNN variants; But St is more <strong>complicated</strong>:<ul>
-<li>The elements of the stack are more complicated objects than symbols from a discrete alphabet: <em>open nonterminals</em>, <em>terminals</em>, and <em>full trees </em>are all present on the stack.<ul>
-<li>Define a new <strong>syntactic composition function</strong> that recursively defines representations of trees.</li>
+<li>$T_t, a&lt;t$ could use normal RNNs or any RNN variants; But St is more **complicated**:<ul>
+<li>The elements of the stack are more complicated objects than symbols from a discrete alphabet: *open nonterminals*, *terminals*, and *full trees *are all present on the stack.<ul>
+<li>Define a new **syntactic composition function** that recursively defines representations of trees.</li>
 </ul>
 </li>
-<li>it is manipulated by <em>push</em> and <em>pop</em> operations.<ul>
-<li>Need a <strong>stack LSTMs or RNNs</strong> to obtain the representations of $S$ under push and pop operations.</li>
+<li>it is manipulated by *push* and *pop* operations.<ul>
+<li>Need a **stack LSTMs or RNNs** to obtain the representations of $S$ under push and pop operations.</li>
 </ul>
 </li>
 </ul>
@@ -367,7 +367,7 @@
 </ul>
 <h4 id="Syntactic-Composition-Function"><a href="#Syntactic-Composition-Function" class="headerlink" title="Syntactic Composition Function"></a>Syntactic Composition Function</h4><ul>
 <li>Structure see Figure 2</li>
-<li>Syntactic composition function based on bidirectional LSTMs that is executed during a <em>REDUCE</em> operation:<ul>
+<li>Syntactic composition function based on bidirectional LSTMs that is executed during a *REDUCE* operation:<ul>
 <li>The parser pops a sequence of completed subtrees and/or tokens (together with their vector embeddings) from the stack;</li>
 <li>makes them children of the most recent open nonterminal on the stack</li>
 <li>completing the constituent.</li>
@@ -375,7 +375,7 @@
 </li>
 <li>A bidirectional LSTMs based composition function to compute an embedding of this new subtree.</li>
 </ul>
-<center><img src="/assets/NLU/compfunc.png" width="600px" alt="Figure 2"> </center><br><center><strong>Figure 2</strong>: the network on the right models the structure on the left.</center>
+<center><img src="/assets/NLU/compfunc.png" width="600px" alt="Figure 2"> </center><br><center>**Figure 2**: the network on the right models the structure on the left.</center>
 
 <h4 id="Stack-LSTMs-or-RNNs"><a href="#Stack-LSTMs-or-RNNs" class="headerlink" title="Stack LSTMs or RNNs"></a>Stack LSTMs or RNNs</h4><ul>
 <li>See Figure 3</li>
@@ -393,18 +393,18 @@
 </li>
 <li>Arrows represent function applications (usually affine transformations followed by a nonlinearity).</li>
 </ul>
-<center><img src="/assets/NLU/stackrnn.png" width="1000px" alt="Figure 3"> </center><br><center><strong>Figure 3</strong>: A stack LSTM</center>
+<center><img src="/assets/NLU/stackrnn.png" width="1000px" alt="Figure 3"> </center><br><center>**Figure 3**: A stack LSTM</center>
 
 <h4 id="Complete-RNNG-model"><a href="#Complete-RNNG-model" class="headerlink" title="Complete RNNG model"></a>Complete RNNG model</h4><ul>
 <li>Structure see Figure 4 and Table 1</li>
 <li>！待编辑，需要比较简洁的演示<!-- | |Stack|Terminal|Action| -->
 <!-- | :- | :- | :- | :-  |  -->
 <!-- |7 |(S(NP The hungry cat)(VP |  The hungry  cat  | GEN(meows)| -->
-<center><img src="/assets/NLU/RNNGtable.png" width="800px" alt="Table 1"> </center><br><center><strong>Table 1</strong>: Line 7</center>
+<center><img src="/assets/NLU/RNNGtable.png" width="800px" alt="Table 1"> </center><br><center>**Table 1**: Line 7</center>
 
 </li>
 </ul>
-<center><img src="/assets/NLU/rnng.png" width="1000px" alt="Figure 4"> </center><br><center><strong>Figure 4</strong>: Neural architecture for defining a distribution over at given representations of the stack ($S_t$), output buffer ($T_t$ and history of actions($a_{&lt;t}$). This architecture corresponds to the generator state at line 7 of Figure 1(b)</center>
+<center><img src="/assets/NLU/rnng.png" width="1000px" alt="Figure 4"> </center><br><center>**Figure 4**: Neural architecture for defining a distribution over at given representations of the stack ($S_t$), output buffer ($T_t$ and history of actions($a_{&lt;t}$). This architecture corresponds to the generator state at line 7 of Figure 1(b)</center>
 
 <h3 id="Implementation-and-task"><a href="#Implementation-and-task" class="headerlink" title="Implementation and task"></a>Implementation and task</h3><h4 id="Parameter-Estimation"><a href="#Parameter-Estimation" class="headerlink" title="Parameter Estimation"></a>Parameter Estimation</h4><ul>
 <li>RNNGs jointly model sequences of words together with a “tree structure’s $p_{\theta}(\mathbf x,\mathbf y)$</li>
@@ -412,7 +412,7 @@
 <li>we use trees from the Penn Treebanck</li>
 </ul>
 </li>
-<li>We could treat the non-generation actions as latent variables or learn them with RL, effectively making this a problem of <em>grammar induction</em></li>
+<li>We could treat the non-generation actions as latent variables or learn them with RL, effectively making this a problem of *grammar induction*</li>
 </ul>
 <h4 id="Inference-of-RNNGs"><a href="#Inference-of-RNNGs" class="headerlink" title="Inference of RNNGs"></a>Inference of RNNGs</h4><ul>
 <li>An RNNG is a joint distribution $p(\mathbf {x},\mathbf {y})$ over strings $\mathbf {x}$ and parse trees $\mathbf {y}$</li>
@@ -422,11 +422,11 @@
 </ul>
 </li>
 <li>Dynamic programming algorithms we often rely on are of no help here</li>
-<li>Could use <a href="https://shinoyuki222.github.io/2018/05/05/2018-05-05%20Sampling/"><strong>Importance Sampling</strong></a> to do both by sampling from a discriminatively trained model: MC integral. <!-- - *Detailed in* [Sampling and Monte Carlo Integration](https://shinoyuki222.github.io/2018/05/05/2018-05-05%20Sampling/) -->
+<li>Could use [**Importance Sampling**](<a href="https://shinoyuki222.github.io/2018/05/05/2018-05-05%20Sampling/">https://shinoyuki222.github.io/2018/05/05/2018-05-05%20Sampling/</a>) to do both by sampling from a discriminatively trained model: MC integral. <!-- - *Detailed in* [Sampling and Monte Carlo Integration](https://shinoyuki222.github.io/2018/05/05/2018-05-05%20Sampling/) -->
 </li>
 </ul>
 <h4 id="RNNG-as-a-mini-linguist"><a href="#RNNG-as-a-mini-linguist" class="headerlink" title="RNNG as a mini-linguist"></a>RNNG as a mini-linguist</h4><ul>
-<li>Replace composition with one that computes <em>attention</em> over objects in the composed sequence, using embedding of NT for similarity.<ul>
+<li>Replace composition with one that computes *attention* over objects in the composed sequence, using embedding of NT for similarity.<ul>
 <li>Idea: to compute representation of NP, we may need to pay more attention on N in that NP.</li>
 </ul>
 </li>
