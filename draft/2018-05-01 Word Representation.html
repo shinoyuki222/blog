@@ -247,7 +247,7 @@
 </ul>
 <p>\subsubsection*{Word2vec trains word representations using an objective based on language modeling–so it can be trained on unlabeled data.}</p>
 <p>\begin{itemize}<br>  \item we could use POS to training the word representations: Feedforward is feasible, could conditioned on entire input sentence.<br>  \item using an objective based on language modeling, therefore, it can be trained on unlabeled data.<br>  \item training a LM is supervised learning problem: it predicts a word conditioned on the context, all you need for supervised learning are examples of context words</p>
-<p>  \item idea of CBOW (continuous bag-of-words)<br>    \begin{itemize}<br>      \item CBOW adds inputs from words within short window to predict the current word<br>        \begin{itemize}<br>          \item predict a word based on context.<br>          \item do not want to predict the prob. of a string (sentence)<br>          \item not a generative model of a text: independent senses?????<br>        \end{itemize}<br>      \item The weights for different positions are \textbf{shared}<br>      \item computationally much more efficient than normal NNLM<br>      \item The hidden layer is just linear<br>    \end{itemize}<br>  \item Skip-gram: <br>    \begin{itemize}<br>      \item reformulate the CBOW model (opposite to CBOW) by predicting surrounding words (context words, a word nearby) using the current word.<br>      \item Find word representations usful for predicting surrounding words in a sentence or document.<br>      \item each word have two vector representations associated with it: \textit{word representation vector} and \textit{output weight vector}<br>      \item Learning skip-gram: \textit{see below}<br>    \end{itemize}</p>
+<p>  \item idea of CBOW (continuous bag-of-words)<br>    \begin{itemize}<br>      \item CBOW adds inputs from words within short window to predict the current word<br>        \begin{itemize}<br>          \item predict a word based on context.<br>          \item do not want to predict the prob. of a string (sentence)<br>          \item not a generative model of a text: independent senses?????<br>        \end{itemize}<br>      \item The weights for different positions are \textbf{shared}<br>      \item computationally much more efficient than normal NNLM<br>      \item The hidden layer is just linear<br>    \end{itemize}<br>  \item Skip-gram:<br>    \begin{itemize}<br>      \item reformulate the CBOW model (opposite to CBOW) by predicting surrounding words (context words, a word nearby) using the current word.<br>      \item Find word representations usful for predicting surrounding words in a sentence or document.<br>      \item each word have two vector representations associated with it: \textit{word representation vector} and \textit{output weight vector}<br>      \item Learning skip-gram: \textit{see below}<br>    \end{itemize}</p>
 <p>\begin{figure}[ht]<br>  \centering<br>    \subfigure[CBOW architecture]{\label{fig:cbow}\includegraphics[width=0.3\linewidth]{figures/cbow.png}}<br>    \subfigure[The Skip-gram model architecture]{\label{fig:skip}\includegraphics[width=0.3\linewidth]{figures/skip.png}}<br>  \caption{Model}<br>  \label{fig:wr}<br>\end{figure}</p>
 <p>\end{itemize}</p>
 <p>\subsubsection*{Sometimes called unsupervised, but objective is supervised!}<br>\begin{itemize}<br>  \item the ideal context word is given, we don’t care about supervision<br>\end{itemize}</p>
@@ -255,9 +255,9 @@
 <p>\subsubsection*{Compositional representations based on morphemes make our models closer to open vocabulary.}<br>\begin{itemize}<br>  \item more generalizable, predict (represent) unseen words better</p>
 <p>\end{itemize}</p>
 <p>\subsubsection*{Limitations of word2vec}<br>\begin{itemize}<br>  \item fixed number of word, fixed vocab size, but \textbf{Vocabulary is not finite}.<br>  \item cannot exploit \textit{functional relationships} (syntactic relationship): </p>
-<p>  e.g, we could learn ``cat’’-``cats’’ = ``dog’’-``dogs’’, but if we haven’t seen ``sloths’’ before, we can’t capture ``sloth’’-``sloths’’ = ``cat’’-``cats’’. That is, we can’t learn \textit{functional relationships} from context.<br>\end{itemize}</p>
-<p>\subsubsection*{Learning skip-gram}<br>\begin{itemize}<br>  \item SGD and BP<br>  \item sub-sample the frequent words (e.g., ``the’’, ``is’’, ``a’’)<br>  \item words are thrown out proportinal to their frequency (make things faster, reuses importance of frequent words)<br>  \item non-linearity does not seem to imporve performance of these models, thus the hidden layer dose \textbf{not} use \textbf{activation function}<br>  \item problem: very large output layer with size = vocab. size, can easily be in order of millions $\rightarrow$ too many outputs to evaluate<br>  \item solution: negative sampling, Hierarchical softmax<br>\end{itemize}</p>
-<p>\subsubsection*{Negative sampling}<br>\begin{itemize}<br>  \item Instead of propagating signal from the hidden layer to the whole output layer, only the output neuron that represents the positive class and few randomly sampled neurons are evaluated<br>  \item e.g., word pair `cat sat’, input `cat’, context word (output is 1) `sat’, output neuron correspond to `sat’ is positive, others negative. we sample other, say 5, negative neuron to evaluate. so only calculate 1+5 = 6 neurons. For word representation vector, we \textbf{always only} update the one corresponding to the input word (it’s true whenever we use negative sampling or not).<br>\end{itemize}</p>
+<p>  e.g, we could learn <code>cat&#39;&#39;-</code>cats’’ = <code>dog&#39;&#39;-</code>dogs’’, but if we haven’t seen <code>sloths&#39;&#39; before, we can&#39;t capture</code>sloth’’-<code>sloths&#39;&#39; =</code>cat’’-``cats’’. That is, we can’t learn \textit{functional relationships} from context.<br>\end{itemize}</p>
+<p>\subsubsection*{Learning skip-gram}<br>\begin{itemize}<br>  \item SGD and BP<br>  \item sub-sample the frequent words (e.g., <code>the&#39;&#39;,</code>is’’, ``a’’)<br>  \item words are thrown out proportinal to their frequency (make things faster, reuses importance of frequent words)<br>  \item non-linearity does not seem to imporve performance of these models, thus the hidden layer dose \textbf{not} use \textbf{activation function}<br>  \item problem: very large output layer with size = vocab. size, can easily be in order of millions $\rightarrow$ too many outputs to evaluate<br>  \item solution: negative sampling, Hierarchical softmax<br>\end{itemize}</p>
+<p>\subsubsection*{Negative sampling}<br>\begin{itemize}<br>  \item Instead of propagating signal from the hidden layer to the whole output layer, only the output neuron that represents the positive class and few randomly sampled neurons are evaluated<br>  \item e.g., word pair <code>cat sat&#39;, input</code>cat’, context word (output is 1) <code>sat&#39;, output neuron correspond to</code>sat’ is positive, others negative. we sample other, say 5, negative neuron to evaluate. so only calculate 1+5 = 6 neurons. For word representation vector, we \textbf{always only} update the one corresponding to the input word (it’s true whenever we use negative sampling or not).<br>\end{itemize}</p>
 
         
       </div>
@@ -572,6 +572,28 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
 
   
 

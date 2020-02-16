@@ -403,7 +403,7 @@
 </li>
 </ul>
 <h5 id="重要采样-Importance-sampling"><a href="#重要采样-Importance-sampling" class="headerlink" title="重要采样(Importance sampling)"></a>重要采样(Importance sampling)</h5><ul>
-<li><p>基本想法：如果需要计算的积分和期望并不成对应关系，我们可以利用概率密度函数(pdf) $q$，将积分写成针对$q$的期望<br>$$<br>\begin{eqnarray}<br>I=\int g(\mathbf x)d\mathbf x = \int g(\mathbf x) \frac{q(\mathbf x)}{q(\mathbf x)}d \mathbf x<br>= \int \frac{g(\mathbf x)}{q(\mathbf x)}q(\mathbf x)d\mathbf x <br>= \mathbb{E}_{q(\mathbf x)}[\frac{g(\mathbf x)}{q(\mathbf x)}]<br>\approx \frac{1}{n} \sum \limits _{i=1}^n \frac{g(\mathbf x_i)}{q(\mathbf x_i)}<br>\end{eqnarray}<br>$$  </p>
+<li><p>基本想法：如果需要计算的积分和期望并不成对应关系，我们可以利用概率密度函数(pdf) $q$，将积分写成针对$q$的期望<br>$$<br>\begin{eqnarray}<br>I=\int g(\mathbf x)d\mathbf x = \int g(\mathbf x) \frac{q(\mathbf x)}{q(\mathbf x)}d \mathbf x<br>= \int \frac{g(\mathbf x)}{q(\mathbf x)}q(\mathbf x)d\mathbf x<br>= \mathbb{E}_{q(\mathbf x)}[\frac{g(\mathbf x)}{q(\mathbf x)}]<br>\approx \frac{1}{n} \sum \limits _{i=1}^n \frac{g(\mathbf x_i)}{q(\mathbf x_i)}<br>\end{eqnarray}<br>$$  </p>
 <center>其中 $\mathbf x_i \sim q(\mathbf x)$ (iid)</center>
 </li>
 <li><p>$q$是重要分布(importance distribution or proposal distribution) </p>
@@ -421,7 +421,7 @@
 <li><p>使用重要采样计算期望</p>
 <ul>
 <li><p>目标：使用样本均值估计 $\mathbb E _ {p(\mathbf x)}(g(\mathbf x))$，但从分布$p(\mathbf x)$采样较为困难</p>
-<p>$$<br>\begin{eqnarray}<br>\mathbb E _ {p(\mathbf x)}(g(\mathbf x))<br>=\int g(\mathbf x)p(\mathbf x)d\mathbf x <br>= \int g(\mathbf x) \frac{p(\mathbf x)}{q(\mathbf x)} q(\mathbf x)d \mathbf x<br>= \mathbb{E}_{q(\mathbf x)}[g(\mathbf x)\frac{p(\mathbf x)}{q(\mathbf x)}]<br>\approx \frac{1}{n} \sum \limits _{i=1}^n g(\mathbf x_i) \frac{p(\mathbf x_i)}{q(\mathbf x_i)}<br>\end{eqnarray}<br>$$</p>
+<p>$$<br>\begin{eqnarray}<br>\mathbb E _ {p(\mathbf x)}(g(\mathbf x))<br>=\int g(\mathbf x)p(\mathbf x)d\mathbf x<br>= \int g(\mathbf x) \frac{p(\mathbf x)}{q(\mathbf x)} q(\mathbf x)d \mathbf x<br>= \mathbb{E}_{q(\mathbf x)}[g(\mathbf x)\frac{p(\mathbf x)}{q(\mathbf x)}]<br>\approx \frac{1}{n} \sum \limits _{i=1}^n g(\mathbf x_i) \frac{p(\mathbf x_i)}{q(\mathbf x_i)}<br>\end{eqnarray}<br>$$</p>
 <center>$w_i =\frac{p(\mathbf x_i)}{q(\mathbf x_i)}$称为重要权重(importance weights)</center>
 </li>
 <li><p>对于没有归一化的分布$\tilde p(\mathbf x)$<br>$$<br>\int g(\mathbf x)p(\mathbf x)d\mathbf x \approx \frac{\sum_{i=1}^n g(\mathbf x_i)w_i}{\sum_{i=1}^n w_i}<br>$$</p>
@@ -830,6 +830,28 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
 
   
 
