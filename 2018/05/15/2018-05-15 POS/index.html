@@ -347,27 +347,25 @@
 <p>原文参考 <a href="http://www.aclweb.org/anthology/P07-1094" target="_blank" rel="noopener">A Fully Bayesian Approach to Unsupervised Part-of-Speech Tagging (Sharon Goldwater, Thomas L. Griffiths, 2016)</a></p>
 <p>还是懒癌，暂时是英文的</p>
 <!-- 写中文的notes好累啊，所以这篇暂时是英文的 ( ´▽｀) -->
-
 <a id="more"></a>
-
-
-
-
-
 <h3 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h3><h4 id="Inference-for-HMMs"><a href="#Inference-for-HMMs" class="headerlink" title="Inference for HMMs"></a>Inference for HMMs</h4><ul>
-<li>Notation: Given that $t_{i-1} = t$, the value of $t_i$ is drawn from a multinominal dstribution with parameters $\tau^{(t)}$<br>  $$<br>  \begin{eqnarray}<br>  t_i \mid t_{i-1}=t,\quad \tau^{(t)} \sim Multinominal (\tau^{(t)})\<br>  w_i \mid t_{i}=t, \quad \omega^{(t)} \sim Multinominal (\omega^{(t)})<br>  \end{eqnarray}<br>  $$</li>
-<li>Inference: decoding, applying the model at the test time, we need to know $\mathbf \theta$ and we can compute $P(\mathbf t, \mathbf w)$<br>  $$P(\mathbf t, \mathbf w) = \prod \limits_{i=1}^n P(t_i \mid t_{i-1})= \prod \limits_{i=1}^n \tau^ {(t_{i-1})} \omega_{w_i}^{t_i}$$</li>
-<li>Compute $P(\mathbf w)$, such as language model<br>  $$P(\mathbf w) = \sum \limits _ {\mathbf t} P(\mathbf w, \mathbf t)$$</li>
-<li>Also $P(\mathbf t \mid \mathbf w) $, such as PoS tagger<br>  $$P(\mathbf t \mid \mathbf w) = \frac{P(\mathbf t, \mathbf w)}{P(\mathbf w)}$$</li>
+<li>Notation: Given that $t_{i-1} = t$, the value of $t_i$ is drawn from a multinominal dstribution with parameters $\tau^{(t)}$<script type="math/tex; mode=display">
+  \begin{eqnarray}
+  t_i \mid t_{i-1}=t,\quad \tau^{(t)} \sim Multinominal (\tau^{(t)})\\
+  w_i \mid t_{i}=t, \quad \omega^{(t)} \sim Multinominal (\omega^{(t)})
+  \end{eqnarray}</script></li>
+<li>Inference: decoding, applying the model at the test time, we need to know $\mathbf \theta$ and we can compute $P(\mathbf t, \mathbf w)$<script type="math/tex; mode=display">P(\mathbf t, \mathbf w) = \prod \limits_{i=1}^n P(t_i \mid t_{i-1})= \prod \limits_{i=1}^n \tau^ {(t_{i-1})} \omega_{w_i}^{t_i}</script></li>
+<li>Compute $P(\mathbf w)$, such as language model<script type="math/tex; mode=display">P(\mathbf w) = \sum \limits _ {\mathbf t} P(\mathbf w, \mathbf t)</script></li>
+<li>Also $P(\mathbf t \mid \mathbf w) $, such as PoS tagger<script type="math/tex; mode=display">P(\mathbf t \mid \mathbf w) = \frac{P(\mathbf t, \mathbf w)}{P(\mathbf w)}</script></li>
 </ul>
 <h4 id="Parameter-Estimation-for-HMMs"><a href="#Parameter-Estimation-for-HMMs" class="headerlink" title="Parameter Estimation for HMMs"></a>Parameter Estimation for HMMs</h4><ul>
 <li>Estimation: training the model, determing its params. A procedure to set $\mathbf \theta$ based on data.</li>
-<li>Bayes Rule<br>  $$P(\theta \mid w) = \frac{P(w \mid \theta)P(\theta)}{P(w)} \propto P(w \mid \theta)P(\theta)$$</li>
+<li>Bayes Rule<script type="math/tex; mode=display">P(\theta \mid w) = \frac{P(w \mid \theta)P(\theta)}{P(w)} \propto P(w \mid \theta)P(\theta)</script></li>
 <li>Could use MLE, Bayesian estimation (actually no parameter estimation)</li>
 </ul>
 <h4 id="Maximum-Likelihood-Estimation"><a href="#Maximum-Likelihood-Estimation" class="headerlink" title="Maximum Likelihood Estimation"></a>Maximum Likelihood Estimation</h4><ul>
-<li>Choose the $\mathbf \theta$ that makes the data most probable, ignore the prior term. Equivalent to assuming a uniform prior.<br>  $$\hat \theta = argmax _ \theta P(\mathbf w \mid \theta)$$</li>
-<li>supervised systems, \textit{relative frequency estimate} is equivalent to the MLE.<br>  $$\tau_{t’}^{(t)} = \frac{n(t,t’)}{n(t)} \quad \quad \omega_{w}^{(t)} = \frac{n(t,w)}{n(t)} $$</li>
+<li>Choose the $\mathbf \theta$ that makes the data most probable, ignore the prior term. Equivalent to assuming a uniform prior.<script type="math/tex; mode=display">\hat \theta = argmax _ \theta P(\mathbf w \mid \theta)</script></li>
+<li>supervised systems, \textit{relative frequency estimate} is equivalent to the MLE.<script type="math/tex; mode=display">\tau_{t'}^{(t)} = \frac{n(t,t')}{n(t)} \quad \quad \omega_{w}^{(t)} = \frac{n(t,w)}{n(t)}</script></li>
 <li>unsupervised systems, expectation maximization (EM) algorithm to estimate $\theta$</li>
 <li>Process:<ul>
 <li>E-step: use current estimate of $\theta$ to compute expected counts of hidden events $n$.</li>
@@ -384,8 +382,11 @@
 </li>
 </ul>
 <h3 id="Main-Model"><a href="#Main-Model" class="headerlink" title="Main Model"></a>Main Model</h3><h4 id="Bayesian-HMM"><a href="#Bayesian-HMM" class="headerlink" title="Bayesian HMM"></a>Bayesian HMM</h4><ul>
-<li><p>Parameter Estimation: we are not interested in the value of $\theta$<br>  $$<br>  \begin{eqnarray}<br>  P(w_i \mid \mathbf w_{1:i-1}) &amp;=&amp; \int P(w_i \mid \theta) P(\theta \mid \mathbf w_{1:i-1}) d \theta\<br>  P(\mathbf t \mid w) &amp;=&amp; \int P(\mathbf t \mid \mathbf w,\theta) P(\theta \mid \mathbf w) d \theta<br>  \end{eqnarray}<br>  $$</p>
-</li>
+<li>Parameter Estimation: we are not interested in the value of $\theta$<script type="math/tex; mode=display">
+  \begin{eqnarray}
+  P(w_i \mid \mathbf w_{1:i-1}) &=& \int P(w_i \mid \theta) P(\theta \mid \mathbf w_{1:i-1}) d \theta\\
+  P(\mathbf t \mid w) &=& \int P(\mathbf t \mid \mathbf w,\theta) P(\theta \mid \mathbf w) d \theta
+  \end{eqnarray}</script></li>
 <li><p>Bayesian integration: Integrating over $\theta$ gives us an <em>average</em> over all possible parameters values.</p>
 <ul>
 <li>accounts for uncertainty as to the exact value of $\theta$</li>
@@ -394,20 +395,30 @@
 <li>we can use priors favouring sparse solutions.</li>
 </ul>
 </li>
-<li><p>Model:<br>$$<br>\begin{eqnarray}<br>t_i \mid t_{i-1}=t,\quad \tau^{(t)} &amp;\sim&amp; Multinominal (\tau^{(t)})\<br>w_i \mid t_{i}=t,\quad \omega^{(t)} &amp;\sim&amp; Multinominal (\omega^{(t)})\<br>\tau^{(t)} \mid \alpha &amp;\sim&amp; Dirichlet(\alpha)\<br>\omega^{(t)} \mid \beta &amp;\sim&amp; Dirichlet(\beta)<br>\end{eqnarray}<br>$$</p>
-</li>
-<li><p>intergrate out the parameters $\mathbf \theta = (\mathbf \tau, \mathbf \omega)$, we calculate probablity for each of $T$ possible tags<br>$$<br>\begin{eqnarray}<br>P(t_i \mid \mathbf t_{1:i-1}; \alpha) &amp;=&amp; \frac{n(t_{i-1},t_i) + \alpha}{n(t_{i-1})+ T\alpha}\<br>P(w_i \mid t_i, \mathbf t_{1:i-1}, \mathbf w; \beta) &amp;=&amp; \frac{n(t_{i},w_i) + \beta}{n(t_{i})+ W_{t_i}\beta}<br>\end{eqnarray}<br>$$</p>
-</li>
+<li><p>Model:</p>
+<script type="math/tex; mode=display">
+\begin{eqnarray}
+t_i \mid t_{i-1}=t,\quad \tau^{(t)} &\sim& Multinominal (\tau^{(t)})\\
+w_i \mid t_{i}=t,\quad \omega^{(t)} &\sim& Multinominal (\omega^{(t)})\\
+\tau^{(t)} \mid \alpha &\sim& Dirichlet(\alpha)\\
+\omega^{(t)} \mid \beta &\sim& Dirichlet(\beta)
+\end{eqnarray}</script></li>
+<li><p>intergrate out the parameters $\mathbf \theta = (\mathbf \tau, \mathbf \omega)$, we calculate probablity for each of $T$ possible tags</p>
+<script type="math/tex; mode=display">
+\begin{eqnarray}
+P(t_i \mid \mathbf t_{1:i-1}; \alpha) &=& \frac{n(t_{i-1},t_i) + \alpha}{n(t_{i-1})+ T\alpha}\\
+P(w_i \mid t_i, \mathbf t_{1:i-1}, \mathbf w; \beta) &=& \frac{n(t_{i},w_i) + \beta}{n(t_{i})+ W_{t_i}\beta}
+\end{eqnarray}</script></li>
 <li><p>For inference, $P(\mathbf t \mid \mathbf w)$ using an estimation method called \textit{Gibbs sampling}.</p>
 </li>
 </ul>
 <h4 id="Dirichlet-Distribution"><a href="#Dirichlet-Distribution" class="headerlink" title="Dirichlet Distribution"></a>Dirichlet Distribution</h4><ul>
 <li>a distribution over distribution, a prior.</li>
-<li>Definition<br>$$P(\theta) = \frac{1}{Z}\prod \limits _ {j=1}^ K \theta_j ^{\alpha_j -1}$$</li>
+<li>Definition<script type="math/tex; mode=display">P(\theta) = \frac{1}{Z}\prod \limits _ {j=1}^ K \theta_j ^{\alpha_j -1}</script></li>
 <li>$\alpha$ is params. of Dirichlet Distribution, we usually use symmetric Dirichlets, where $\alpha_1 … \alpha_K$ is equal to $\beta$. Denote Dirichlet($\beta$) to mean Dirichlet($\beta,…,\beta)$</li>
 <li>property:<ul>
 <li>With $\beta &gt;1$, we would \textbf{prefer} uniform distributions over $\theta$</li>
-<li>With $\beta = 1$, we have no preference on $\theta$, *<em>does not *</em>mean we choose uniform.</li>
+<li>With $\beta = 1$, we have no preference on $\theta$, <strong>does not </strong>mean we choose uniform.</li>
 <li>With $\beta &lt; 1$, we prefer sparse (skewed) distributions</li>
 </ul>
 </li>
@@ -426,12 +437,10 @@
 <li><p>The smaller effect of $\beta$: </p>
 <p>although the true output distribution tend to be sparse as well, the level of sparseness depends on the tag (consider function words vs. content words in particular). Therefore, the value of $\beta$ that accurately reflects the most probable output distributions for some tags may be a poor choice for other tags.</p>
 </li>
-<li><p>The trasition probabilities matrix is sparse: the optimal value of $\alpha$ is 0.003.</p>
-</li>
+<li>The trasition probabilities matrix is sparse: the optimal value of $\alpha$ is 0.003.</li>
 </ul>
 </li>
-<li><p>Sytactic clustering</p>
-<ul>
+<li>Sytactic clustering<ul>
 <li>With MLHMM: different tokens of the same word type are usually assigned to the same cluster, but types are assigned to clusters more or less at random, and all clusters have approximately the same number of types.</li>
 <li>BHMM: the clusters found by BHMM tend to be more coherent and more variable in size</li>
 <li>BHMM transition matrix is sparse, MLHMM is not.</li>
@@ -447,7 +456,7 @@
 </ul>
 </li>
 <li>the Bayesian HMM improves performance by averaging out uncertainty;<ul>
-<li>MLE assume uniform values over $\mathbf \theta$, with $100%$ certainty, and then pick one set of $\theta$ which maximum the liklihood.</li>
+<li>MLE assume uniform values over $\mathbf \theta$, with $100\%$ certainty, and then pick one set of $\theta$ which maximum the liklihood.</li>
 <li>Bayesian HMM does not make that assumption, and if we choose a certain hyperparameter $\alpha$ and $\beta$, we have different certainty of the set of $\theta$. <ul>
 <li>With $\alpha,~ \beta &gt;1$, we would \textbf{prefer} uniform values over $\mathbf \theta$</li>
 <li>With $\beta = 1$, we have no preference on $\mathbf \theta$, does not mean we choose uniform.</li>
