@@ -26,18 +26,18 @@
 <meta property="og:url" content="http://yoursite.com/2018/05/12/2018-05-12%20RNNG/index.html">
 <meta property="og:site_name" content="Shinoyuki">
 <meta property="og:description" content="Recurrent neural network grammars 实现语言的分层形式表达，RNNG中存在的bias为top bias，较符合语言逻辑。 本文介绍了Recurrent neural network grammars (RNNG)的原理，优点和实验结果。 原文参考 Recurrent Neural Network Grammars (Chris Dyer, et al., 2016)">
-<meta property="og:image" content="http://yoursite.com/personal_blog/assets/NLU/RNNG.jpg">
-<meta property="og:image" content="http://yoursite.com/personal_blog/assets/NLU/compfunc.png">
-<meta property="og:image" content="http://yoursite.com/personal_blog/assets/NLU/stackrnn.png">
-<meta property="og:image" content="http://yoursite.com/personal_blog/assets/NLU/RNNGtable.png">
-<meta property="og:image" content="http://yoursite.com/personal_blog/assets/NLU/rnng.png">
+<meta property="og:image" content="http://yoursite.com/assets/NLU/RNNG.jpg">
+<meta property="og:image" content="http://yoursite.com/assets/NLU/compfunc.png">
+<meta property="og:image" content="http://yoursite.com/assets/NLU/stackrnn.png">
+<meta property="og:image" content="http://yoursite.com/assets/NLU/RNNGtable.png">
+<meta property="og:image" content="http://yoursite.com/assets/NLU/rnng.png">
 <meta property="article:published_time" content="2018-05-11T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-02-16T08:56:25.812Z">
+<meta property="article:modified_time" content="2020-04-24T08:02:55.340Z">
 <meta property="article:author" content="Xiaoqing Tang">
 <meta property="article:tag" content="ML">
 <meta property="article:tag" content="NLP">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/personal_blog/assets/NLU/RNNG.jpg">
+<meta name="twitter:image" content="http://yoursite.com/assets/NLU/RNNG.jpg">
 
 <link rel="canonical" href="http://yoursite.com/2018/05/12/2018-05-12%20RNNG/">
 
@@ -192,7 +192,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-02-16 16:56:25" itemprop="dateModified" datetime="2020-02-16T16:56:25+08:00">2020-02-16</time>
+                <time title="Modified: 2020-04-24 16:02:55" itemprop="dateModified" datetime="2020-04-24T16:02:55+08:00">2020-04-24</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -228,7 +228,7 @@
 <li>Parser Transition<br>  – bottom-up shift-reduce recognition algorithms<br>  – the parsing algorithm: mapping from sequences of words to parse trees.<br>  – <em>Stack</em>($S$): contains terminal symbols, open nonterminal symbols and completed constituents. Begin with empty.<br>  – Input Buffer(B): contains unprocesses terminal symbols. Begin with complete sequence of words.<br>  – Info. to train a classifier: current contents on <em>Stack</em> (some part of $y_t$) and <em>Buffer </em>(part of $x_t$)<br>  – Top-down parsing example Figure 1(a)</li>
 <li>Generator Transitions<br>  – Algorithm that stochastically generates trees and terminal symbols.<br>  – Need two changes of parsing algorithm: no input buffer of unprocesses words, rather there is an <em>Output Buffer</em> ($T$)<br>  – Instead of a SHIFT operation, there are GEN($x$) operations which generate terminal symbol $x \in \Sigma$ and add it to the top of the Stack (S) and the <em>Output Buffer</em> ($T$)<br>  – Predict action according to a conditional distibution that depends on the current content of $S$ and $T$. when using RNN model, we also use information of past actions. <em>see</em> <a href="#jump" target="_self">RNNG</a></li>
 </ul>
-<center><img src="/personal_blog/assets/NLU/RNNG.jpg" width = "1200px" alt="Figure 1"> </center>
+<center><img src="/assets/NLU/RNNG.jpg" width = "1200px" alt="Figure 1"> </center>
 <center>**Figure 1**</center>
 
 <h3 id="RNNG-Sturcture"><a href="#RNNG-Sturcture" class="headerlink" title="RNNG Sturcture"></a>RNNG Sturcture</h3><h4 id="RNNG-lt-font-gt"><a href="#RNNG-lt-font-gt" class="headerlink" title="RNNG&lt;/font&gt;"></a><span id = "jump">RNNG&lt;/font&gt;</span></h4><ul>
@@ -256,7 +256,7 @@
 </li>
 <li>A bidirectional LSTMs based composition function to compute an embedding of this new subtree.</li>
 </ul>
-<center><img src="/personal_blog/assets/NLU/compfunc.png" width = "600px" alt="Figure 2"> </center>
+<center><img src="/assets/NLU/compfunc.png" width = "600px" alt="Figure 2"> </center>
 <center>**Figure 2**: the network on the right models the structure on the left.</center>
 
 <h4 id="Stack-LSTMs-or-RNNs"><a href="#Stack-LSTMs-or-RNNs" class="headerlink" title="Stack LSTMs or RNNs"></a>Stack LSTMs or RNNs</h4><ul>
@@ -275,7 +275,7 @@
 </li>
 <li>Arrows represent function applications (usually affine transformations followed by a nonlinearity).</li>
 </ul>
-<center><img src="/personal_blog/assets/NLU/stackrnn.png" width = "1000px" alt="Figure 3"> </center>
+<center><img src="/assets/NLU/stackrnn.png" width = "1000px" alt="Figure 3"> </center>
 <center>**Figure 3**: A stack LSTM</center>
 
 <h4 id="Complete-RNNG-model"><a href="#Complete-RNNG-model" class="headerlink" title="Complete RNNG model"></a>Complete RNNG model</h4><ul>
@@ -283,12 +283,12 @@
 <li>！待编辑，需要比较简洁的演示<!-- | |Stack|Terminal|Action| -->
 <!-- | :- | :- | :- | :-  |  -->
 <!-- |7 |(S(NP The hungry cat)(VP |  The hungry  cat  | GEN(meows)| -->
-<center><img src="/personal_blog/assets/NLU/RNNGtable.png" width = "800px" alt="Table 1"> </center>
+<center><img src="/assets/NLU/RNNGtable.png" width = "800px" alt="Table 1"> </center>
 <center>**Table 1**: Line 7</center>
 
 </li>
 </ul>
-<center><img src="/personal_blog/assets/NLU/rnng.png" width = "1000px" alt="Figure 4"> </center>
+<center><img src="/assets/NLU/rnng.png" width = "1000px" alt="Figure 4"> </center>
 <center>**Figure 4**: Neural architecture for defining a distribution over at given representations of the stack ($S_t$), output buffer ($T_t$ and history of actions($a_{<t}$). This architecture corresponds to the generator state at line 7 of Figure 1(b)</center>
 
 <h3 id="Implementation-and-task"><a href="#Implementation-and-task" class="headerlink" title="Implementation and task"></a>Implementation and task</h3><h4 id="Parameter-Estimation"><a href="#Parameter-Estimation" class="headerlink" title="Parameter Estimation"></a>Parameter Estimation</h4><ul>
