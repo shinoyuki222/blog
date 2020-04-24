@@ -32,7 +32,7 @@
 <meta property="og:image" content="http://yoursite.com/assets/NLU/RNNGtable.png">
 <meta property="og:image" content="http://yoursite.com/assets/NLU/rnng.png">
 <meta property="article:published_time" content="2018-05-11T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-04-24T08:02:55.340Z">
+<meta property="article:modified_time" content="2020-04-24T11:09:04.945Z">
 <meta property="article:author" content="Xiaoqing Tang">
 <meta property="article:tag" content="ML">
 <meta property="article:tag" content="NLP">
@@ -192,7 +192,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-04-24 16:02:55" itemprop="dateModified" datetime="2020-04-24T16:02:55+08:00">2020-04-24</time>
+                <time title="Modified: 2020-04-24 19:09:04" itemprop="dateModified" datetime="2020-04-24T19:09:04+08:00">2020-04-24</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -257,7 +257,7 @@
 <li>A bidirectional LSTMs based composition function to compute an embedding of this new subtree.</li>
 </ul>
 <center><img src="/assets/NLU/compfunc.png" width = "600px" alt="Figure 2"> </center>
-<center>**Figure 2**: the network on the right models the structure on the left.</center>
+<center>Figure 2: the network on the right models the structure on the left.</center>
 
 <h4 id="Stack-LSTMs-or-RNNs"><a href="#Stack-LSTMs-or-RNNs" class="headerlink" title="Stack LSTMs or RNNs"></a>Stack LSTMs or RNNs</h4><ul>
 <li>See Figure 3</li>
@@ -276,7 +276,7 @@
 <li>Arrows represent function applications (usually affine transformations followed by a nonlinearity).</li>
 </ul>
 <center><img src="/assets/NLU/stackrnn.png" width = "1000px" alt="Figure 3"> </center>
-<center>**Figure 3**: A stack LSTM</center>
+<center>Figure 3: A stack LSTM</center>
 
 <h4 id="Complete-RNNG-model"><a href="#Complete-RNNG-model" class="headerlink" title="Complete RNNG model"></a>Complete RNNG model</h4><ul>
 <li>Structure see Figure 4 and Table 1</li>
@@ -284,12 +284,13 @@
 <!-- | :- | :- | :- | :-  |  -->
 <!-- |7 |(S(NP The hungry cat)(VP |  The hungry  cat  | GEN(meows)| -->
 <center><img src="/assets/NLU/RNNGtable.png" width = "800px" alt="Table 1"> </center>
-<center>**Table 1**: Line 7</center>
+<center>Table 1: Line 7</center>
 
 </li>
 </ul>
 <center><img src="/assets/NLU/rnng.png" width = "1000px" alt="Figure 4"> </center>
-<center>**Figure 4**: Neural architecture for defining a distribution over at given representations of the stack ($S_t$), output buffer ($T_t$ and history of actions($a_{<t}$). This architecture corresponds to the generator state at line 7 of Figure 1(b)</center>
+<center>Figure 4: Neural architecture for defining a distribution over at given representations of the stack ($S_t$), output buffer ($T_t$ and history of actions($a_{\ t}$). This architecture corresponds to the generator state at line 7 of Figure 1(b)</center>
+
 
 <h3 id="Implementation-and-task"><a href="#Implementation-and-task" class="headerlink" title="Implementation and task"></a>Implementation and task</h3><h4 id="Parameter-Estimation"><a href="#Parameter-Estimation" class="headerlink" title="Parameter Estimation"></a>Parameter Estimation</h4><ul>
 <li>RNNGs jointly model sequences of words together with a “tree structure’s $p_{\theta}(\mathbf x,\mathbf y)$</li>
@@ -307,7 +308,7 @@
 </ul>
 </li>
 <li>Dynamic programming algorithms we often rely on are of no help here</li>
-<li>Could use <a href="https://shinoyuki222.github.io/2018/05/05/2018-05-05%20Sampling/" target="_blank" rel="noopener"><strong>Importance Sampling</strong></a> to do both by sampling from a discriminatively trained model: MC integral. <!-- - *Detailed in* [Sampling and Monte Carlo Integration](https://shinoyuki222.github.io/2018/05/05/2018-05-05%20Sampling/) -->
+<li>Could use <a href="http://localhost:4000/2018/06/13/2018-05-05%20Sampling/" target="_blank" rel="noopener"><strong>Importance Sampling</strong></a> to do both by sampling from a discriminatively trained model: MC integral. <!-- - *Detailed in* [Sampling and Monte Carlo Integration](http://localhost:4000/2018/06/13/2018-05-05%20Sampling/) -->
 </li>
 </ul>
 <h4 id="RNNG-as-a-mini-linguist"><a href="#RNNG-as-a-mini-linguist" class="headerlink" title="RNNG as a mini-linguist"></a>RNNG as a mini-linguist</h4><ul>
