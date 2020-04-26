@@ -27,7 +27,7 @@
 <meta property="og:site_name" content="Shinoyuki">
 <meta property="og:description" content="大家都知道K-mean是无监督学习的经典算法。那为什么K-mean是无监督学习呢？可能有人觉得：这也要证明？ 其实这是一个值得思考的问题……仔细思考这个问题，你会觉得自己似乎不太懂K-mean了？ 哈哈，不要多想，本文意在剖析K-mean算法的本质： K-mean算法是一种隐变量模型；隐变量模型可以用EM算法计算参数；无监督EM算法的其他应用。 本文单纯分享我自己的理解，如有不准确的地方欢迎讨论，">
 <meta property="article:published_time" content="2020-04-25T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-04-26T13:25:44.496Z">
+<meta property="article:modified_time" content="2020-04-26T13:33:35.301Z">
 <meta property="article:author" content="Xiaoqing Tang">
 <meta property="article:tag" content="ML">
 <meta name="twitter:card" content="summary">
@@ -181,7 +181,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-04-26 00:00:00 / Modified: 21:25:44" itemprop="dateCreated datePublished" datetime="2020-04-26T00:00:00+08:00">2020-04-26</time>
+              <time title="Created: 2020-04-26 00:00:00 / Modified: 21:33:35" itemprop="dateCreated datePublished" datetime="2020-04-26T00:00:00+08:00">2020-04-26</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -220,29 +220,95 @@
 <h3 id="K-mean算法是一种隐变量模型"><a href="#K-mean算法是一种隐变量模型" class="headerlink" title="K-mean算法是一种隐变量模型"></a>K-mean算法是一种隐变量模型</h3><p>那么为什么K-mean算法是一种隐变量模型呢？判断一个模型是不是隐变量模型，比较关键的一点是：找出隐变量。</p>
 <p>所以问题就转化成了K-mean算法的隐变量是什么？是K吗？对了一半，我觉得是K个中心点。</p>
 <p>也就是说K-mean算法认为：所有观测数据可以用K个中心点表达。比如刚才图片的例子中，我觉得所有图片就分成两堆。</p>
-<h3 id="隐变量模型怎么求"><a href="#隐变量模型怎么求" class="headerlink" title="隐变量模型怎么求"></a>隐变量模型怎么求</h3><p>其实刚才举的猫狗图片例子中，我非常“狡猾”地直接跳过了训练的步骤，直接说模型把一堆图片分成了2类。所以模型是怎么把图片分成这样的两类呢？是不是有可能分成别的两类，比如浅色动物和深色动物？那要怎么样才能认为模型的分类是我们想要的呢？我们来探讨一下…</p>
-<p>写的有点累了……<br>&lt;!— </p>
-<h4 id="Deep-learning-is-not-magic-and-will-not-solve-all-of-your-problems-but-representation-learning-is-a-very-powerful-idea"><a href="#Deep-learning-is-not-magic-and-will-not-solve-all-of-your-problems-but-representation-learning-is-a-very-powerful-idea" class="headerlink" title="Deep learning is not magic and will not solve all of your problems, but representation learning is a very powerful idea."></a>Deep learning is not magic and will not solve all of your problems, but representation learning is a very powerful idea.</h4><ul>
-<li>NNs don’t reuse other informations, only use the input info.</li>
-<li>Human beings often use other informations, we learn language to solve other problems.</li>
-<li>Word embedding: if we learn a matrix, can keep matrices to initialise some other problem.</li>
-</ul>
-<h4 id="Word-representations-can-be-transferred-between-models"><a href="#Word-representations-can-be-transferred-between-models" class="headerlink" title="Word representations can be transferred between models."></a>Word representations can be transferred between models.</h4><ul>
-<li>word representations pick up all associations: some are useful to applications; some are harmful for people to building a system (e.g., bias problem).</li>
-</ul>
-<p>\subsubsection*{Word2vec trains word representations using an objective based on language modeling—so it can be trained on unlabeled data.}</p>
-<p>\begin{itemize}<br>  \item we could use POS to training the word representations: Feedforward is feasible, could conditioned on entire input sentence.<br>  \item using an objective based on language modeling, therefore, it can be trained on unlabeled data.<br>  \item training a LM is supervised learning problem: it predicts a word conditioned on the context, all you need for supervised learning are examples of context words</p>
-<p>  \item idea of CBOW (continuous bag-of-words)<br>    \begin{itemize}<br>      \item CBOW adds inputs from words within short window to predict the current word<br>        \begin{itemize}<br>          \item predict a word based on context.<br>          \item do not want to predict the prob. of a string (sentence)<br>          \item not a generative model of a text: independent senses?????<br>        \end{itemize}<br>      \item The weights for different positions are \textbf{shared}<br>      \item computationally much more efficient than normal NNLM<br>      \item The hidden layer is just linear<br>    \end{itemize}<br>  \item Skip-gram:<br>    \begin{itemize}<br>      \item reformulate the CBOW model (opposite to CBOW) by predicting surrounding words (context words, a word nearby) using the current word.<br>      \item Find word representations usful for predicting surrounding words in a sentence or document.<br>      \item each word have two vector representations associated with it: \textit{word representation vector} and \textit{output weight vector}<br>      \item Learning skip-gram: \textit{see below}<br>    \end{itemize}</p>
-<p>\begin{figure}[ht]<br>  \centering<br>    \subfigure[CBOW architecture]{\label{fig:cbow}\includegraphics[width=0.3\linewidth]{figures/cbow.png}}<br>    \subfigure[The Skip-gram model architecture]{\label{fig:skip}\includegraphics[width=0.3\linewidth]{figures/skip.png}}<br>  \caption{Model}<br>  \label{fig:wr}<br>\end{figure}</p>
-<p>\end{itemize}</p>
-<p>\subsubsection*{Sometimes called unsupervised, but objective is supervised!}<br>\begin{itemize}<br>  \item the ideal context word is given, we don’t care about supervision<br>\end{itemize}</p>
-<p>% \subsubsection*{Vocabulary is not finite.— problem for word2vec}<br>% \begin{itemize}<br>%   \item fixed number of word, fixed vocab size<br>%   \item subword representation, character-level<br>% \end{itemize}</p>
-<p>\subsubsection*{Compositional representations based on morphemes make our models closer to open vocabulary.}<br>\begin{itemize}<br>  \item more generalizable, predict (represent) unseen words better</p>
-<p>\end{itemize}</p>
-<p>\subsubsection*{Limitations of word2vec}<br>\begin{itemize}<br>  \item fixed number of word, fixed vocab size, but \textbf{Vocabulary is not finite}.<br>  \item cannot exploit \textit{functional relationships} (syntactic relationship): </p>
-<p>  e.g, we could learn <code>cat&#39;&#39;-</code>cats’’ = <code>dog&#39;&#39;-</code>dogs’’, but if we haven’t seen <code>sloths&#39;&#39; before, we can&#39;t capture</code>sloth’’-<code>sloths&#39;&#39; =</code>cat’’-``cats’’. That is, we can’t learn \textit{functional relationships} from context.<br>\end{itemize}</p>
-<p>\subsubsection*{Learning skip-gram}<br>\begin{itemize}<br>  \item SGD and BP<br>  \item sub-sample the frequent words (e.g., <code>the&#39;&#39;,</code>is’’, ``a’’)<br>  \item words are thrown out proportinal to their frequency (make things faster, reuses importance of frequent words)<br>  \item non-linearity does not seem to imporve performance of these models, thus the hidden layer dose \textbf{not} use \textbf{activation function}<br>  \item problem: very large output layer with size = vocab. size, can easily be in order of millions $\rightarrow$ too many outputs to evaluate<br>  \item solution: negative sampling, Hierarchical softmax<br>\end{itemize}</p>
-<p>\subsubsection*{Negative sampling}<br>\begin{itemize}<br>  \item Instead of propagating signal from the hidden layer to the whole output layer, only the output neuron that represents the positive class and few randomly sampled neurons are evaluated<br>  \item e.g., word pair <code>cat sat&#39;, input</code>cat’, context word (output is 1) <code>sat&#39;, output neuron correspond to</code>sat’ is positive, others negative. we sample other, say 5, negative neuron to evaluate. so only calculate 1+5 = 6 neurons. For word representation vector, we \textbf{always only} update the one corresponding to the input word (it’s true whenever we use negative sampling or not).<br>\end{itemize} —&gt;</p>
+<h3 id="K-mean算法怎么求"><a href="#K-mean算法怎么求" class="headerlink" title="K-mean算法怎么求"></a>K-mean算法怎么求</h3><p>其实刚才举的猫狗图片例子中，我非常“狡猾”地直接跳过了训练的步骤，直接说模型把一堆图片分成了2类。所以模型是怎么把图片分成这样的两类呢？是不是有可能分成别的两类，比如浅色动物和深色动物？那要怎么样才能认为模型的分类是我们想要的呢？我们来探讨一下…</p>
+<p>写的有点累了…反正没人看，先把标题写了</p>
+<h3 id="K-mean算法的cost-function"><a href="#K-mean算法的cost-function" class="headerlink" title="K-mean算法的cost function"></a>K-mean算法的cost function</h3><h3 id="K-mean算法的求解过程，和隐变量模型的EM算法的关系。"><a href="#K-mean算法的求解过程，和隐变量模型的EM算法的关系。" class="headerlink" title="K-mean算法的求解过程，和隐变量模型的EM算法的关系。"></a>K-mean算法的求解过程，和隐变量模型的EM算法的关系。</h3><!-- 
+#### Deep learning is not magic and will not solve all of your problems, but representation learning is a very powerful idea.
+- NNs don't reuse other informations, only use the input info.
+- Human beings often use other informations, we learn language to solve other problems.
+- Word embedding: if we learn a matrix, can keep matrices to initialise some other problem.
+
+#### Word representations can be transferred between models.
+- word representations pick up all associations: some are useful to applications; some are harmful for people to building a system (e.g., bias problem).
+
+
+\subsubsection*{Word2vec trains word representations using an objective based on language modeling--so it can be trained on unlabeled data.}
+
+\begin{itemize}
+  \item we could use POS to training the word representations: Feedforward is feasible, could conditioned on entire input sentence.
+  \item using an objective based on language modeling, therefore, it can be trained on unlabeled data.
+  \item training a LM is supervised learning problem: it predicts a word conditioned on the context, all you need for supervised learning are examples of context words
+
+  \item idea of CBOW (continuous bag-of-words)
+    \begin{itemize}
+      \item CBOW adds inputs from words within short window to predict the current word
+        \begin{itemize}
+          \item predict a word based on context.
+          \item do not want to predict the prob. of a string (sentence)
+          \item not a generative model of a text: independent senses?????
+        \end{itemize}
+      \item The weights for different positions are \textbf{shared}
+      \item computationally much more efficient than normal NNLM
+      \item The hidden layer is just linear
+    \end{itemize}
+  \item Skip-gram: 
+    \begin{itemize}
+      \item reformulate the CBOW model (opposite to CBOW) by predicting surrounding words (context words, a word nearby) using the current word.
+      \item Find word representations usful for predicting surrounding words in a sentence or document.
+      \item each word have two vector representations associated with it: \textit{word representation vector} and \textit{output weight vector}
+      \item Learning skip-gram: \textit{see below}
+    \end{itemize}
+
+\begin{figure}[ht]
+  \centering
+    \subfigure[CBOW architecture]{\label{fig:cbow}\includegraphics[width=0.3\linewidth]{figures/cbow.png}}
+    \subfigure[The Skip-gram model architecture]{\label{fig:skip}\includegraphics[width=0.3\linewidth]{figures/skip.png}}
+  \caption{Model}
+  \label{fig:wr}
+\end{figure}
+
+\end{itemize}
+
+\subsubsection*{Sometimes called unsupervised, but objective is supervised!}
+\begin{itemize}
+  \item the ideal context word is given, we don't care about supervision
+\end{itemize}
+
+% \subsubsection*{Vocabulary is not finite.-- problem for word2vec}
+% \begin{itemize}
+%   \item fixed number of word, fixed vocab size
+%   \item subword representation, character-level
+% \end{itemize}
+
+\subsubsection*{Compositional representations based on morphemes make our models closer to open vocabulary.}
+\begin{itemize}
+  \item more generalizable, predict (represent) unseen words better
+
+\end{itemize}
+
+\subsubsection*{Limitations of word2vec}
+\begin{itemize}
+  \item fixed number of word, fixed vocab size, but \textbf{Vocabulary is not finite}.
+  \item cannot exploit \textit{functional relationships} (syntactic relationship): 
+
+  e.g, we could learn ``cat''-``cats'' = ``dog''-``dogs'', but if we haven't seen ``sloths'' before, we can't capture ``sloth''-``sloths'' = ``cat''-``cats''. That is, we can't learn \textit{functional relationships} from context.
+\end{itemize}
+
+\subsubsection*{Learning skip-gram}
+\begin{itemize}
+  \item SGD and BP
+  \item sub-sample the frequent words (e.g., ``the'', ``is'', ``a'')
+  \item words are thrown out proportinal to their frequency (make things faster, reuses importance of frequent words)
+  \item non-linearity does not seem to imporve performance of these models, thus the hidden layer dose \textbf{not} use \textbf{activation function}
+  \item problem: very large output layer with size = vocab. size, can easily be in order of millions $\rightarrow$ too many outputs to evaluate
+  \item solution: negative sampling, Hierarchical softmax
+\end{itemize}
+
+\subsubsection*{Negative sampling}
+\begin{itemize}
+  \item Instead of propagating signal from the hidden layer to the whole output layer, only the output neuron that represents the positive class and few randomly sampled neurons are evaluated
+  \item e.g., word pair `cat sat', input `cat', context word (output is 1) `sat', output neuron correspond to `sat' is positive, others negative. we sample other, say 5, negative neuron to evaluate. so only calculate 1+5 = 6 neurons. For word representation vector, we \textbf{always only} update the one corresponding to the input word (it's true whenever we use negative sampling or not).
+\end{itemize} -->
 
     </div>
 
@@ -323,7 +389,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#隐变量模型"><span class="nav-number">1.</span> <span class="nav-text">隐变量模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#K-mean"><span class="nav-number">2.</span> <span class="nav-text">K-mean</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#K-mean算法是一种隐变量模型"><span class="nav-number">3.</span> <span class="nav-text">K-mean算法是一种隐变量模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#隐变量模型怎么求"><span class="nav-number">4.</span> <span class="nav-text">隐变量模型怎么求</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Deep-learning-is-not-magic-and-will-not-solve-all-of-your-problems-but-representation-learning-is-a-very-powerful-idea"><span class="nav-number">4.1.</span> <span class="nav-text">Deep learning is not magic and will not solve all of your problems, but representation learning is a very powerful idea.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Word-representations-can-be-transferred-between-models"><span class="nav-number">4.2.</span> <span class="nav-text">Word representations can be transferred between models.</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#隐变量模型"><span class="nav-number">1.</span> <span class="nav-text">隐变量模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#K-mean"><span class="nav-number">2.</span> <span class="nav-text">K-mean</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#K-mean算法是一种隐变量模型"><span class="nav-number">3.</span> <span class="nav-text">K-mean算法是一种隐变量模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#K-mean算法怎么求"><span class="nav-number">4.</span> <span class="nav-text">K-mean算法怎么求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#K-mean算法的cost-function"><span class="nav-number">5.</span> <span class="nav-text">K-mean算法的cost function</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#K-mean算法的求解过程，和隐变量模型的EM算法的关系。"><span class="nav-number">6.</span> <span class="nav-text">K-mean算法的求解过程，和隐变量模型的EM算法的关系。</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
