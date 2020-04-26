@@ -23,12 +23,12 @@
   <meta name="description" content="学习和推断的时候通常会包含难解积分(intractable integral)，可以使用samlping去估计这些积分项。 主要介绍蒙特卡洛积分，使用均值估计期望的原理及存在问题，如何使用重要采样获得一般化的期望，列举其他的采样方法。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Sampling and Monte Carlo Integration">
-<meta property="og:url" content="http://yoursite.com/2018/06/13/2018-05-05%20Sampling/index.html">
+<meta property="og:url" content="http://yoursite.com/2019/06/13/2018-05-05%20Sampling/index.html">
 <meta property="og:site_name" content="Shinoyuki">
 <meta property="og:description" content="学习和推断的时候通常会包含难解积分(intractable integral)，可以使用samlping去估计这些积分项。 主要介绍蒙特卡洛积分，使用均值估计期望的原理及存在问题，如何使用重要采样获得一般化的期望，列举其他的采样方法。">
 <meta property="og:image" content="http://yoursite.com/assets/pmr/importance_sampling.jpg">
-<meta property="article:published_time" content="2018-06-12T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-04-24T08:02:55.338Z">
+<meta property="article:published_time" content="2019-06-12T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-04-26T13:27:54.541Z">
 <meta property="article:author" content="Xiaoqing Tang">
 <meta property="article:tag" content="MLPR">
 <meta property="article:tag" content="PMR">
@@ -37,7 +37,7 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://yoursite.com/assets/pmr/importance_sampling.jpg">
 
-<link rel="canonical" href="http://yoursite.com/2018/06/13/2018-05-05%20Sampling/">
+<link rel="canonical" href="http://yoursite.com/2019/06/13/2018-05-05%20Sampling/">
 
 
 <script id="page-configurations">
@@ -162,7 +162,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/13/2018-05-05%20Sampling/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/13/2018-05-05%20Sampling/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -185,14 +185,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2018-06-13 00:00:00" itemprop="dateCreated datePublished" datetime="2018-06-13T00:00:00+08:00">2018-06-13</time>
+              <time title="Created: 2019-06-13 00:00:00" itemprop="dateCreated datePublished" datetime="2019-06-13T00:00:00+08:00">2019-06-13</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-04-24 16:02:55" itemprop="dateModified" datetime="2020-04-24T16:02:55+08:00">2020-04-24</time>
+                <time title="Modified: 2020-04-26 21:27:54" itemprop="dateModified" datetime="2020-04-26T21:27:54+08:00">2020-04-26</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -368,7 +368,7 @@ q^*(\mathbf x) = \frac{|g(\mathbf x)|}{\int |g(\mathbf x)| d\mathbf x}</script><
 <li>approximatation: 一般没有closed form solution，也无法使用exact inference的时候可以用近似方法，比如 Monte Carlo Integral.</li>
 <li>对于intractable的问题，可以转换成推断问题（inference）的形式，或者转换成可以用approximatation解决的形式</li>
 </ul>
-<center><font size=2 face="Aial" color=#8F8F8F>Modified 12ed-May-2018 17:00</font></center>
+<center><font size=2 face="Aial" color=#8F8F8F>Modified 12ed-May-2019 17:00</font></center>
 
 
     </div>
@@ -391,11 +391,11 @@ q^*(\mathbf x) = \frac{|g(\mathbf x)|}{\int |g(\mathbf x)| d\mathbf x}</script><
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2018/06/09/2018-05-19%20Basics%20of%20model-based%20learning/" rel="prev" title="基于模型学习的基本概念 Basics of Model-based Learning">
+    <a href="/2019/06/09/2018-05-19%20Basics%20of%20model-based%20learning/" rel="prev" title="基于模型学习的基本概念 Basics of Model-based Learning">
       <i class="fa fa-chevron-left"></i> 基于模型学习的基本概念 Basics of Model-based Learning
     </a></div>
       <div class="post-nav-item">
-    <a href="/2019/01/09/2019-01-09%20Gaussian%20Process/" rel="next" title="Gaussian Process 高斯过程">
+    <a href="/2020/01/09/2019-01-09%20Gaussian%20Process/" rel="next" title="Gaussian Process 高斯过程">
       Gaussian Process 高斯过程 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
