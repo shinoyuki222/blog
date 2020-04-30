@@ -20,19 +20,21 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="大家都知道K-mean是无监督学习的经典算法。那为什么K-mean是无监督学习呢？可能有人觉得：这也要证明？ 其实这是一个值得思考的问题……仔细思考这个问题，你会觉得自己似乎不太懂K-mean了？ 哈哈，不要多想，本文意在剖析K-mean算法的本质： K-mean算法是一种隐变量模型；隐变量模型可以用EM算法计算参数；无监督EM算法的其他应用。 本文单纯分享我自己的理解，如有不准确的地方欢迎讨论，">
+  <meta name="description" content="我们希望通过机器学习方法得到一个对象的表示（Representations）,这个表示可以用到特定的应用场景中。 学习表示的方法有很多，无论是传统的MF，PCA，SVM，或者深度学习模型的VGG，Elmo，BERT，ALbert…都希望能学习到数据中的特点，来表达数据的”含义“。 这些representation的方法其实都降维操作，也就是用低维度表示尽可能诠释高维空间中的含义。 本文想谈谈如何才">
 <meta property="og:type" content="article">
-<meta property="og:title" content="K-means and Latent variable model">
-<meta property="og:url" content="http://yoursite.com/2020/04/26/2020-04-26%20K-mean/index.html">
+<meta property="og:title" content="Feature Representations">
+<meta property="og:url" content="http://yoursite.com/2020/04/28/2020-04-28%20Representations/index.html">
 <meta property="og:site_name" content="Shinoyuki">
-<meta property="og:description" content="大家都知道K-mean是无监督学习的经典算法。那为什么K-mean是无监督学习呢？可能有人觉得：这也要证明？ 其实这是一个值得思考的问题……仔细思考这个问题，你会觉得自己似乎不太懂K-mean了？ 哈哈，不要多想，本文意在剖析K-mean算法的本质： K-mean算法是一种隐变量模型；隐变量模型可以用EM算法计算参数；无监督EM算法的其他应用。 本文单纯分享我自己的理解，如有不准确的地方欢迎讨论，">
-<meta property="article:published_time" content="2020-04-25T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-04-27T12:38:50.715Z">
+<meta property="og:description" content="我们希望通过机器学习方法得到一个对象的表示（Representations）,这个表示可以用到特定的应用场景中。 学习表示的方法有很多，无论是传统的MF，PCA，SVM，或者深度学习模型的VGG，Elmo，BERT，ALbert…都希望能学习到数据中的特点，来表达数据的”含义“。 这些representation的方法其实都降维操作，也就是用低维度表示尽可能诠释高维空间中的含义。 本文想谈谈如何才">
+<meta property="article:published_time" content="2020-04-27T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-04-27T15:44:35.795Z">
 <meta property="article:author" content="Xiaoqing Tang">
 <meta property="article:tag" content="ML">
+<meta property="article:tag" content="NLP">
+<meta property="article:tag" content="DL">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yoursite.com/2020/04/26/2020-04-26%20K-mean/">
+<link rel="canonical" href="http://yoursite.com/2020/04/28/2020-04-28%20Representations/">
 
 
 <script id="page-configurations">
@@ -45,7 +47,7 @@
   };
 </script>
 
-  <title>K-means and Latent variable model | Shinoyuki</title>
+  <title>Feature Representations | Shinoyuki</title>
   
 
 
@@ -157,7 +159,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/26/2020-04-26%20K-mean/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/28/2020-04-28%20Representations/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -170,7 +172,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          K-means and Latent variable model
+          Feature Representations
         </h1>
 
         <div class="post-meta">
@@ -180,14 +182,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2020-04-26 00:00:00" itemprop="dateCreated datePublished" datetime="2020-04-26T00:00:00+08:00">2020-04-26</time>
+              <time title="Created: 2020-04-28 00:00:00" itemprop="dateCreated datePublished" datetime="2020-04-28T00:00:00+08:00">2020-04-28</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-04-27 20:38:50" itemprop="dateModified" datetime="2020-04-27T20:38:50+08:00">2020-04-27</time>
+                <time title="Modified: 2020-04-27 23:44:35" itemprop="dateModified" datetime="2020-04-27T23:44:35+08:00">2020-04-27</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -196,6 +198,14 @@
               <span class="post-meta-item-text">In</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/Machine-Learning/" itemprop="url" rel="index"><span itemprop="name">Machine Learning</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Machine-Learning/Deep-Learning/" itemprop="url" rel="index"><span itemprop="name">Deep Learning</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Machine-Learning/Deep-Learning/Natural-Language-Processing/" itemprop="url" rel="index"><span itemprop="name">Natural Language Processing</span></a>
                 </span>
             </span>
 
@@ -210,53 +220,13 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>大家都知道K-mean是无监督学习的经典算法。那为什么K-mean是无监督学习呢？可能有人觉得：这也要证明？</p>
-<p>其实这是一个值得思考的问题……仔细思考这个问题，你会觉得自己似乎不太懂K-mean了？</p>
-<p>哈哈，不要多想，本文意在剖析K-mean算法的本质：</p>
-<p>K-mean算法是一种隐变量模型；隐变量模型可以用EM算法计算参数；无监督EM算法的其他应用。</p>
-<p>本文单纯分享我自己的理解，如有不准确的地方欢迎讨论，互相进步～</p>
+        <p>我们希望通过机器学习方法得到一个对象的表示（Representations）,这个表示可以用到特定的应用场景中。</p>
+<p>学习表示的方法有很多，无论是传统的MF，PCA，SVM，或者深度学习模型的VGG，Elmo，BERT，ALbert…都希望能学习到数据中的特点，来表达数据的”含义“。</p>
+<p>这些representation的方法其实都降维操作，也就是用低维度表示尽可能诠释高维空间中的含义。</p>
+<p>本文想谈谈如何才能算得上一个<strong>优秀</strong>的表示。</p>
+<p>以下内容均为个人浅显理解，也欢迎所有同学提出意见和看法。</p>
 <a id="more"></a>
-<h3 id="隐变量模型"><a href="#隐变量模型" class="headerlink" title="隐变量模型"></a>隐变量模型</h3><p>隐变量模型指的是：已知的可观测到变量$\mathbf x$可以由一个或多个未知变量$\mathbf z$以一定的方式生成，并且这个隐变量是我们假定的。可能有人觉得：为什么那么麻烦要定义隐变量增加模型复杂度呢？</p>
-<p>我觉得隐变量模是有现实意义的。比如一张图片是由颜色，亮度，对比度，分辨率等等决定；一句话的意思是由文字，语气，标点决定；一个人是由DNA里的信息决定……这些实际例子可以说明隐变量模型的合理性。</p>
-<p>比较经典的隐变量模型有：HMM, GAN, VAE, LDA…我就不多做赘述。聪明的同学应该发现这些模型都是生成式模型（Generative model）。如果不知道生成式模型是什么的同学可以自我拓展一下。</p>
-<h3 id="K-mean"><a href="#K-mean" class="headerlink" title="K-mean"></a>K-mean</h3><p>K-mean算法很简单，就是给一堆数据$\mathbf x$，这些都是观测到的。训练好的模型将数据氛围K个子集，各个聚类子集内的所有数据样本的均值作为该聚类的代表点。预测一个新的数据$x^<em>$时，计算$x^</em>$ 和K个中心点的“距离”，选择“距离”最近的中心，并把$x^*$归为该中心所在的类簇。</p>
-<p>这个算法的不太标准的比喻：模型把一堆图片分成了2类，我拿到一看，诶，模型真聪明正巧一堆是猫的图片，另一堆是狗的图片。然后我随机丢给模型一张小老虎的照片，模型把该图片和两堆图片比较了一下，觉得和 “猫” 的那堆图片相似度高。于是模型就把该图片分到了“猫”那一类。</p>
-<p>这时候你要说了，这明明是老虎怎么能分给猫呢？但在2分类的情况下，分到猫并没有错误。更关键的是这里的“猫” 和 “狗”的定义是人给的。模型只是认为这张小老虎的照片和猫堆的照片是同一类。所以也许应该定义为“猫科”和“犬科”哈哈哈哈……</p>
-<p>所以其实K-means算法有很多问题，但这不是我们今天的重点。</p>
-<h3 id="K-mean算法是一种隐变量模型"><a href="#K-mean算法是一种隐变量模型" class="headerlink" title="K-mean算法是一种隐变量模型"></a>K-mean算法是一种隐变量模型</h3><p>那么为什么K-mean算法是一种隐变量模型呢？判断一个模型是不是隐变量模型，比较关键的一点是：找出隐变量。</p>
-<p>所以问题就转化成了K-mean算法的隐变量是什么？是K吗？对了一半，我觉得是K个中心点。</p>
-<p>也就是说K-mean算法认为：所有观测数据可以用K个中心点表达。比如刚才图片的例子中，我觉得所有图片就分成两堆。</p>
-<h3 id="K-mean算法怎么求"><a href="#K-mean算法怎么求" class="headerlink" title="K-mean算法怎么求"></a>K-mean算法怎么求</h3><p>其实刚才举的猫狗图片例子中，我非常“狡猾”地直接跳过了训练的步骤，直接说模型把一堆图片分成了2类。所以模型是怎么把图片分成这样的两类呢？是不是有可能分成别的两类，比如浅色动物和深色动物？那要怎么样才能认为模型的分类是我们想要的呢？我们来探讨一下…</p>
-<p>写的有点累了…反正没人看，先把标题写了</p>
-<h3 id="K-mean算法的cost-function"><a href="#K-mean算法的cost-function" class="headerlink" title="K-mean算法的cost function"></a>K-mean算法的cost function</h3><p>机器学习算法必然需要一个目标函数（objective function），那么K-mean算法的目标函数是如何表示的呢？</p>
-<p>首先，K-mean的目标是：所有点到自己所属类的中心点“距离”的均值最小。数学表达式（“距离”用欧几里得距离表达）：</p>
-<p>$J = \sum\limits_{n=1}^N \sum \limits_{k=1}^K \lambda_{nk} || x_n - \mu_k||^2$</p>
-<p>其中$\lambda_{nk}$取值为1 或者 0，表示 第n个点是否是第k个类。$\mu_k$是第k个类的中心点，$x_n$是第n个点的位置。</p>
-<h3 id="K-mean的求解过程，和隐变量模型的EM算法的关系。"><a href="#K-mean的求解过程，和隐变量模型的EM算法的关系。" class="headerlink" title="K-mean的求解过程，和隐变量模型的EM算法的关系。"></a>K-mean的求解过程，和隐变量模型的EM算法的关系。</h3><h4 id="K-mean的求解过程："><a href="#K-mean的求解过程：" class="headerlink" title="K-mean的求解过程："></a>K-mean的求解过程：</h4><ol>
-<li>随机选取k个点充当各个类的中心点$\{\mu_{1},\mu_{2},…,\mu_{K}\}$；</li>
-<li>计算所有样本点与各个类中心之间的距离$dist(x_{n},\mu_{k})$，然后把样本点划入最近的类$k_j$中$dist(x_n,\mu_j) &gt; dist(x_n,\mu_k \ \  \forall k \in K$；</li>
-<li>根据重新归类的点，重新计算类的中心$\{\mu_{1},\mu_{2},…,\mu_{K}\}$；</li>
-<li>重复 2-3，直至收敛。</li>
-</ol>
-<p>以上过程代码展示可以参考 <a href="ttps://github.com/shinoyuki222/DemoML/blob/master/K-mean/K-mean_demo.ipynb">K-mean_demo.ipynb</a></p>
-<p>注意到K-mean的收敛条件有很多：所有点的归属类不再改变，迭代m次后停止，目标函数$J$ 的变动$\Delta J &lt; \delta$……</p>
-<p>实际应用过程中K-mean对于初始化的依赖性非常强，也就是对于初始化参数非常敏感。</p>
-<h4 id="EM算法"><a href="#EM算法" class="headerlink" title="EM算法"></a>EM算法</h4><p>由于篇幅有限，EM算法在这里不多做展开。指出三点：</p>
-<ul>
-<li>EM算法的核心是：E-step 和 M-step 顺序迭代直至达到收敛条件:<ul>
-<li>E-step: 利用对隐藏变量的现有估计值，计算其最大似然估计值；</li>
-<li>M-step: 最大化在E-tep上求得的最大似然值来计算参数的值。</li>
-<li>M-step上找到的参数估计值被用于下一个E-step计算中，这个过程不断交替进行。</li>
-</ul>
-</li>
-<li>隐变量模型可以由EM算法解决。</li>
-<li>EM算法得到的是<strong>全局最优解</strong>。</li>
-</ul>
-<p>我们知道K-mean是一种隐变量模型，而且上述步骤2和3，其实和EM算法的核心 E-step 和 M-step是一一对应的，其中的最大似然估计对应的是K-mean的目标函数 $J$。</p>
-<p>注意到由于EM算法得到的是<strong>全局最优解</strong>，因此K-mean是<em>可能</em>得到全局最优解。为什么是可能</p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>由此，我们知道了在K-mean算法的无监督学习，其实就是隐变量模型上利用基于最大似然估计的EM算法计算参数。</p>
-<p>由于EM算法得到的是全局最优解，因此K-mean是<em>可能</em>得到全局最优解的。</p>
-
+<h3 id="因素分离度好"><a href="#因素分离度好" class="headerlink" title="因素分离度好"></a>因素分离度好</h3><h3 id="稀疏性"><a href="#稀疏性" class="headerlink" title="稀疏性"></a>稀疏性</h3><h3 id="层次化结构"><a href="#层次化结构" class="headerlink" title="层次化结构"></a>层次化结构</h3><h3 id="有一定的泛化能力"><a href="#有一定的泛化能力" class="headerlink" title="有一定的泛化能力"></a>有一定的泛化能力</h3><h3 id="具有时间空间的一致性"><a href="#具有时间空间的一致性" class="headerlink" title="具有时间空间的一致性"></a>具有时间空间的一致性</h3><h3 id="维度低"><a href="#维度低" class="headerlink" title="维度低"></a>维度低</h3>
     </div>
 
     
@@ -266,6 +236,8 @@
       <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/ML/" rel="tag"># ML</a>
+              <a href="/tags/NLP/" rel="tag"># NLP</a>
+              <a href="/tags/DL/" rel="tag"># DL</a>
           </div>
 
         
@@ -274,12 +246,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/01/09/2019-01-09%20Gaussian%20Process/" rel="prev" title="Gaussian Process 高斯过程">
-      <i class="fa fa-chevron-left"></i> Gaussian Process 高斯过程
+    <a href="/2020/04/26/2020-04-26%20K-mean/" rel="prev" title="K-means and Latent variable model">
+      <i class="fa fa-chevron-left"></i> K-means and Latent variable model
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/04/28/2020-04-28%20Representations/" rel="next" title="Feature Representations">
-      Feature Representations <i class="fa fa-chevron-right"></i>
+    <a href="/2020/05/03/2020-05-03%20VAE1/" rel="next" title="Variational Autoencoder">
+      Variational Autoencoder <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -339,7 +311,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#隐变量模型"><span class="nav-number">1.</span> <span class="nav-text">隐变量模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#K-mean"><span class="nav-number">2.</span> <span class="nav-text">K-mean</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#K-mean算法是一种隐变量模型"><span class="nav-number">3.</span> <span class="nav-text">K-mean算法是一种隐变量模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#K-mean算法怎么求"><span class="nav-number">4.</span> <span class="nav-text">K-mean算法怎么求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#K-mean算法的cost-function"><span class="nav-number">5.</span> <span class="nav-text">K-mean算法的cost function</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#K-mean的求解过程，和隐变量模型的EM算法的关系。"><span class="nav-number">6.</span> <span class="nav-text">K-mean的求解过程，和隐变量模型的EM算法的关系。</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#K-mean的求解过程："><span class="nav-number">6.1.</span> <span class="nav-text">K-mean的求解过程：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#EM算法"><span class="nav-number">6.2.</span> <span class="nav-text">EM算法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">7.</span> <span class="nav-text">总结</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#因素分离度好"><span class="nav-number">1.</span> <span class="nav-text">因素分离度好</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#稀疏性"><span class="nav-number">2.</span> <span class="nav-text">稀疏性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#层次化结构"><span class="nav-number">3.</span> <span class="nav-text">层次化结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#有一定的泛化能力"><span class="nav-number">4.</span> <span class="nav-text">有一定的泛化能力</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#具有时间空间的一致性"><span class="nav-number">5.</span> <span class="nav-text">具有时间空间的一致性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#维度低"><span class="nav-number">6.</span> <span class="nav-text">维度低</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
