@@ -174,10 +174,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-05-03 00:00:00 / Modified: 23:40:41" itemprop="dateCreated datePublished" datetime="2020-05-03T00:00:00+08:00">2020-05-03</time>
+              <time title="Created: 2020-05-03 00:00:00" itemprop="dateCreated datePublished" datetime="2020-05-03T00:00:00+08:00">2020-05-03</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-05-04 20:56:29" itemprop="dateModified" datetime="2020-05-04T20:56:29+08:00">2020-05-04</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -200,9 +206,10 @@
 
       
           <p>Variational AutoEncoder(VAE) 简单还是难？</p>
-<p>本文侧重基本VAE模型推导和理解，<br>附代码（pytorch） <a href="https://github.com/shinoyuki222/DemoML/tree/master/VAE_NLG" target="_blank" rel="noopener">DemoML/VAE_NLG/</a></p>
-<p>碎碎念：纠结了很久到底是推导优先还是理解优先……<br>推导很重要啊，每一步都是精华，都需要思考”合理性”</p>
-<p>本文中概率$p$表示随机变量概率分布，$P$表示随机变量的概率，与其他文章统一。<br>
+<p>本文思路：先理解，后推导。为了有连续理解思路，前半部分有一些牵强的“解释”。最后推导部分会尽量弥补这些bug。<br>附代码（pytorch） <a href="https://github.com/shinoyuki222/DemoML/tree/master/VAE_NLG" target="_blank" rel="noopener">DemoML/VAE_NLG/</a></p>
+<p>推导很重要啊，每一步都是精华，都需要思考”合理性”。但有时候过于注重推导会陷入迷茫之中……</p>
+<p>本文中概率$p$表示随机变量概率分布，粗体小写表示单一数据的向量，下角标为样本编号，带括号上角标一般表示维度。变量表示规则和其他博文保持一致。</p>
+<p>由于手写无法体现粗体，我一般选择变量加下横线表示一个向量。本文配图中，为了更清晰的展示，因此没有加下横线，实际都是向量。<br>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/05/03/2020-05-03%20VAE1/#more" rel="contents">
@@ -524,7 +531,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-04-26 21:27:54" itemprop="dateModified" datetime="2020-04-26T21:27:54+08:00">2020-04-26</time>
+                <time title="Modified: 2020-05-04 16:56:16" itemprop="dateModified" datetime="2020-05-04T16:56:16+08:00">2020-05-04</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
