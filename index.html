@@ -182,7 +182,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-04 20:56:29" itemprop="dateModified" datetime="2020-05-04T20:56:29+08:00">2020-05-04</time>
+                <time title="Modified: 2020-05-05 10:21:38" itemprop="dateModified" datetime="2020-05-05T10:21:38+08:00">2020-05-05</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -206,8 +206,7 @@
 
       
           <p>Variational AutoEncoder(VAE) 简单还是难？</p>
-<p>本文思路：先理解，后推导。为了有连续理解思路，前半部分有一些牵强的“解释”。最后推导部分会尽量弥补这些bug。<br>附代码（pytorch） <a href="https://github.com/shinoyuki222/DemoML/tree/master/VAE_NLG" target="_blank" rel="noopener">DemoML/VAE_NLG/</a></p>
-<p>推导很重要啊，每一步都是精华，都需要思考”合理性”。但有时候过于注重推导会陷入迷茫之中……</p>
+<p>本文思路：理解优先，推导其次。文末只有小段推导过程，其他的推导可以参考概率图模型相关文章，或通过其他网络资源获取。申明一下推导很重要，每一步都是精华，都需要思考”合理性”。但有时候过于注重推导会陷入迷茫之中……<br>附代码（pytorch） <a href="https://github.com/shinoyuki222/DemoML/tree/master/VAE_NLG" target="_blank" rel="noopener">DemoML/VAE_NLG/</a></p>
 <p>本文中概率$p$表示随机变量概率分布，粗体小写表示单一数据的向量，下角标为样本编号，带括号上角标一般表示维度。变量表示规则和其他博文保持一致。</p>
 <p>由于手写无法体现粗体，我一般选择变量加下横线表示一个向量。本文配图中，为了更清晰的展示，因此没有加下横线，实际都是向量。<br>
           <!--noindex-->
