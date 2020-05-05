@@ -27,7 +27,7 @@
 <meta property="og:site_name" content="Shinoyuki">
 <meta property="og:description" content="大家都知道K-mean是无监督学习的经典算法。那为什么K-mean是无监督学习呢？可能有人觉得：这也要证明？ 其实这是一个值得思考的问题……仔细思考这个问题，你会觉得自己似乎不太懂K-mean了？ 哈哈，不要多想，本文意在剖析K-mean算法的本质： K-mean算法是一种隐变量模型；隐变量模型可以用EM算法计算参数；无监督EM算法的其他应用。 本文单纯分享我自己的理解，如有不准确的地方欢迎讨论，">
 <meta property="article:published_time" content="2020-04-25T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-04-27T12:38:50.715Z">
+<meta property="article:modified_time" content="2020-05-05T15:34:04.351Z">
 <meta property="article:author" content="Xiaoqing Tang">
 <meta property="article:tag" content="ML">
 <meta name="twitter:card" content="summary">
@@ -187,7 +187,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-04-27 20:38:50" itemprop="dateModified" datetime="2020-04-27T20:38:50+08:00">2020-04-27</time>
+                <time title="Modified: 2020-05-05 23:34:04" itemprop="dateModified" datetime="2020-05-05T23:34:04+08:00">2020-05-05</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -219,7 +219,7 @@
 <h3 id="隐变量模型"><a href="#隐变量模型" class="headerlink" title="隐变量模型"></a>隐变量模型</h3><p>隐变量模型指的是：已知的可观测到变量$\mathbf x$可以由一个或多个未知变量$\mathbf z$以一定的方式生成，并且这个隐变量是我们假定的。可能有人觉得：为什么那么麻烦要定义隐变量增加模型复杂度呢？</p>
 <p>我觉得隐变量模是有现实意义的。比如一张图片是由颜色，亮度，对比度，分辨率等等决定；一句话的意思是由文字，语气，标点决定；一个人是由DNA里的信息决定……这些实际例子可以说明隐变量模型的合理性。</p>
 <p>比较经典的隐变量模型有：HMM, GAN, VAE, LDA…我就不多做赘述。聪明的同学应该发现这些模型都是生成式模型（Generative model）。如果不知道生成式模型是什么的同学可以自我拓展一下。</p>
-<h3 id="K-mean"><a href="#K-mean" class="headerlink" title="K-mean"></a>K-mean</h3><p>K-mean算法很简单，就是给一堆数据$\mathbf x$，这些都是观测到的。训练好的模型将数据氛围K个子集，各个聚类子集内的所有数据样本的均值作为该聚类的代表点。预测一个新的数据$x^<em>$时，计算$x^</em>$ 和K个中心点的“距离”，选择“距离”最近的中心，并把$x^*$归为该中心所在的类簇。</p>
+<h3 id="K-mean"><a href="#K-mean" class="headerlink" title="K-mean"></a>K-mean</h3><p>K-mean算法很简单，就是给一堆数据$\mathbf x$，这些都是观测到的。训练好的模型将数据氛围K个子集，各个聚类子集内的所有数据样本的均值作为该聚类的代表点。预测一个新的数据$x^*$时，计算$x^*$ 和K个中心点的“距离”，选择“距离”最近的中心，并把$x^*$归为该中心所在的类簇。</p>
 <p>这个算法的不太标准的比喻：模型把一堆图片分成了2类，我拿到一看，诶，模型真聪明正巧一堆是猫的图片，另一堆是狗的图片。然后我随机丢给模型一张小老虎的照片，模型把该图片和两堆图片比较了一下，觉得和 “猫” 的那堆图片相似度高。于是模型就把该图片分到了“猫”那一类。</p>
 <p>这时候你要说了，这明明是老虎怎么能分给猫呢？但在2分类的情况下，分到猫并没有错误。更关键的是这里的“猫” 和 “狗”的定义是人给的。模型只是认为这张小老虎的照片和猫堆的照片是同一类。所以也许应该定义为“猫科”和“犬科”哈哈哈哈……</p>
 <p>所以其实K-means算法有很多问题，但这不是我们今天的重点。</p>
