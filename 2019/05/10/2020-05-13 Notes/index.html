@@ -20,20 +20,18 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="本文主要介绍dependency parsing，包括：dependency parsing和constituency parsing的区别与优点；实现dependency parsing的两种主要方法（trasition based 和 MST）；用RNNs实现dependency parsing。 原文参考  [1] Jurafsky and Martin Ch. 14 (3rd editio">
+  <meta name="description" content="I don’t like I am sick of … I am (absolutely )sick of hearing you complain.    I don’t appreciate …  I really don’t appreciate the way she spoke to me.Much more polite, the meaning is conveyed very cl">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Dependency Parsing">
-<meta property="og:url" content="http://yoursite.com/2019/05/18/2018-05-18%20Dependency%20Parsing/index.html">
+<meta property="og:title" content="Notes about English">
+<meta property="og:url" content="http://yoursite.com/2019/05/10/2020-05-13%20Notes/index.html">
 <meta property="og:site_name" content="Shinoyuki">
-<meta property="og:description" content="本文主要介绍dependency parsing，包括：dependency parsing和constituency parsing的区别与优点；实现dependency parsing的两种主要方法（trasition based 和 MST）；用RNNs实现dependency parsing。 原文参考  [1] Jurafsky and Martin Ch. 14 (3rd editio">
-<meta property="article:published_time" content="2019-05-17T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-04-26T13:28:19.147Z">
+<meta property="og:description" content="I don’t like I am sick of … I am (absolutely )sick of hearing you complain.    I don’t appreciate …  I really don’t appreciate the way she spoke to me.Much more polite, the meaning is conveyed very cl">
+<meta property="article:published_time" content="2019-05-09T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-05-13T11:50:42.189Z">
 <meta property="article:author" content="Xiaoqing Tang">
-<meta property="article:tag" content="ML">
-<meta property="article:tag" content="NLP">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yoursite.com/2019/05/18/2018-05-18%20Dependency%20Parsing/">
+<link rel="canonical" href="http://yoursite.com/2019/05/10/2020-05-13%20Notes/">
 
 
 <script id="page-configurations">
@@ -46,7 +44,7 @@
   };
 </script>
 
-  <title>Dependency Parsing | Shinoyuki</title>
+  <title>Notes about English | Shinoyuki</title>
   
 
 
@@ -158,7 +156,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/18/2018-05-18%20Dependency%20Parsing/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/10/2020-05-13%20Notes/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -171,7 +169,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Dependency Parsing
+          Notes about English
         </h1>
 
         <div class="post-meta">
@@ -181,28 +179,15 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2019-05-18 00:00:00" itemprop="dateCreated datePublished" datetime="2019-05-18T00:00:00+08:00">2019-05-18</time>
+              <time title="Created: 2019-05-10 00:00:00" itemprop="dateCreated datePublished" datetime="2019-05-10T00:00:00+08:00">2019-05-10</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-04-26 21:28:19" itemprop="dateModified" datetime="2020-04-26T21:28:19+08:00">2020-04-26</time>
+                <time title="Modified: 2020-05-13 19:50:42" itemprop="dateModified" datetime="2020-05-13T19:50:42+08:00">2020-05-13</time>
               </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Machine-Learning/" itemprop="url" rel="index"><span itemprop="name">Machine Learning</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Machine-Learning/Natural-Language-Processing/" itemprop="url" rel="index"><span itemprop="name">Natural Language Processing</span></a>
-                </span>
-            </span>
 
           
 
@@ -215,98 +200,172 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>本文主要介绍dependency parsing，包括：dependency parsing和constituency parsing的区别与优点；实现dependency parsing的两种主要方法（trasition based 和 MST）；用RNNs实现dependency parsing。</p>
-<p>原文参考 </p>
-<p>[1] <a href="https://web.stanford.edu/~jurafsky/slp3/14.pdf" target="_blank" rel="noopener">Jurafsky and Martin Ch. 14 (3rd edition)</a></p>
-<p>[2] <a href="https://aclweb.org/anthology/Q16-1023" target="_blank" rel="noopener">Simple and Accurate Dependency Parsing Using Bidirectional LSTM Feature Representations（Eliyahu Kiperwasser, Yoav Goldberg, 2016）</a></p>
-<p>正文为英文</p>
-<!-- 写中文的notes好累啊，所以这篇暂时是英文的 ( ´▽｀) -->
-<a id="more"></a>
-<h3 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h3><h4 id="Constituents-vs-Dependencies"><a href="#Constituents-vs-Dependencies" class="headerlink" title="Constituents vs. Dependencies"></a>Constituents vs. Dependencies</h4><ul>
-<li>Syntax is often described in terms of constituency</li>
-<li>Traditional grammars model <em>constituent structure</em>: </li>
-</ul>
-<ul>
-<li>they capture the configurational patterns of sentences.</li>
-<li>In other languages (e.g., German), there is little evidence for the existence of a VP constituent.</li>
-<li>leave out much semantic information</li>
-</ul>
-<ul>
-<li>A dependency structure consists of <em>dependency relations</em>, which are <strong>binary</strong> and <strong>asymmetric</strong>.</li>
-</ul>
-<ul>
-<li>Dependency syntax is closer to semantics</li>
-<li>Dependency syntax is still (usually) tree-like: <strong>connected</strong>, <strong>single headed</strong>, <strong>acyclic</strong>.</li>
-<li>Dependency Trees can be non-projective; A non-projective dependency grammar is not context-free.</li>
-</ul>
-<h3 id="Parsers"><a href="#Parsers" class="headerlink" title="Parsers"></a>Parsers</h3><h4 id="Dependency-Parsing"><a href="#Dependency-Parsing" class="headerlink" title="Dependency Parsing"></a>Dependency Parsing</h4><ul>
-<li><p>Different from constituency, why consider dependency parsing as a distinct topic:</p>
-<ul>
-<li>context-free parsing algorithms base their decisions on adjacency;</li>
-<li>Long-distance dependency (<em>non-adjacency</em>): in a dependency structure, a dependent need not be adjacent to its head (even if the structure is projective);</li>
-<li>we need new parsing algorithms to deal with <em>non-adjacency</em> (and with non-projectivity if present).</li>
+        <h4 id="I-don’t-like"><a href="#I-don’t-like" class="headerlink" title="I don’t like"></a>I don’t like</h4><ul>
+<li>I am sick of …<ul>
+<li>I am (absolutely )sick of hearing you complain.</li>
+<li></li>
 </ul>
 </li>
-<li><p>Two types of dependency parsers</p>
+<li><p>I don’t appreciate …</p>
 <ul>
-<li>graph-based dependency parsing, based on <em>maximum spanning trees</em> (MST parser)</li>
-<li><em>transition-based</em> dependency parsing, an extension of shift-reduce parsing (MALT parser)</li>
+<li>I really don’t appreciate the way she spoke to me.<br>Much more polite, the meaning is conveyed very clearly.</li>
+</ul>
+</li>
+<li><p>I cannot stand …</p>
+<ul>
+<li>I can’t stand people who don’t know how to queue properly</li>
 </ul>
 </li>
 </ul>
-<h4 id="Maximum-Spanning-Trees-MST"><a href="#Maximum-Spanning-Trees-MST" class="headerlink" title="Maximum Spanning Trees (MST)"></a>Maximum Spanning Trees (MST)</h4><ul>
-<li>Goal: find the highest scoring dependency tree $\mathbf{y}$ in the space of all possible trees for a sentence $\mathbf{x}$.</li>
-<li><p>Formulize:</p>
+<p>Which is true, I cannot stand people who push into queue. I’ve spoken many times about how much I love a good queue. I’ve never got my head around fact that evertime I join a queue, I’m always the end, so depression, isn’t it?</p>
 <ul>
-<li>The score of a dependency edge $(i,j)$ is a function $s(i,j)$.</li>
-<li>Then the score of dependency tree $\mathbf{y}$ for sentence $\mathbf{x}$ is: <script type="math/tex; mode=display">s(\mathbf{x},\mathbf{y})= \sum \limits_{(i,j) \in \mathbf{y}}s(i,j)</script></li>
+<li><p>I’m not fond of</p>
+<ul>
+<li>I’m not fond of dancing, but I’ll give it to go.</li>
 </ul>
 </li>
-<li><p>process:</p>
+<li><p>I’m not a (big) fan of…</p>
 <ul>
-<li>start with a totally connected graph $G$, i.e., assume a directed edge between every pair of words;</li>
-<li>assume you have a scoring function that assigns a score $s(i,j)$ to every edge $(i,j)$;</li>
-<li>find the maximum spanning tree (MST) of $G$, i.e., the directed tree with the highest overall score that includes all nodes of $G$;</li>
-<li>this is possible in $O(n^2)$ time using the <em>Chu-Liu-Edmonds algorithm</em>: </li>
+<li>I’m not a big fan of early starts.</li>
 </ul>
 </li>
-<li><p>it finds a MST which is <strong>not guaranteed</strong> to be projective; </p>
-</li>
-<li><p>actually $O(mn)$ where $m$ is number of edges, $n$ is number of nodes .</p>
+<li><p>I’m not (so) keen on …</p>
 <ul>
-<li>the highest-scoring parse is the MST of $G$.</li>
+<li>I’m not so keen on her new boyfriend.</li>
 </ul>
 </li>
+<li><p>I can’t bear …</p>
+<ul>
+<li>I cannot bear the way Tony speaks to his wife.</li>
 </ul>
+</li>
+<li><p>I’ve had enough of …</p>
 <ul>
-<li><p>Scoring edges with a neural network</p>
+<li>I’ve had enough of scam phone calls.</li>
+</ul>
+</li>
+<li><p>I’m not (really) into …</p>
 <ul>
-<li>An effective formulation:<script type="math/tex; mode=display">s(i,j) = P_{head}(w_j \mid w_i, \mathbf{x}) = \frac{\exp(g(\mathbf{a}_j,\mathbf{a}_i))}{\sum_{k=0}^{|x|}\exp(g({\mathbf {a}_k,\mathbf{a}_i}))}</script></li>
-<li>we get $\mathbf{a}_i$ by concatenating the hidden states of a forward and backward RNN at position $i$.</li>
-<li>the function $g({\mathbf {a}_j,\mathbf{a}_i})$ computes an <strong>association score</strong> telling us how much word $w_i$ prefers word $w_j$ as its head. </li>
-<li><strong>Association scores</strong> is a useful way to select from a dynamic group of candidates, and underly the idea of <strong>attention</strong>.</li>
+<li>Sorry, I’m not really into that type of music.</li>
+</ul>
+</li>
+<li><p>(I think) I’ll pass on …</p>
+<ul>
+<li>I think I’ll pass on visiting grandma after she was so rude to me last time</li>
+</ul>
+</li>
+<li><p>It’s not my cup of tea.</p>
+<ul>
+<li>Thanks for the invite, but ice skating really isn’t my cup of tea.</li>
+</ul>
+</li>
+<li><p>It doesn’t tickle my fancy</p>
+<ul>
+<li>Going on a double date with my ex-boyfriend and his new supermodel girlfriend really doesn’t ticlke my fancy.</li>
+</ul>
+</li>
+<li><p>It’s not for me</p>
+<ul>
+<li>Sorry, I just think that the knitting clud isn’t for me.</li>
+</ul>
+</li>
+<li><p>I’m not crazy about</p>
+<ul>
+<li>I’m not crazy abuot golf but I’ll come along all the time.</li>
+</ul>
+</li>
+<li><p>I’m more of a xxx person</p>
+<ul>
+<li>I don’t think I’ll come to the dog shelter with you. I’m more of a cat person.</li>
 </ul>
 </li>
 </ul>
-<h4 id="Transition-based-dependency-parsing"><a href="#Transition-based-dependency-parsing" class="headerlink" title="Transition-based dependency parsing"></a>Transition-based dependency parsing</h4><ul>
-<li>for a give parse state, the transition system defines a set of actions which the parser can take.</li>
-<li>if more than one action is applicable, a classifier (e.g., a SVM) is used to decide which action to take</li>
-<li>Also require a mechanism to compute scores over a set of (possible dynamic) candidates: In the paper, use MLP to calculate the score.</li>
-<li>Understand: Process of transition-based parsing</li>
+<h4 id="I-think-…"><a href="#I-think-…" class="headerlink" title="I think …"></a>I think …</h4><ul>
+<li>I’m not going to lie…<ul>
+<li>I’m not going to lie, I was pretty insulted to not be invited to my ex boyfriend’s wedding.</li>
 </ul>
-<h3 id="Comparision"><a href="#Comparision" class="headerlink" title="Comparision"></a>Comparision</h3><h4 id="Comparing-MST-and-transition-based-parsers"><a href="#Comparing-MST-and-transition-based-parsers" class="headerlink" title="Comparing MST and transition-based parsers:"></a>Comparing MST and transition-based parsers:</h4><ul>
-<li>the MST parser selects the globally optimal tree, given a set of edges with scores;</li>
-<li>it can naturally handle projective and non-projective trees;</li>
-<li>a transition-based parser makes a sequence of local decisions about the best parse action;</li>
-<li>it can be extended to projective dependency trees by changing the transition set;</li>
-<li>accuracies are similar, but transition-based is faster;</li>
-<li>both require dynamic classifiers, and these can be implemented using neural networks, conditioned on bidirectional RNN encodings of the sentence.</li>
+</li>
+<li>in all honesty ….<ul>
+<li>In all honesty, I had every right to be there.</li>
 </ul>
-<h3 id="References"><a href="#References" class="headerlink" title="References"></a>References</h3><p>[1] <a href="https://web.stanford.edu/~jurafsky/slp3/14.pdf" target="_blank" rel="noopener">Jurafsky, D., &amp; Martin, J. H. (2014). Speech and language processing (Vol. 3). London:: Pearson.</a></p>
-<p>[2] <a href="https://aclweb.org/anthology/Q16-1023" target="_blank" rel="noopener">Kiperwasser, E., &amp; Goldberg, Y. (2016). Simple and accurate dependency parsing using bidirectional LSTM feature representations. arXiv preprint arXiv:1603.04351.</a></p>
-<center><font size=2 face="Aial" color=#8F8F8F>Modified 18th-May-2018 12:00</font></center>
-
-
+</li>
+<li>In my view …<ul>
+<li>In my view I should’ve been invited so it was totally fair for me to turn up on the day</li>
+</ul>
+</li>
+<li>If you ask me…<ul>
+<li>If you ask me, the church service was wonderful but it was a shame I had to stand at the back.</li>
+</ul>
+</li>
+<li>As far as I can tell …<ul>
+<li>As far as I can tell, the bride wasn’t really expecting me.</li>
+</ul>
+</li>
+<li>To my mind …<ul>
+<li>To my mind, she should’ve been happier to see me and receive my support.</li>
+</ul>
+</li>
+<li>As far as I’m concerned…<ul>
+<li>As far as I’m concerned, she totolly overreacted and shouldn’t have cried.</li>
+</ul>
+</li>
+<li>the way I see things/it …<ul>
+<li>The way I see things, I made the family photographs a lot more interesting.</li>
+</ul>
+</li>
+<li>as I see things/it …<ul>
+<li>As I see it, they obviously didn’t take me into consideration when drawing up the seating plans.</li>
+</ul>
+</li>
+<li>It seems to me that ..<ul>
+<li>It seems to me that everyone overreacted when I tried to sit at the top table.</li>
+</ul>
+</li>
+<li>I believe …<ul>
+<li>I believe they should have just made space for me in the first place.</li>
+</ul>
+</li>
+<li>I would say/ I’d say …<ul>
+<li>I’d say the food was very good, but it was a shame I had to share with my neighbour.</li>
+</ul>
+</li>
+<li>I consider … to be…<ul>
+<li>I consider it to be very rude that I was forced to sit down when I stood up to make a speech.</li>
+</ul>
+</li>
+<li>to me …<ul>
+<li>to me, no one knows my ex better than me so I should’ve been able to tell all of our funny stories.</li>
+</ul>
+</li>
+<li>from my point of view …<ul>
+<li>From my point of view, the first dance was cringe-worthy so I did everyone a favour by joining in.</li>
+</ul>
+</li>
+<li>It is my view/belief that …<ul>
+<li>It is my view that the open bar made everthing worse.</li>
+</ul>
+</li>
+<li>I reckon …<ul>
+<li>I reckon the sixth gin and tonic tipped me over the edge.</li>
+</ul>
+</li>
+<li>I honestly believe that ..<ul>
+<li>I honestly believe that if I hadn’t started cutting the cake, no one would have.</li>
+</ul>
+</li>
+<li>Honstly speaking …<ul>
+<li>Honstly speaking, I probably shouldn’t have thrown my slice at the bride.</li>
+</ul>
+</li>
+<li>I feel that…<ul>
+<li>I feel that my ex could have found a more welcoming bride with a better sense of humour.</li>
+</ul>
+</li>
+<li>Personally speaking…<ul>
+<li>personally speaking calling the police was a bit OTT. (over the top)</li>
+</ul>
+</li>
+</ul>
 
     </div>
 
@@ -315,10 +374,6 @@
     
 
       <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/ML/" rel="tag"># ML</a>
-              <a href="/tags/NLP/" rel="tag"># NLP</a>
-          </div>
 
         
 
@@ -326,12 +381,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2019/05/15/2018-05-15%20POS/" rel="prev" title="Unsupervised PoS Tagging">
-      <i class="fa fa-chevron-left"></i> Unsupervised PoS Tagging
+    <a href="/2018/06/02/2018-06-02%20Neural%20Turing%20Machines/" rel="prev" title="分享： Neural Turing Machines">
+      <i class="fa fa-chevron-left"></i> 分享： Neural Turing Machines
     </a></div>
       <div class="post-nav-item">
-    <a href="/2019/06/09/2018-05-19%20Basics%20of%20model-based%20learning/" rel="next" title="基于模型学习的基本概念 Basics of Model-based Learning">
-      基于模型学习的基本概念 Basics of Model-based Learning <i class="fa fa-chevron-right"></i>
+    <a href="/2019/05/12/2018-05-12%20RNNG/" rel="next" title="Recurrent neural network grammars (RNNG)">
+      Recurrent neural network grammars (RNNG) <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -391,7 +446,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Intro"><span class="nav-number">1.</span> <span class="nav-text">Intro</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Constituents-vs-Dependencies"><span class="nav-number">1.1.</span> <span class="nav-text">Constituents vs. Dependencies</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Parsers"><span class="nav-number">2.</span> <span class="nav-text">Parsers</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Dependency-Parsing"><span class="nav-number">2.1.</span> <span class="nav-text">Dependency Parsing</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Maximum-Spanning-Trees-MST"><span class="nav-number">2.2.</span> <span class="nav-text">Maximum Spanning Trees (MST)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Transition-based-dependency-parsing"><span class="nav-number">2.3.</span> <span class="nav-text">Transition-based dependency parsing</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Comparision"><span class="nav-number">3.</span> <span class="nav-text">Comparision</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Comparing-MST-and-transition-based-parsers"><span class="nav-number">3.1.</span> <span class="nav-text">Comparing MST and transition-based parsers:</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#References"><span class="nav-number">4.</span> <span class="nav-text">References</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#I-don’t-like"><span class="nav-number">1.</span> <span class="nav-text">I don’t like</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#I-think-…"><span class="nav-number">2.</span> <span class="nav-text">I think …</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
