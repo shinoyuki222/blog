@@ -151,6 +151,77 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/13/2020-06-13%20Pytorch_Inf/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Xiaoqing Tang">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Shinoyuki">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/06/13/2020-06-13%20Pytorch_Inf/" class="post-title-link" itemprop="url">Pytorch 模型部署</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-06-13 00:00:00 / Modified: 12:01:59" itemprop="dateCreated datePublished" datetime="2020-06-13T00:00:00+08:00">2020-06-13</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>深度学习框架部署中，TF1部署工具链最为成熟，而同样流行的Pytorch部署频频受挫，让本Pytorch忠实拥护者极度烦恼。Torch最近版本中更新了torchscript的用法，然而无论是jit还是trace，标准transformer模型都无法正确转换成torchscript。当然也有可能是我写的transformer有问题，但更多的原因，来自Pytorch本身的动态graph导致无法直接实现类似于keras/tf1 model的 model.summary()功能。</p>
+<p>另外，嵌入式端口（如手机，车机等）深度学习模型的部署，一般可以用腾讯NCNN。而TF1转NCNN也并非那么简单。（扯远了</p>
+<p>基于规范ONNX模型转化NCNN的工具较为成熟，Pytorch本身也有ONNX的转化工具，本文尝试简略写一下pytorch转onnx的步骤，包括写pytorch 模型时的注意事项。</p>
+<p>正文开始之前说一件悲惨的事情：其实到现在还无法搞通Transformer模型部署。如果只想要网络部署，学习TF1的代价其实不算大。当然文中写模型的注意事项，对编写pytorch模型也深有益处～</p>
+<p>参考链接：<br>Pytorch 官方文档系列：<a href="https://pytorch.org/docs/stable/onnx.html" target="_blank" rel="noopener">torch.onnx</a>，<a href="https://pytorch.org/tutorials/advanced/super_resolution_with_onnxruntime.html" target="_blank" rel="noopener">Pytorch2onnx and using onnxruntime</a></p>
+<p>ONNX 模型压缩和可视化：<a href="https://github.com/daquexian/onnx-simplifier" target="_blank" rel="noopener">onnx-simplifier</a>，<a href="https://lutzroeder.github.io/netron/" target="_blank" rel="noopener">可视化 Netron</a><br>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/06/13/2020-06-13%20Pytorch_Inf/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/10/2020-05-10%20CRF_HMM/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -174,10 +245,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-05-10 00:00:00 / Modified: 18:19:47" itemprop="dateCreated datePublished" datetime="2020-05-10T00:00:00+08:00">2020-05-10</time>
+              <time title="Created: 2020-05-10 00:00:00" itemprop="dateCreated datePublished" datetime="2020-05-10T00:00:00+08:00">2020-05-10</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-05-28 20:08:20" itemprop="dateModified" datetime="2020-05-28T20:08:20+08:00">2020-05-28</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -204,15 +281,8 @@
 <p>这两个模型有本质区别，但是在图的结构上有相似之处，算法也有可以复用的地方。网上相关的文章很多，我写这篇单纯是为了自己总结……</p>
 <p>代码网上比较多，有机会补一下……<br><!-- 附代码（pytorch） [DemoML/VAE_NLG/](https://github.com/shinoyuki222/DemoML/tree/master/VAE_NLG) --></p>
 <p>本文中概率$p$表示随机变量概率分布，粗体小写表示单一数据的向量，下角标为样本编号，带括号上角标一般表示维度。变量表示规则和其他博文保持一致。</p>
-<p>由于手写无法体现粗体，我一般选择变量加下横线表示一个向量。本文配图中，为了更清晰的展示，因此没有加下横线，实际都是向量。<br>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/05/10/2020-05-10%20CRF_HMM/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+<p>由于手写无法体现粗体，我一般选择变量加下横线表示一个向量。本文配图中，为了更清晰的展示，因此没有加下横线，实际都是向量。<br>4</p>
+<h4 id="HMM"><a href="#HMM" class="headerlink" title="HMM"></a>HMM</h4><h5 id="模型和参数"><a href="#模型和参数" class="headerlink" title="模型和参数"></a>模型和参数</h5><h5 id="三大算法和对应概率"><a href="#三大算法和对应概率" class="headerlink" title="三大算法和对应概率"></a>三大算法和对应概率</h5><h5 id="求解过程"><a href="#求解过程" class="headerlink" title="求解过程"></a>求解过程</h5><h5 id="总结（为了解决什么问题？）"><a href="#总结（为了解决什么问题？）" class="headerlink" title="总结（为了解决什么问题？）"></a>总结（为了解决什么问题？）</h5><h4 id="CRF"><a href="#CRF" class="headerlink" title="CRF"></a>CRF</h4><h5 id="模型和参数-1"><a href="#模型和参数-1" class="headerlink" title="模型和参数"></a>模型和参数</h5><h5 id="求解过程-1"><a href="#求解过程-1" class="headerlink" title="求解过程"></a>求解过程</h5><h5 id="和hmm的区别？"><a href="#和hmm的区别？" class="headerlink" title="和hmm的区别？"></a>和hmm的区别？</h5>
       
     </div>
 
@@ -931,94 +1001,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/12/2018-05-12%20RNNG/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Xiaoqing Tang">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Shinoyuki">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/05/12/2018-05-12%20RNNG/" class="post-title-link" itemprop="url">Recurrent neural network grammars (RNNG)</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2019-05-12 00:00:00" itemprop="dateCreated datePublished" datetime="2019-05-12T00:00:00+08:00">2019-05-12</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-04-26 21:28:08" itemprop="dateModified" datetime="2020-04-26T21:28:08+08:00">2020-04-26</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Machine-Learning/" itemprop="url" rel="index"><span itemprop="name">Machine Learning</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Machine-Learning/Natural-Language-Processing/" itemprop="url" rel="index"><span itemprop="name">Natural Language Processing</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Recurrent neural network grammars 实现语言的分层形式表达，RNNG中存在的bias为top bias，较符合语言逻辑。</p>
-<p>本文介绍了Recurrent neural network grammars (RNNG)的原理，优点和实验结果。</p>
-<p>原文参考 <a href="https://arxiv.org/pdf/1602.07776.pdf" target="_blank" rel="noopener">Recurrent Neural Network Grammars (Chris Dyer, et al., 2016)</a></p>
-<p>写中文的notes好累啊，所以这篇暂时是英文的 ( ´▽｀)</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/05/12/2018-05-12%20RNNG/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1087,7 +1069,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-count">16</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

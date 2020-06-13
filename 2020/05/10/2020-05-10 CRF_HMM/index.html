@@ -27,7 +27,7 @@
 <meta property="og:site_name" content="Shinoyuki">
 <meta property="og:description" content="Hidden Markov Model (HMM) 和 Conditional Random Field (CRF) 是机器学习概率图模型中 有向图(Direced model) 和 无向图(Undirected model) 的经典结构。 这两个模型有本质区别，但是在图的结构上有相似之处，算法也有可以复用的地方。网上相关的文章很多，我写这篇单纯是为了自己总结…… 代码网上比较多，有机会补一下……">
 <meta property="article:published_time" content="2020-05-09T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-05-10T10:19:47.113Z">
+<meta property="article:modified_time" content="2020-05-28T12:08:20.097Z">
 <meta property="article:author" content="Xiaoqing Tang">
 <meta property="article:tag" content="ML">
 <meta property="article:tag" content="NLP">
@@ -181,10 +181,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-05-10 00:00:00 / Modified: 18:19:47" itemprop="dateCreated datePublished" datetime="2020-05-10T00:00:00+08:00">2020-05-10</time>
+              <time title="Created: 2020-05-10 00:00:00" itemprop="dateCreated datePublished" datetime="2020-05-10T00:00:00+08:00">2020-05-10</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-05-28 20:08:20" itemprop="dateModified" datetime="2020-05-28T20:08:20+08:00">2020-05-28</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -211,7 +217,7 @@
 <p>这两个模型有本质区别，但是在图的结构上有相似之处，算法也有可以复用的地方。网上相关的文章很多，我写这篇单纯是为了自己总结……</p>
 <p>代码网上比较多，有机会补一下……<br><!-- 附代码（pytorch） [DemoML/VAE_NLG/](https://github.com/shinoyuki222/DemoML/tree/master/VAE_NLG) --></p>
 <p>本文中概率$p$表示随机变量概率分布，粗体小写表示单一数据的向量，下角标为样本编号，带括号上角标一般表示维度。变量表示规则和其他博文保持一致。</p>
-<p>由于手写无法体现粗体，我一般选择变量加下横线表示一个向量。本文配图中，为了更清晰的展示，因此没有加下横线，实际都是向量。<br><a id="more"></a></p>
+<p>由于手写无法体现粗体，我一般选择变量加下横线表示一个向量。本文配图中，为了更清晰的展示，因此没有加下横线，实际都是向量。<br>4</p>
 <h4 id="HMM"><a href="#HMM" class="headerlink" title="HMM"></a>HMM</h4><h5 id="模型和参数"><a href="#模型和参数" class="headerlink" title="模型和参数"></a>模型和参数</h5><h5 id="三大算法和对应概率"><a href="#三大算法和对应概率" class="headerlink" title="三大算法和对应概率"></a>三大算法和对应概率</h5><h5 id="求解过程"><a href="#求解过程" class="headerlink" title="求解过程"></a>求解过程</h5><h5 id="总结（为了解决什么问题？）"><a href="#总结（为了解决什么问题？）" class="headerlink" title="总结（为了解决什么问题？）"></a>总结（为了解决什么问题？）</h5><h4 id="CRF"><a href="#CRF" class="headerlink" title="CRF"></a>CRF</h4><h5 id="模型和参数-1"><a href="#模型和参数-1" class="headerlink" title="模型和参数"></a>模型和参数</h5><h5 id="求解过程-1"><a href="#求解过程-1" class="headerlink" title="求解过程"></a>求解过程</h5><h5 id="和hmm的区别？"><a href="#和hmm的区别？" class="headerlink" title="和hmm的区别？"></a>和hmm的区别？</h5>
     </div>
 
@@ -235,7 +241,10 @@
     <a href="/2020/05/03/2020-05-03%20VAE1/" rel="prev" title="Variational AutoEncoder">
       <i class="fa fa-chevron-left"></i> Variational AutoEncoder
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2020/06/13/2020-06-13%20Pytorch_Inf/" rel="next" title="Pytorch 模型部署">
+      Pytorch 模型部署 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -307,7 +316,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-count">16</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
