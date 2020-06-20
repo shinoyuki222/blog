@@ -20,21 +20,18 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="Hidden Markov Model (HMM) 和 Conditional Random Field (CRF) 是机器学习概率图模型中 有向图(Direced model) 和 无向图(Undirected model) 的经典结构。 这两个模型有本质区别，但是在图的结构上有相似之处，算法也有可以复用的地方。网上相关的文章很多，我写这篇单纯是为了自己总结…… 代码网上比较多，有机会补一下……">
+  <meta name="description" content="上篇说到了Pytorch转ONNX，虽然我放弃了嵌入式部署，但还是对serving部署充满信心。这里选择了python调用的flask部署了NER模型。flask无法真正运用的生产环境～可以自己调试一下。既然是python调用，那么pytorch不用转换也可以尝试flask部署，只是效率低下，因此如果能成功转torchscript或者onnx会提高效率。 参考链接：Pytorch 官方文档系列：t">
 <meta property="og:type" content="article">
-<meta property="og:title" content="HMM and CRF (TBD)">
-<meta property="og:url" content="http://yoursite.com/2020/05/10/2020-05-10%20CRF_HMM/index.html">
+<meta property="og:title" content="Pytorch&#x2F;ONNX 模型Flask部署">
+<meta property="og:url" content="http://yoursite.com/2020/06/20/2020-06-20%20Flask%20deploying/index.html">
 <meta property="og:site_name" content="Shinoyuki">
-<meta property="og:description" content="Hidden Markov Model (HMM) 和 Conditional Random Field (CRF) 是机器学习概率图模型中 有向图(Direced model) 和 无向图(Undirected model) 的经典结构。 这两个模型有本质区别，但是在图的结构上有相似之处，算法也有可以复用的地方。网上相关的文章很多，我写这篇单纯是为了自己总结…… 代码网上比较多，有机会补一下……">
-<meta property="article:published_time" content="2020-05-09T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-05-28T12:08:20.097Z">
+<meta property="og:description" content="上篇说到了Pytorch转ONNX，虽然我放弃了嵌入式部署，但还是对serving部署充满信心。这里选择了python调用的flask部署了NER模型。flask无法真正运用的生产环境～可以自己调试一下。既然是python调用，那么pytorch不用转换也可以尝试flask部署，只是效率低下，因此如果能成功转torchscript或者onnx会提高效率。 参考链接：Pytorch 官方文档系列：t">
+<meta property="article:published_time" content="2020-06-19T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-06-20T07:54:13.790Z">
 <meta property="article:author" content="Xiaoqing Tang">
-<meta property="article:tag" content="ML">
-<meta property="article:tag" content="NLP">
-<meta property="article:tag" content="DL">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yoursite.com/2020/05/10/2020-05-10%20CRF_HMM/">
+<link rel="canonical" href="http://yoursite.com/2020/06/20/2020-06-20%20Flask%20deploying/">
 
 
 <script id="page-configurations">
@@ -47,7 +44,7 @@
   };
 </script>
 
-  <title>HMM and CRF (TBD) | Shinoyuki</title>
+  <title>Pytorch/ONNX 模型Flask部署 | Shinoyuki</title>
   
 
 
@@ -159,7 +156,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/10/2020-05-10%20CRF_HMM/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/20/2020-06-20%20Flask%20deploying/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -172,7 +169,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          HMM and CRF (TBD)
+          Pytorch/ONNX 模型Flask部署
         </h1>
 
         <div class="post-meta">
@@ -181,24 +178,9 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
+              
 
-              <time title="Created: 2020-05-10 00:00:00" itemprop="dateCreated datePublished" datetime="2020-05-10T00:00:00+08:00">2020-05-10</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-28 20:08:20" itemprop="dateModified" datetime="2020-05-28T20:08:20+08:00">2020-05-28</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Machine-Learning/" itemprop="url" rel="index"><span itemprop="name">Machine Learning</span></a>
-                </span>
+              <time title="Created: 2020-06-20 00:00:00 / Modified: 15:54:13" itemprop="dateCreated datePublished" datetime="2020-06-20T00:00:00+08:00">2020-06-20</time>
             </span>
 
           
@@ -212,13 +194,20 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>Hidden Markov Model (HMM) 和 Conditional Random Field (CRF)</p>
-<p>是机器学习概率图模型中 有向图(Direced model) 和 无向图(Undirected model) 的经典结构。</p>
-<p>这两个模型有本质区别，但是在图的结构上有相似之处，算法也有可以复用的地方。网上相关的文章很多，我写这篇单纯是为了自己总结……</p>
-<p>代码网上比较多，有机会补一下……<br><!-- 附代码（pytorch） [DemoML/VAE_NLG/](https://github.com/shinoyuki222/DemoML/tree/master/VAE_NLG) --></p>
-<p>本文中概率$p$表示随机变量概率分布，粗体小写表示单一数据的向量，下角标为样本编号，带括号上角标一般表示维度。变量表示规则和其他博文保持一致。</p>
-<p>由于手写无法体现粗体，我一般选择变量加下横线表示一个向量。本文配图中，为了更清晰的展示，因此没有加下横线，实际都是向量。<br>4</p>
-<h4 id="HMM"><a href="#HMM" class="headerlink" title="HMM"></a>HMM</h4><h5 id="模型和参数"><a href="#模型和参数" class="headerlink" title="模型和参数"></a>模型和参数</h5><h5 id="三大算法和对应概率"><a href="#三大算法和对应概率" class="headerlink" title="三大算法和对应概率"></a>三大算法和对应概率</h5><h5 id="求解过程"><a href="#求解过程" class="headerlink" title="求解过程"></a>求解过程</h5><h5 id="总结（为了解决什么问题？）"><a href="#总结（为了解决什么问题？）" class="headerlink" title="总结（为了解决什么问题？）"></a>总结（为了解决什么问题？）</h5><h4 id="CRF"><a href="#CRF" class="headerlink" title="CRF"></a>CRF</h4><h5 id="模型和参数-1"><a href="#模型和参数-1" class="headerlink" title="模型和参数"></a>模型和参数</h5><h5 id="求解过程-1"><a href="#求解过程-1" class="headerlink" title="求解过程"></a>求解过程</h5><h5 id="和hmm的区别？"><a href="#和hmm的区别？" class="headerlink" title="和hmm的区别？"></a>和hmm的区别？</h5>
+        <p>上篇说到了Pytorch转ONNX，虽然我放弃了嵌入式部署，但还是对serving部署充满信心。<br>这里选择了python调用的flask部署了NER模型。flask无法真正运用的生产环境～可以自己调试一下。<br>既然是python调用，那么pytorch不用转换也可以尝试flask部署，只是效率低下，因此如果能成功转torchscript或者onnx会提高效率。</p>
+<p>参考链接：<br>Pytorch 官方文档系列：<a href="https://pytorch.org/docs/stable/onnx.html" target="_blank" rel="noopener">torch.onnx</a>，<a href="https://pytorch.org/tutorials/advanced/super_resolution_with_onnxruntime.html" target="_blank" rel="noopener">Pytorch2onnx and using onnxruntime</a></p>
+<p>ONNX 模型压缩和可视化：<a href="https://github.com/daquexian/onnx-simplifier" target="_blank" rel="noopener">onnx-simplifier</a>，<a href="https://lutzroeder.github.io/netron/" target="_blank" rel="noopener">可视化 Netron</a></p>
+<p>Flask调用pytorch模型官方文档: <a href="https://pytorch.org/tutorials/intermediate/flask_rest_api_tutorial.html#sphx-glr-intermediate-flask-rest-api-tutorial-py" target="_blank" rel="noopener">Deplying Pytorch in Python via flask</a></p>
+<p>完整代码： <a href="https://github.com/shinoyuki222/Flask" target="_blank" rel="noopener">Flask基于onnx模型调用</a><br><a id="more"></a></p>
+<h3 id="安装flask-和-简单flask脚本"><a href="#安装flask-和-简单flask脚本" class="headerlink" title="安装flask 和 简单flask脚本"></a>安装flask 和 简单flask脚本</h3><h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install Flask==1.0.3 torchvision</span><br></pre></td></tr></table></figure>
+<h4 id="app-py"><a href="#app-py" class="headerlink" title="app.py"></a>app.py</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask</span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route('/')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hello</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'Hello World!'</span></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    app.run(debug=<span class="literal">True</span>, port=<span class="number">5000</span>)</span><br></pre></td></tr></table></figure>
+<p>然后运行:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python app.py</span><br></pre></td></tr></table></figure></p>
+<p>用浏览器打开 <a href="https://localhost:5000/" target="_blank" rel="noopener">https://localhost:5000/</a> 就可以看到Hello World!</p>
+<h3 id="调用pytorch或者onnx模型，直接用地址获取输入语句"><a href="#调用pytorch或者onnx模型，直接用地址获取输入语句" class="headerlink" title="调用pytorch或者onnx模型，直接用地址获取输入语句"></a>调用pytorch或者onnx模型，直接用地址获取输入语句</h3><p>这里有两个小的改动：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@app.route('/query', methods=['GET'])</span></span><br><span class="line"><span class="comment"># and</span></span><br><span class="line">input_sentence = request.args.get(<span class="string">'text'</span>)</span><br></pre></td></tr></table></figure><br>第一个将我们的功能，定义到端口 <a href="https://localhost:5000/query" target="_blank" rel="noopener">https://localhost:5000/query</a> 下触发。第二个，制定输入语句为”text=“后面的内容。比如要检测”我想去机场“，就需要输入 <a href="https://localhost:5000/query?text=我想去机场。" target="_blank" rel="noopener">https://localhost:5000/query?text=我想去机场。</a><br>至于中间模型初始化（读取模型），和模型预测（test）部分，直接用python代码即可</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask, render_template, request, redirect, jsonify</span><br><span class="line">app = Flask(__name__)</span><br><span class="line"><span class="keyword">import</span> ...</span><br><span class="line"><span class="comment"># Init</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">init</span><span class="params">(model)</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"><span class="comment"># test model</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">(model,input)</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route('/query', methods=['GET'])</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">predict</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="comment"># read test_sentence</span></span><br><span class="line">    input_sentence = request.args.get(<span class="string">'text'</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># run inference</span></span><br><span class="line">    results= test(model,input_sentence)</span><br><span class="line">    <span class="keyword">return</span> results</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    app.run(debug=<span class="literal">True</span>, port=<span class="number">5000</span>) <span class="comment">#run app in debug mode on port 5000</span></span><br></pre></td></tr></table></figure>
+<h3 id="让同一网络下的小伙伴测试你的服务"><a href="#让同一网络下的小伙伴测试你的服务" class="headerlink" title="让同一网络下的小伙伴测试你的服务"></a>让同一网络下的小伙伴测试你的服务</h3><p>修改最后的app.run部分为：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    app.run(debug=<span class="literal">True</span>, port=<span class="number">5000</span>,host=<span class="string">'0.0.0.0'</span>)</span><br></pre></td></tr></table></figure><br>自己调用时还是和上面一致，使用localhost开头的即可。小伙伴需要用 <strong><a href="https://yourip:5000/query?text=随便输入什么" target="_blank" rel="noopener">https://yourip:5000/query?text=随便输入什么</a></strong></p>
+<p>只是想趁热打铁写一下自己的坑……</p>
+
     </div>
 
     
@@ -226,11 +215,6 @@
     
 
       <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/ML/" rel="tag"># ML</a>
-              <a href="/tags/NLP/" rel="tag"># NLP</a>
-              <a href="/tags/DL/" rel="tag"># DL</a>
-          </div>
 
         
 
@@ -238,13 +222,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/05/03/2020-05-03%20VAE1/" rel="prev" title="Variational AutoEncoder">
-      <i class="fa fa-chevron-left"></i> Variational AutoEncoder
+    <a href="/2020/06/13/2020-06-13%20Pytorch_Inf/" rel="prev" title="Pytorch 模型部署">
+      <i class="fa fa-chevron-left"></i> Pytorch 模型部署
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/06/13/2020-06-13%20Pytorch_Inf/" rel="next" title="Pytorch 模型部署">
-      Pytorch 模型部署 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -303,7 +284,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#HMM"><span class="nav-number">1.</span> <span class="nav-text">HMM</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#模型和参数"><span class="nav-number">1.1.</span> <span class="nav-text">模型和参数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#三大算法和对应概率"><span class="nav-number">1.2.</span> <span class="nav-text">三大算法和对应概率</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#求解过程"><span class="nav-number">1.3.</span> <span class="nav-text">求解过程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#总结（为了解决什么问题？）"><span class="nav-number">1.4.</span> <span class="nav-text">总结（为了解决什么问题？）</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CRF"><span class="nav-number">2.</span> <span class="nav-text">CRF</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#模型和参数-1"><span class="nav-number">2.1.</span> <span class="nav-text">模型和参数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#求解过程-1"><span class="nav-number">2.2.</span> <span class="nav-text">求解过程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#和hmm的区别？"><span class="nav-number">2.3.</span> <span class="nav-text">和hmm的区别？</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装flask-和-简单flask脚本"><span class="nav-number">1.</span> <span class="nav-text">安装flask 和 简单flask脚本</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装"><span class="nav-number">1.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#app-py"><span class="nav-number">1.2.</span> <span class="nav-text">app.py</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#调用pytorch或者onnx模型，直接用地址获取输入语句"><span class="nav-number">2.</span> <span class="nav-text">调用pytorch或者onnx模型，直接用地址获取输入语句</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#让同一网络下的小伙伴测试你的服务"><span class="nav-number">3.</span> <span class="nav-text">让同一网络下的小伙伴测试你的服务</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
