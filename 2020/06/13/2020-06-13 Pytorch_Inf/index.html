@@ -27,7 +27,7 @@
 <meta property="og:site_name" content="Shinoyuki">
 <meta property="og:description" content="深度学习框架部署中，TF1部署工具链最为成熟，而同样流行的Pytorch部署频频受挫，让本Pytorch忠实拥护者极度烦恼。Torch最近版本中更新了torchscript的用法，然而无论是jit还是trace，标准transformer模型都无法正确转换成torchscript。当然也有可能是我写的transformer有问题，但更多的原因，来自Pytorch本身的动态graph导致无法直接实现">
 <meta property="article:published_time" content="2020-06-12T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-06-13T04:03:16.246Z">
+<meta property="article:modified_time" content="2020-06-23T13:59:14.693Z">
 <meta property="article:author" content="Xiaoqing Tang">
 <meta name="twitter:card" content="summary">
 
@@ -178,10 +178,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-06-13 00:00:00 / Modified: 12:03:16" itemprop="dateCreated datePublished" datetime="2020-06-13T00:00:00+08:00">2020-06-13</time>
+              <time title="Created: 2020-06-13 00:00:00" itemprop="dateCreated datePublished" datetime="2020-06-13T00:00:00+08:00">2020-06-13</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-06-23 21:59:14" itemprop="dateModified" datetime="2020-06-23T21:59:14+08:00">2020-06-23</time>
+              </span>
 
           
 
@@ -203,7 +209,8 @@
 <h3 id="onnx-and-onnxruntime"><a href="#onnx-and-onnxruntime" class="headerlink" title="onnx and onnxruntime"></a>onnx and onnxruntime</h3><h4 id="安装onnx-和-onnxruntime"><a href="#安装onnx-和-onnxruntime" class="headerlink" title="安装onnx 和 onnxruntime"></a>安装onnx 和 onnxruntime</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install onnx onnxruntime</span><br></pre></td></tr></table></figure>
 <h4 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h4><h5 id="注意事项："><a href="#注意事项：" class="headerlink" title="注意事项："></a>注意事项：</h5><ol>
 <li>所有network modules（class）中用到的layer函数，必须使用标准写法：在<strong>init</strong>(self,*args)中定义，在forward(*args)中调用</li>
-<li>尽量不要使用unsqueeze和squeeze, 利用view替代；注意：view函数需要保证tensor变量是连续的，此时可以使用.contiguous(), 例如：target_batch.contiguous().view(-1))。平时写代码时，可以直接用reshape或者transpose。</li>
+<li>尽量不要使用unsqueeze和squeeze, 利用view替代；注意：view函数需要保证tensor变量是连续的，此时可以使用.contiguous(), 例如：target_batch.contiguous().view(-1))。平时写代码时，可以直接用reshape或者transpose。-</li>
+<li>更新一下，onnx支持squeeze, unsqueeze, view, reshape, transpose。但是onnx-simplifier暂时不要写view,expand,repeat比较好。</li>
 <li>forward中不要出现其他自定义函数。</li>
 </ol>
 <p>其实上面的这些点，都源于pytorch是动态图，只有在调用时，才会形成一个graph。因此无论是jit, trace 还是 onnx.export， 都需要保证拥有输入，才能形成完整静态图。<br>标准写法应当在日常中就严格执行，否则会导致存储模型不完整——我们可以发现 model.state_dict()其实只会存储init中定义layer的参数，因此，在forward中直接调用的layer是无法存储。</p>
