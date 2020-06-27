@@ -22,12 +22,12 @@
 
   <meta name="description" content="深度学习框架部署中，TF1部署工具链最为成熟，而同样流行的Pytorch部署频频受挫，让本Pytorch忠实拥护者极度烦恼。Torch最近版本中更新了torchscript的用法，然而无论是jit还是trace，标准transformer模型都无法正确转换成torchscript。当然也有可能是我写的transformer有问题，但更多的原因，来自Pytorch本身的动态graph导致无法直接实现">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Pytorch 模型部署">
+<meta property="og:title" content="Pytorch 模型部署I--Torch2ONNX">
 <meta property="og:url" content="http://yoursite.com/2020/06/13/2020-06-13%20Pytorch_Inf/index.html">
 <meta property="og:site_name" content="Shinoyuki">
 <meta property="og:description" content="深度学习框架部署中，TF1部署工具链最为成熟，而同样流行的Pytorch部署频频受挫，让本Pytorch忠实拥护者极度烦恼。Torch最近版本中更新了torchscript的用法，然而无论是jit还是trace，标准transformer模型都无法正确转换成torchscript。当然也有可能是我写的transformer有问题，但更多的原因，来自Pytorch本身的动态graph导致无法直接实现">
 <meta property="article:published_time" content="2020-06-12T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-06-25T04:24:20.134Z">
+<meta property="article:modified_time" content="2020-06-27T06:06:07.496Z">
 <meta property="article:author" content="Xiaoqing Tang">
 <meta name="twitter:card" content="summary">
 
@@ -44,7 +44,7 @@
   };
 </script>
 
-  <title>Pytorch 模型部署 | Shinoyuki</title>
+  <title>Pytorch 模型部署I--Torch2ONNX | Shinoyuki</title>
   
 
 
@@ -169,7 +169,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Pytorch 模型部署
+          Pytorch 模型部署I--Torch2ONNX
         </h1>
 
         <div class="post-meta">
@@ -186,7 +186,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-06-25 12:24:20" itemprop="dateModified" datetime="2020-06-25T12:24:20+08:00">2020-06-25</time>
+                <time title="Modified: 2020-06-27 14:06:07" itemprop="dateModified" datetime="2020-06-27T14:06:07+08:00">2020-06-27</time>
               </span>
 
           
@@ -244,8 +244,8 @@
       <i class="fa fa-chevron-left"></i> HMM and CRF (TBD)
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/06/20/2020-06-20%20Flask%20deploying/" rel="next" title="Pytorch/ONNX 模型Flask部署">
-      Pytorch/ONNX 模型Flask部署 <i class="fa fa-chevron-right"></i>
+    <a href="/2020/06/20/2020-06-20%20Flask%20deploying/" rel="next" title="Pytorch/ONNX 模型部署II -- Using Flask">
+      Pytorch/ONNX 模型部署II -- Using Flask <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
