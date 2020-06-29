@@ -182,7 +182,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-06-27 14:07:23" itemprop="dateModified" datetime="2020-06-27T14:07:23+08:00">2020-06-27</time>
+                <time title="Modified: 2020-06-29 21:23:40" itemprop="dateModified" datetime="2020-06-29T21:23:40+08:00">2020-06-29</time>
               </span>
 
           
@@ -196,9 +196,9 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>上篇说到了Pytorch转ONNX，由于业务需求暂时不在离线手机/车机端嵌入式，因此暂时对ONNX2NCNN不继续深入。既然ONNX model支持c,c++,java调用，那么serving的高效部署还是可行的。<br>这里选择了python简单调用的Flask部署ONNX模型。要注意的是本文的Flask调用无法真正运用的生产环境～可以自己调试以保证模型转化和调用可行性。生产调用参考<a href="https://flask.palletsprojects.com/en/1.1.x/tutorial/deploy/" target="_blank" rel="noopener">Deploying a Flask server in production</a></p>
-<p>既然是python调用，那么Torch模型不用转换也可以尝试Flask部署。只是在实际应用中我们不需要任何“训练”，简而言之，只需要inference过程。那么显然直接用pytorch模型的意义不大，并且会导致效率低下。因此，一般来说需要转torchscript或者onnx，或者其他inference 引擎支持的格式。</p>
-<p>这里选用了ONNX, Torch2ONNX可以参考上文 <a href="https://shinoyuki222.github.io/2020/06/13/2020-06-13%20Pytorch_Inf/" target="_blank" rel="noopener">Pytorch 模型部署I—Torch2ONNX</a>, 或者以下官方文档</p>
+          <p>上篇主要介绍Pytorch转ONNX，由于业务需求暂时不在离线手机/车机端嵌入式，因此暂时对ONNX2NCNN不继续深入。既然ONNX model支持c,c++,java调用，那么serving的高效部署还是可行的。<br>这里选择了python简单调用的Flask部署ONNX模型。要注意的是本文的涉及的Flask仅供调试以保证模型转化和调用可行性，需要生产环境调用参考<a href="https://flask.palletsprojects.com/en/1.1.x/tutorial/deploy/" target="_blank" rel="noopener">Deploying a Flask server in production</a></p>
+<p>既然是python调用，那么Torch模型不用转换也可以尝试Flask部署。只是在实际应用中我们不需要任何“训练”，简而言之，只需要inference过程。那么显然直接用pytorch模型的意义不大，并且会导致效率低下。因此，一般来说需要转torchscript或者ONNX，或者其他inference 引擎支持的格式。</p>
+<p>这里选用了ONNX, 本文默认模型已经成功打包成.onnx格式。Torch2ONNX转换可以参考上文 <a href="https://shinoyuki222.github.io/2020/06/13/2020-06-13%20Pytorch_Inf/" target="_blank" rel="noopener">Pytorch 模型部署I—Torch2ONNX</a>, 或者以下官方文档：</p>
 <p>参考链接：<br>Pytorch 官方文档系列：<a href="https://pytorch.org/docs/stable/onnx.html" target="_blank" rel="noopener">torch.onnx</a>，<a href="https://pytorch.org/tutorials/advanced/super_resolution_with_onnxruntime.html" target="_blank" rel="noopener">Pytorch2onnx and using onnxruntime</a></p>
 <p>ONNX 模型压缩和可视化：<a href="https://github.com/daquexian/onnx-simplifier" target="_blank" rel="noopener">onnx-simplifier</a>，<a href="https://lutzroeder.github.io/netron/" target="_blank" rel="noopener">可视化 Netron</a></p>
 <p>Flask调用pytorch模型官方文档: <a href="https://pytorch.org/tutorials/intermediate/flask_rest_api_tutorial.html#sphx-glr-intermediate-flask-rest-api-tutorial-py" target="_blank" rel="noopener">Deplying Pytorch in Python via flask</a></p>
