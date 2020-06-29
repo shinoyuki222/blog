@@ -27,7 +27,7 @@
 <meta property="og:site_name" content="Shinoyuki">
 <meta property="og:description" content="大家都知道K-mean是无监督学习的经典算法。那为什么K-mean是无监督学习呢？可能有人觉得：这也要证明？ 其实这是一个值得思考的问题……仔细思考这个问题，你会觉得自己似乎不太懂K-mean了？ 哈哈，不要多想，本文意在剖析K-mean算法的本质： K-mean算法是一种隐变量模型；隐变量模型可以用EM算法计算参数；无监督EM算法的其他应用。 本文单纯分享我自己的理解，如有不准确的地方欢迎讨论，">
 <meta property="article:published_time" content="2020-04-25T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-05-05T15:34:43.669Z">
+<meta property="article:modified_time" content="2020-06-29T13:41:46.863Z">
 <meta property="article:author" content="Xiaoqing Tang">
 <meta property="article:tag" content="ML">
 <meta name="twitter:card" content="summary">
@@ -187,7 +187,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-05 23:34:43" itemprop="dateModified" datetime="2020-05-05T23:34:43+08:00">2020-05-05</time>
+                <time title="Modified: 2020-06-29 21:41:46" itemprop="dateModified" datetime="2020-06-29T21:41:46+08:00">2020-06-29</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -222,12 +222,11 @@
 <h3 id="K-mean"><a href="#K-mean" class="headerlink" title="K-mean"></a>K-mean</h3><p>K-mean算法很简单，就是给一堆数据$\mathcal D$，这些都是观测到的。训练好的模型将数据氛围K个子集，各个聚类子集内的所有数据样本的均值作为该聚类的代表点。预测一个新的数据$x^*$时，计算$x^*$ 和K个中心点的“距离”，选择“距离”最近的中心，并把$x^*$归为该中心所在的类簇。</p>
 <p>这个算法的不太标准的比喻：模型把一堆图片分成了2类，我拿到一看，诶，模型真聪明正巧一堆是猫的图片，另一堆是狗的图片。然后我随机丢给模型一张小老虎的照片，模型把该图片和两堆图片比较了一下，觉得和 “猫” 的那堆图片相似度高。于是模型就把该图片分到了“猫”那一类。</p>
 <p>这时候你要说了，这明明是老虎怎么能分给猫呢？但在2分类的情况下，分到猫并没有错误。更关键的是这里的“猫” 和 “狗”的定义是人给的。模型只是认为这张小老虎的照片和猫堆的照片是同一类。所以也许应该定义为“猫科”和“犬科”哈哈哈哈……</p>
-<p>所以其实K-means算法有很多问题，但这不是我们今天的重点。</p>
+<p>所以其实K-means算法有很多问题:<del>但这不是我们今天的重点。最后提一下吧</del></p>
 <h3 id="K-mean算法是一种隐变量模型"><a href="#K-mean算法是一种隐变量模型" class="headerlink" title="K-mean算法是一种隐变量模型"></a>K-mean算法是一种隐变量模型</h3><p>那么为什么K-mean算法是一种隐变量模型呢？判断一个模型是不是隐变量模型，比较关键的一点是：找出隐变量。</p>
 <p>所以问题就转化成了K-mean算法的隐变量是什么？是K吗？对了一半，我觉得是K个中心点。</p>
 <p>也就是说K-mean算法认为：所有观测数据可以用K个中心点表达。比如刚才图片的例子中，我觉得所有图片就分成两堆。</p>
 <h3 id="K-mean算法怎么求"><a href="#K-mean算法怎么求" class="headerlink" title="K-mean算法怎么求"></a>K-mean算法怎么求</h3><p>其实刚才举的猫狗图片例子中，我非常“狡猾”地直接跳过了训练的步骤，直接说模型把一堆图片分成了2类。所以模型是怎么把图片分成这样的两类呢？是不是有可能分成别的两类，比如浅色动物和深色动物？那要怎么样才能认为模型的分类是我们想要的呢？我们来探讨一下…</p>
-<p>写的有点累了…反正没人看，先把标题写了</p>
 <h3 id="K-mean算法的cost-function"><a href="#K-mean算法的cost-function" class="headerlink" title="K-mean算法的cost function"></a>K-mean算法的cost function</h3><p>机器学习算法必然需要一个目标函数（objective function），那么K-mean算法的目标函数是如何表示的呢？</p>
 <p>首先，K-mean的目标是：所有点到自己所属类的中心点“距离”的均值最小。数学表达式（“距离”用欧几里得距离表达）：</p>
 <p>$J = \sum\limits_{n=1}^N \sum \limits_{k=1}^K \lambda_{nk} || x_n - \mu_k||^2$</p>
@@ -255,7 +254,14 @@
 <p>我们知道K-mean是一种隐变量模型，而且上述步骤2和3，其实和EM算法的核心 E-step 和 M-step是一一对应的，其中的最大似然估计对应的是K-mean的目标函数 $J$。</p>
 <p>注意到由于EM算法得到的是<strong>全局最优解</strong>，因此K-mean是<em>可能</em>得到全局最优解。为什么是可能</p>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>由此，我们知道了在K-mean算法的无监督学习，其实就是隐变量模型上利用基于最大似然估计的EM算法计算参数。</p>
-<p>由于EM算法得到的是全局最优解，因此K-mean是<em>可能</em>得到全局最优解的。</p>
+<p>如果优化目标（最大似然）是凸函数，那么EM算法得到的是全局最优解，因此K-mean是<em>可能</em>得到全局最优解的。不过在在非凸数据上难以收敛。</p>
+<p>补充一下k-mean的缺点：</p>
+<ul>
+<li>对初始状态敏感：初始状态不同，模型最后形成的clustering不一定相同。</li>
+<li>k是个先验的数字，或者说是个超参数，而且对模型的结果有很大影响，比较难把握</li>
+<li>非凸数据，类型不平衡数据 难收敛或者效果不好，局部最优。</li>
+<li></li>
+</ul>
 
     </div>
 
