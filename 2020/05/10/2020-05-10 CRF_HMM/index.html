@@ -20,14 +20,14 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="Hidden Markov Model (HMM) 和 Conditional Random Field (CRF) 是机器学习概率图模型中 有向图(Direced model) 和 无向图(Undirected model) 的经典结构。 这两个模型有本质区别，但是在图的结构上有相似之处，算法也有可以复用的地方。网上相关的文章很多，我写这篇单纯是为了自己总结…… 代码网上比较多，有机会补一下……">
+  <meta name="description" content="Hidden Markov Model (HMM) 和 Conditional Random Field (CRF) 是机器学习概率图模型中 有向图(Direced model) 和 无向图(Undirected model) 的经典结构。 这两个模型有本质区别，但是在图的结构上有相似之处，算法也有可以复用的地方。网上相关的文章很多，我写这篇单纯是为了自己总结…… 代码：DemoML&#x2F;CRF&#x2F; 本">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HMM and CRF (TBD)">
 <meta property="og:url" content="http://yoursite.com/2020/05/10/2020-05-10%20CRF_HMM/index.html">
 <meta property="og:site_name" content="Shinoyuki">
-<meta property="og:description" content="Hidden Markov Model (HMM) 和 Conditional Random Field (CRF) 是机器学习概率图模型中 有向图(Direced model) 和 无向图(Undirected model) 的经典结构。 这两个模型有本质区别，但是在图的结构上有相似之处，算法也有可以复用的地方。网上相关的文章很多，我写这篇单纯是为了自己总结…… 代码网上比较多，有机会补一下……">
+<meta property="og:description" content="Hidden Markov Model (HMM) 和 Conditional Random Field (CRF) 是机器学习概率图模型中 有向图(Direced model) 和 无向图(Undirected model) 的经典结构。 这两个模型有本质区别，但是在图的结构上有相似之处，算法也有可以复用的地方。网上相关的文章很多，我写这篇单纯是为了自己总结…… 代码：DemoML&#x2F;CRF&#x2F; 本">
 <meta property="article:published_time" content="2020-05-09T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-07-02T14:13:21.338Z">
+<meta property="article:modified_time" content="2020-07-12T12:51:39.755Z">
 <meta property="article:author" content="Xiaoqing Tang">
 <meta property="article:tag" content="ML">
 <meta property="article:tag" content="NLP">
@@ -189,7 +189,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-07-02 22:13:21" itemprop="dateModified" datetime="2020-07-02T22:13:21+08:00">2020-07-02</time>
+                <time title="Modified: 2020-07-12 20:51:39" itemprop="dateModified" datetime="2020-07-12T20:51:39+08:00">2020-07-12</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -215,10 +215,14 @@
         <p>Hidden Markov Model (HMM) 和 Conditional Random Field (CRF)</p>
 <p>是机器学习概率图模型中 有向图(Direced model) 和 无向图(Undirected model) 的经典结构。</p>
 <p>这两个模型有本质区别，但是在图的结构上有相似之处，算法也有可以复用的地方。网上相关的文章很多，我写这篇单纯是为了自己总结……</p>
-<p>代码网上比较多，有机会补一下……<br><a href="https://github.com/shinoyuki222/DemoML/tree/master/CRF" target="_blank" rel="noopener">DemoML/CRF/</a></p>
+<p>代码：<br><a href="https://github.com/shinoyuki222/DemoML/tree/master/CRF" target="_blank" rel="noopener">DemoML/CRF/</a></p>
 <p>本文中概率$p$表示随机变量概率分布，粗体小写表示单一数据的向量，下角标为样本编号，带括号上角标一般表示维度。变量表示规则和其他博文保持一致。</p>
 <p>由于手写无法体现粗体，我一般选择变量加下横线表示一个向量。本文配图中，为了更清晰的展示，因此没有加下横线，实际都是向量。<br><a id="more"></a></p>
-<h4 id="HMM"><a href="#HMM" class="headerlink" title="HMM"></a>HMM</h4><h5 id="模型和参数"><a href="#模型和参数" class="headerlink" title="模型和参数"></a>模型和参数</h5><h5 id="三大算法和对应概率"><a href="#三大算法和对应概率" class="headerlink" title="三大算法和对应概率"></a>三大算法和对应概率</h5><h5 id="求解过程"><a href="#求解过程" class="headerlink" title="求解过程"></a>求解过程</h5><h5 id="总结（为了解决什么问题？）"><a href="#总结（为了解决什么问题？）" class="headerlink" title="总结（为了解决什么问题？）"></a>总结（为了解决什么问题？）</h5><h4 id="CRF"><a href="#CRF" class="headerlink" title="CRF"></a>CRF</h4><h5 id="模型和参数-1"><a href="#模型和参数-1" class="headerlink" title="模型和参数"></a>模型和参数</h5><h5 id="求解过程-1"><a href="#求解过程-1" class="headerlink" title="求解过程"></a>求解过程</h5><h5 id="和hmm的区别？"><a href="#和hmm的区别？" class="headerlink" title="和hmm的区别？"></a>和hmm的区别？</h5>
+<h4 id="HMM"><a href="#HMM" class="headerlink" title="HMM"></a>HMM</h4><h5 id="模型和参数"><a href="#模型和参数" class="headerlink" title="模型和参数"></a>模型和参数</h5><h5 id="三大算法和对应概率"><a href="#三大算法和对应概率" class="headerlink" title="三大算法和对应概率"></a>三大算法和对应概率</h5><h5 id="求解过程"><a href="#求解过程" class="headerlink" title="求解过程"></a>求解过程</h5><h5 id="总结（为了解决什么问题？）"><a href="#总结（为了解决什么问题？）" class="headerlink" title="总结（为了解决什么问题？）"></a>总结（为了解决什么问题？）</h5><h4 id="CRF"><a href="#CRF" class="headerlink" title="CRF"></a>CRF</h4><h5 id="模型和参数-1"><a href="#模型和参数-1" class="headerlink" title="模型和参数"></a>模型和参数</h5><h5 id="求解过程-1"><a href="#求解过程-1" class="headerlink" title="求解过程"></a>求解过程</h5><h5 id="和hmm的区别？"><a href="#和hmm的区别？" class="headerlink" title="和hmm的区别？"></a>和hmm的区别？</h5><h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><ul>
+<li>改的人性化一点再解释……主要是计算mle score</li>
+<li></li>
+</ul>
+
     </div>
 
     
@@ -303,7 +307,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#HMM"><span class="nav-number">1.</span> <span class="nav-text">HMM</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#模型和参数"><span class="nav-number">1.1.</span> <span class="nav-text">模型和参数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#三大算法和对应概率"><span class="nav-number">1.2.</span> <span class="nav-text">三大算法和对应概率</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#求解过程"><span class="nav-number">1.3.</span> <span class="nav-text">求解过程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#总结（为了解决什么问题？）"><span class="nav-number">1.4.</span> <span class="nav-text">总结（为了解决什么问题？）</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CRF"><span class="nav-number">2.</span> <span class="nav-text">CRF</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#模型和参数-1"><span class="nav-number">2.1.</span> <span class="nav-text">模型和参数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#求解过程-1"><span class="nav-number">2.2.</span> <span class="nav-text">求解过程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#和hmm的区别？"><span class="nav-number">2.3.</span> <span class="nav-text">和hmm的区别？</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#HMM"><span class="nav-number">1.</span> <span class="nav-text">HMM</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#模型和参数"><span class="nav-number">1.1.</span> <span class="nav-text">模型和参数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#三大算法和对应概率"><span class="nav-number">1.2.</span> <span class="nav-text">三大算法和对应概率</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#求解过程"><span class="nav-number">1.3.</span> <span class="nav-text">求解过程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#总结（为了解决什么问题？）"><span class="nav-number">1.4.</span> <span class="nav-text">总结（为了解决什么问题？）</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CRF"><span class="nav-number">2.</span> <span class="nav-text">CRF</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#模型和参数-1"><span class="nav-number">2.1.</span> <span class="nav-text">模型和参数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#求解过程-1"><span class="nav-number">2.2.</span> <span class="nav-text">求解过程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#和hmm的区别？"><span class="nav-number">2.3.</span> <span class="nav-text">和hmm的区别？</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码"><span class="nav-number">3.</span> <span class="nav-text">代码</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
