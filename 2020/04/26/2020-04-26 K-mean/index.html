@@ -27,7 +27,7 @@
 <meta property="og:site_name" content="Shinoyuki">
 <meta property="og:description" content="大家都知道K-mean是无监督学习的经典算法。那为什么K-mean是无监督学习呢？可能有人觉得：这也要证明？ 其实这是一个值得思考的问题……仔细思考这个问题，你会觉得自己似乎不太懂K-mean了？ 哈哈，不要多想，本文意在剖析K-mean算法的本质： K-mean算法是一种隐变量模型；隐变量模型可以用EM算法计算参数；无监督EM算法的其他应用。 本文单纯分享我自己的理解，如有不准确的地方欢迎讨论，">
 <meta property="article:published_time" content="2020-04-25T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-06-29T13:41:46.863Z">
+<meta property="article:modified_time" content="2020-11-13T07:44:03.314Z">
 <meta property="article:author" content="Xiaoqing Tang">
 <meta property="article:tag" content="ML">
 <meta name="twitter:card" content="summary">
@@ -187,7 +187,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-06-29 21:41:46" itemprop="dateModified" datetime="2020-06-29T21:41:46+08:00">2020-06-29</time>
+                <time title="Modified: 2020-11-13 15:44:03" itemprop="dateModified" datetime="2020-11-13T15:44:03+08:00">2020-11-13</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -237,7 +237,7 @@
 <li>根据重新归类的点，重新计算类的中心$\{\mu_{1},\mu_{2},…,\mu_{K}\}$；</li>
 <li>重复 2-3，直至收敛。</li>
 </ol>
-<p>以上过程代码展示可以参考 <a href="ttps://github.com/shinoyuki222/DemoML/blob/master/K-mean/K-mean_demo.ipynb">K-mean_demo.ipynb</a></p>
+<p>以上过程代码展示可以参考 <a href="https://github.com/shinoyuki222/DemoML/blob/master/K-mean/K-mean_demo.ipynb" target="_blank" rel="noopener">K-mean_demo.ipynb</a></p>
 <p>注意到K-mean的收敛条件有很多：所有点的归属类不再改变，迭代m次后停止，目标函数$J$ 的变动$\Delta J &lt; \delta$……</p>
 <p>实际应用过程中K-mean对于初始化的依赖性非常强，也就是对于初始化参数非常敏感。</p>
 <h4 id="EM算法"><a href="#EM算法" class="headerlink" title="EM算法"></a>EM算法</h4><p>由于篇幅有限，EM算法在这里不多做展开。指出三点：</p>
